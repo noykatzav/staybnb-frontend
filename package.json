@@ -4,13 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "set VITE_LOCAL=true&&vite",
-
+    "dev": "export VITE_LOCAL=true && vite",
+    "dev:local": "export VITE_LOCAL=true && vite",
     "dev:remote": "vite",
-    "dev:remote:mac": "vite",
-    
-    "dev:local": "set VITE_LOCAL=true&&vite",
-    "dev:local:mac": "export VITE_LOCAL=true && vite",
     
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
