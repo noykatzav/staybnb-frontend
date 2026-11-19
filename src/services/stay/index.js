@@ -17,7 +17,7 @@ function getEmptyStay() {
 function getDefaultFilter() {
     return {
         txt: '',
-        minSpeed: '',
+        maxPrice: '',
         sortField: '',
         sortDir: '',
     }

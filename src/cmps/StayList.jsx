@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { userService } from '../services/user'
 import { StayPreview } from './StayPreview'
 
@@ -24,4 +25,10 @@ export function StayList({ stays, onRemoveStay, onUpdateStay }) {
             }
         </ul>
     </section>
+}
+
+StayList.propTypes = {
+    stays: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.string.isRequired })).isRequired,
+    onRemoveStay: PropTypes.func.isRequired,
+    onUpdateStay: PropTypes.func.isRequired,
 }

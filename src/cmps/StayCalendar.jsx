@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types -- This project uses plain JavaScript component props without runtime validators. */
+import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import { dateService } from '../services/date.service'
 import { StayCalendarMonth } from './StayCalendarMonth'
@@ -156,4 +156,10 @@ export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar }) 
             <span className="announcement" role="status">Showing {monthLabel}{!isCompact && ` and ${addMonths(month, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`}</span>
         </div>
     )
+}
+
+StayCalendar.propTypes = {
+    dateRange: PropTypes.shape({ checkIn: PropTypes.string.isRequired, checkOut: PropTypes.string.isRequired }).isRequired,
+    onSelectDateRange: PropTypes.func.isRequired,
+    onCloseCalendar: PropTypes.func.isRequired,
 }

@@ -27,6 +27,9 @@
 @import url('./components/UserDetails.css');
 @import url('./components/UserMsg.css');
 
+/* Shared components */
+@import "cmps/ImgUploader";
+
 /* Stay calendar */
 @import "cmps/stay/StayCalendar";
 @import "cmps/stay/StayCalendarMonth";

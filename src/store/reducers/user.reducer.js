@@ -13,46 +13,29 @@ const initialState = {
     count: 10,
     user: userService.getLoggedinUser(),
     users: [],
-    watchedUser : null
+    watchedUser: null,
 }
 
-export function userReducer(state = initialState, action) {
-    var newState = state
+export function userReducer(state = initialState, action = {}) {
     switch (action.type) {
         case INCREMENT:
-            newState = { ...state, count: state.count + 1 }
-            break
+            return { ...state, count: state.count + 1 }
         case DECREMENT:
-            newState = { ...state, count: state.count - 1 }
-            break
+            return { ...state, count: state.count - 1 }
         case CHANGE_COUNT:
-            newState = { ...state, count: state.count + action.diff }
-            break
+            return { ...state, count: state.count + action.diff }
         case SET_USER:
-            newState = { ...state, user: action.user }
-            break
+            return { ...state, user: action.user }
         case SET_WATCHED_USER:
-            newState = { ...state, watchedUser: action.user }
-            break
+            return { ...state, watchedUser: action.user }
         case REMOVE_USER:
-            newState = {
-                ...state,
-                users: state.users.filter(user => user._id !== action.userId)
-            }
-            break
+            return { ...state, users: state.users.filter(user => user._id !== action.userId) }
         case SET_USERS:
-            newState = { ...state, users: action.users }
-            break
+            return { ...state, users: action.users }
         case SET_SCORE:
-            const user = { ...state.user, score: action.score }
-            newState = { ...state, user }
-            userService.saveLoggedinUser(user)
-            break
+            if (!state.user) return state
+            return { ...state, user: { ...state.user, score: action.score } }
         default:
+            return state
     }
-    // For debug:
-    // window.userState = newState
-    // console.log('State:', newState)
-    return newState
-
 }

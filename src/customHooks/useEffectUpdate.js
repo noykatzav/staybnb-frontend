@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 
 
 export const useEffectUpdate = (callBack, dependencies) => {
@@ -10,6 +10,7 @@ export const useEffectUpdate = (callBack, dependencies) => {
             isFirstRender.current = false
             return
         }
-        callBack()
+        return callBack()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Callers supply the dependencies and are checked through additionalHooks.
     }, dependencies)
 }

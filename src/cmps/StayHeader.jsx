@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useEffect, useId, useRef, useState } from 'react'
 import { StayCalendar } from './StayCalendar'
 import { dateService } from '../services/date.service'
@@ -164,4 +165,10 @@ export function StayHeader({ filterBy, setFilterBy, onAddStay }) {
             <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
         </header>
     )
+}
+
+StayHeader.propTypes = {
+    filterBy: PropTypes.object.isRequired,
+    setFilterBy: PropTypes.func.isRequired,
+    onAddStay: PropTypes.func.isRequired,
 }

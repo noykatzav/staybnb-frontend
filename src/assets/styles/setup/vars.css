@@ -14,6 +14,12 @@
     --clr-search-middle: #e31c5f;
     --clr-search-end: #d70466;
 
+    /* Starter About page colors */
+    --clr6: #ffd700;
+    --clr7: #ffc0cb;
+    --clr8: #add8e6;
+    --clr9: #008080;
+
     /* Typography */
     --font-family: 'Airbnb Cereal VF', system-ui, sans-serif;
 

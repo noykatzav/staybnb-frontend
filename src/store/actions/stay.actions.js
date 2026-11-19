@@ -97,21 +97,9 @@ function getCmdUpdateStay(stay) {
         stay
     }
 }
-function getCmdAddStaReview(review) {
+function getCmdAddStayReview(review) {
     return {
         type: ADD_STAY_REVIEW,
         review
     }
-}
-
-// unitTestActions()
-async function unitTestActions() {
-    await loadStays()
-    await addStay(stayService.getEmptyStay())
-    await updateStay({
-        _id: 'm1oC7',
-        vendor: 'Stay-Good',
-    })
-    await removeStay('m1oC7')
-    // TODO unit test addStayReview
 }
