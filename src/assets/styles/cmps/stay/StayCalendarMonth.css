@@ -1,0 +1,118 @@
+.stay-calendar-month {
+    min-width: 0;
+
+    & h3 {
+        margin: 0 2rem 1.25rem;
+
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 2rem;
+        text-align: center;
+    }
+
+    & table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 .125rem;
+        table-layout: fixed;
+    }
+
+    & th {
+        padding-block-end: .75rem;
+
+        color: var(--clr-text-secondary);
+        font-size: .75rem;
+        font-weight: 500;
+    }
+
+    & td {
+        position: relative;
+
+        padding: 0;
+
+        &::before {
+            position: absolute;
+            inset: 0;
+
+            background: var(--clr-bg-secondary);
+            opacity: 0;
+
+            content: '';
+            transition: opacity .265s linear;
+
+        }
+
+        &.range::before {
+            opacity: 1;
+        }
+
+        &.start::before {
+            inset-inline-start: 50%;
+        }
+
+        &.end::before {
+            inset-inline-end: 50%;
+        }
+
+        &:first-child::before {
+            border-start-start-radius: .5rem;
+            border-end-start-radius: .5rem;
+        }
+
+        &:last-child::before {
+            border-start-end-radius: .5rem;
+            border-end-end-radius: .5rem;
+        }
+    }
+
+    & td button {
+        position: relative;
+        display: grid;
+        place-items: center;
+
+        width: 100%;
+        aspect-ratio: 1;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        margin: 0;
+        background: transparent;
+
+        color: var(--clr-text);
+        font-size: .875rem;
+        font-weight: 500;
+        transition: background-color .265s linear, color .265s linear, box-shadow .15s ease;
+
+        &:hover:not(:disabled) {
+            box-shadow: inset 0 0 0 1.5px var(--clr-text-secondary);
+        }
+
+        &:focus-visible {
+            z-index: 1;
+            outline: 1px solid var(--clr-text);
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            color: var(--clr-disabled);
+            cursor: default;
+        }
+    }
+
+    & td.selected button {
+        background: var(--clr-text);
+
+        color: var(--clr-bg);
+
+        &:hover {
+            background: var(--clr-text);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        & td::before,
+        & td button {
+            transition: none;
+        }
+    }
+}

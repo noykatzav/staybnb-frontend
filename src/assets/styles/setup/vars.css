@@ -7,6 +7,9 @@
     --clr-bg: #ffffff;
     --clr-bg-secondary: #f7f7f7;
 
+    /* Calendar states */
+    --clr-disabled: #c1c1c1;
+
     /* Typography */
     --font-family: 'Airbnb Cereal VF', system-ui, sans-serif;
 
