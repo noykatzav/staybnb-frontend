@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { loadStays, addStay, updateStay, removeStay, addStayReview } from '../store/actions/stay.actions'
+import { loadStays, addStay, updateStay, removeStay } from '../store/actions/stay.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { stayService } from '../services/stay'
-import { userService } from '../services/user'
 
 import { StayList } from '../cmps/StayList'
-import { StayFilter } from '../cmps/StayFilter'
+import { StayHeader } from '../cmps/StayHeader'
 
 export function StayIndex() {
 
@@ -54,11 +53,7 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <header>
-                <h2>Stays</h2>
-                {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
-            </header>
-            <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
+            <StayHeader filterBy={filterBy} setFilterBy={setFilterBy} onAddStay={onAddStay} />
             <StayList 
                 stays={stays}
                 onRemoveStay={onRemoveStay} 

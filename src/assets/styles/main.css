@@ -13,6 +13,7 @@
 @import url('./components/AppFooter.css');
 @import url('./components/AppHeader.css');
 @import url('./components/stay/StayFilter.css');
+@import url('./components/stay/StayHeader.css');
 @import url('./components/stay/StayIndex.css');
 @import url('./components/stay/StayList.css');
 @import url('./components/stay/StayPreview.css');
