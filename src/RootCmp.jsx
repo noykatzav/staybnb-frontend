@@ -1,5 +1,4 @@
-import React from 'react'
-import { Routes, Route } from 'react-router'
+import { Routes, Route, useMatch } from 'react-router'
 
 import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
@@ -18,9 +17,12 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 
 
 export function RootCmp() {
+    //remove later
+    const isStayIndex = Boolean(useMatch('/stay'))
+
     return (
         <div className="main-container">
-            <AppHeader />
+            {!isStayIndex && <AppHeader />}
             <UserMsg />
 
             <main>

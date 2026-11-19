@@ -11,7 +11,7 @@
             'search search search';
         align-items: center;
 
-        padding: .5rem 2rem 2rem;
+        padding: 0 2rem 2rem;
         border-block-end: 1px solid var(--clr-border);
         background: linear-gradient(var(--clr-bg), var(--clr-bg-secondary));
     }
