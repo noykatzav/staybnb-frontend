@@ -1,0 +1,49 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+   
+body {
+    margin: 0 auto;
+    
+    font-family: var(--font-family);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--clr-text);
+    background-color: var(--clr-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.6em;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+input {
+      max-width: 100%;
+}
+
+img,
+embed,
+video,
+object {
+    max-width: 100%;
+    display: block;
+}

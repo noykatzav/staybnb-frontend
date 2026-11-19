@@ -1,0 +1,30 @@
+/* Setup */
+@import url('./setup/vars.css');
+@import url('./setup/typography.css');
+
+/* Base */
+@import url('./base/basics.css');
+@import url('./base/helpers.css');
+@import url('./base/layout.css');
+@import url('./base/forms.css');
+
+/* Components — existing starter styles */
+@import url('./components/AboutUs.css');
+@import url('./components/AppFooter.css');
+@import url('./components/AppHeader.css');
+@import url('./components/stay/StayFilter.css');
+@import url('./components/stay/StayIndex.css');
+@import url('./components/stay/StayList.css');
+@import url('./components/stay/StayPreview.css');
+@import url('./components/Chat.css');
+@import url('./components/HomePage.css');
+@import url('./components/LoginSignup.css');
+@import url('./components/review/ReviewEdit.css');
+@import url('./components/review/ReviewList.css');
+@import url('./components/review/ReviewPreview.css');
+@import url('./components/RootCmp.css');
+@import url('./components/UserDetails.css');
+@import url('./components/UserMsg.css');
+
+/* Media queries */
+@import url('./setup/mq.css');
