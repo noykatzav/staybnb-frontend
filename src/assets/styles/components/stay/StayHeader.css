@@ -1,7 +1,94 @@
 .stay-header {
+    & .header-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-areas:
+            'logo categories profile'
+            'search search search';
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    & .logo {
+        grid-area: logo;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        & img {
+            width: 2rem;
+        }
+    }
+
+    & .categories {
+        grid-area: categories;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+
+        & button {
+            display: grid;
+            justify-items: center;
+            gap: .4rem;
+        }
+
+        & img {
+            width: 3rem;
+            height: 3rem;
+            object-fit: contain;
+        }
+    }
+
+    & .profile {
+        grid-area: profile;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: .75rem;
+
+        & img {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+
+    & .search {
+        grid-area: search;
+        display: grid;
+        grid-template-columns: 1.4fr 1.4fr 1.2fr auto;
+        align-items: center;
+        border: 1px solid var(--clr-border);
+        border-radius: 999px;
+        padding: .5rem;
+        box-shadow: 0 4px 20px rgb(0 0 0 / 12%);
+
+        & > * {
+            min-width: 0;
+            padding-inline: 1.5rem;
+        }
+
+        & .destination,
+        & .dates {
+            border-inline-end: 1px solid var(--clr-border);
+        }
+
+        & .btn-search {
+            display: grid;
+            place-items: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--clr-primary);
+
+            & img {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+    }
 
     & .heading {
-        display: flex;
+        display: grid;
         align-items: center;
         justify-content: space-between;
 
