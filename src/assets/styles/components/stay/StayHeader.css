@@ -16,7 +16,7 @@
         background: linear-gradient(var(--clr-bg), var(--clr-bg-secondary));
     }
 
-    & .header-content button {
+    & :where(.header-content) button {
         padding: 0;
         border: 0;
         margin: 0;
@@ -320,6 +320,198 @@
     @media (min-width: 112.5rem) {
         & .header-content {
             padding-inline: 3rem;
+        }
+    }
+}
+
+.stay-header {
+    & .search {
+        position: relative;
+
+        transition: grid-template-columns .2s ease-in-out, background-color .2s ease-in-out;
+
+        &.open {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, .5833fr) 7.5rem;
+
+            background: var(--clr-search-active);
+
+            & .destination::after {
+                display: none;
+            }
+        }
+
+        & .date-field {
+            position: relative;
+
+            min-width: 0;
+            height: 100%;
+            border-radius: 4rem;
+
+            &.active {
+                background: var(--clr-bg);
+                box-shadow: 0 .25rem 1rem var(--header-shadow);
+            }
+
+            &.active .dates:hover {
+                background: transparent;
+            }
+
+            & .dates {
+                width: 100%;
+            }
+
+            &.selected .dates {
+                padding-inline-end: 2.5rem;
+
+                & > span:last-child {
+                    color: var(--clr-text);
+                }
+            }
+
+            &.active .dates::after {
+                display: none;
+            }
+        }
+
+        & .btn-clear-dates {
+            position: absolute;
+            inset-inline-end: .75rem;
+            inset-block-start: 50%;
+            display: grid;
+            place-items: center;
+            transform: translateY(-50%);
+
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+
+            &:hover {
+                background: var(--clr-border);
+            }
+
+            & img {
+                width: .75rem;
+                height: .75rem;
+            }
+        }
+
+        & .btn-search {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+
+            color: var(--clr-bg);
+            transition: width .2s ease-in-out, border-radius .2s ease-in-out, gap .2s ease-in-out;
+
+            & span {
+                max-width: 0;
+                overflow: hidden;
+                opacity: 0;
+
+                font-size: .875rem;
+                font-weight: 500;
+                white-space: nowrap;
+                transition: max-width .2s ease-in-out, opacity .15s ease-in-out;
+            }
+        }
+
+        &.open .btn-search {
+            gap: .25rem;
+
+            width: 6.25rem;
+            border-radius: 2rem;
+            background: linear-gradient(to right, var(--clr-search-start), var(--clr-search-middle) 50%, var(--clr-search-end));
+
+            & span {
+                max-width: 4rem;
+                opacity: 1;
+            }
+
+            &:hover {
+                filter: brightness(.96);
+            }
+        }
+
+        & .calendar-panel {
+            position: absolute;
+            inset-block-start: calc(100% + .75rem);
+            inset-inline: -1px;
+            z-index: 20;
+
+            min-width: 0;
+        }
+    }
+
+    @media (max-width: 48rem) {
+        & .header-content {
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-rows: auto auto auto;
+            grid-template-areas:
+                'logo profile'
+                'categories categories'
+                'search search';
+            gap: 1rem;
+
+            padding: 1rem 0;
+        }
+
+        & .categories {
+            justify-content: center;
+            gap: 1rem;
+
+            padding-block-start: 0;
+
+            & img {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+
+        & .profile > .btn-host {
+            display: none;
+        }
+
+        & .search {
+            &,
+            &.open {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, .7fr) 3rem;
+            }
+
+            & .destination,
+            & .dates,
+            & .guests {
+                padding-inline: .75rem;
+            }
+
+            & .btn-search,
+            &.open .btn-search {
+                gap: 0;
+
+                width: 2.5rem;
+                height: 2.5rem;
+
+                & span {
+                    max-width: 0;
+                    opacity: 0;
+                }
+            }
+
+            & .date-field.selected .dates {
+                padding-inline-end: 1.75rem;
+            }
+
+            & .btn-clear-dates {
+                inset-inline-end: .125rem;
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        & .search,
+        & .search .btn-search,
+        & .search .btn-search span {
+            transition: none;
         }
     }
 }

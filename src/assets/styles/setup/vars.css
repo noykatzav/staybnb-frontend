@@ -7,8 +7,12 @@
     --clr-bg: #ffffff;
     --clr-bg-secondary: #f7f7f7;
 
-    /* Calendar states */
+    /* Search and calendar states */
     --clr-disabled: #c1c1c1;
+    --clr-search-active: #ebebeb;
+    --clr-search-start: #e61e4d;
+    --clr-search-middle: #e31c5f;
+    --clr-search-end: #d70466;
 
     /* Typography */
     --font-family: 'Airbnb Cereal VF', system-ui, sans-serif;
