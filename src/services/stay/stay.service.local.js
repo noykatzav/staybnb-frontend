@@ -40,7 +40,7 @@ async function query(filterBy = { txt: '', maxPrice: 100 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
     
-    stays = stays.map(({ _id, name, summary, price, imgUrls }) => ({ _id, name, summary, price, imgUrls }))
+    stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }))
     return stays
 }
 
@@ -99,13 +99,17 @@ async function _createStays() {
     stays = [{
         _id: 's101',
         name: 'Ribeira Charming Duplex',
-        type: 'House',
-        imgUrls: ['https://e26e9b.jpg', 'otherImg.jpg'],
+        type: 'Apartment',
+        imgUrls: ['https://res.cloudinary.com/wzren01u/image/upload/v1795091507/29decfd9-8086-4000-81f1-2ac226d65b4a.jpg', 'https://res.cloudinary.com/wzren01u/image/upload/v1795091447/16bf9717-cc1a-45be-8bfa-78f17402e980.jpg', 'https://res.cloudinary.com/wzren01u/image/upload/v1795091516/e5497231-e606-4513-a626-0dbba6d294e8.jpg', 'https://res.cloudinary.com/wzren01u/image/upload/v1795091522/fb44f758-53f9-4df1-86c2-2967de8884a2.jpg', 'https://res.cloudinary.com/wzren01u/image/upload/v1795091531/f227df96-e6ba-4a75-ab5e-c7ff90b8672f.jpg'],
         price: 80.0,
         summary: 'Fantastic duplex apartment...',
         capacity: 8,
+        bedrooms: 1,
+        beds: 1,
+        bathrooms: 1,
         amenities: ['TV', 'Wifi', 'Kitchen', 'Smoking allowed', 'Pets allowed', 'Cooking basics'],
         labels: ['Top of the world', 'Trending', 'Play', 'Tropical'],
+        
         host: {
             _id: 'u101',
             fullname: 'Davit Pok',
