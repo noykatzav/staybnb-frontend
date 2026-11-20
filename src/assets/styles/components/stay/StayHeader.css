@@ -13,7 +13,7 @@
 
         padding: 0 2rem 2rem;
         border-block-end: 1px solid var(--clr-border);
-        background: linear-gradient(var(--clr-bg), var(--clr-bg-secondary));
+        background: linear-gradient(in srgb, var(--clr-bg) 39.9%, color-mix(in srgb, var(--clr-bg--4) 54%, var(--clr-bg)) 100%);
     }
 
     & :where(.header-content) button {
@@ -117,7 +117,7 @@
             white-space: nowrap;
 
             &:hover {
-                background: var(--clr-bg-secondary);
+                background: var(--clr-bg--3);
             }
         }
 
@@ -129,7 +129,7 @@
             width: 2.5rem;
             height: 2.5rem;
             border-radius: 50%;
-            background: var(--clr-bg-secondary);
+            background: var(--clr-bg--3);
 
             cursor: pointer;
 
@@ -181,7 +181,7 @@
                 text-decoration: none;
 
                 &:hover {
-                    background: var(--clr-bg-secondary);
+                    background: var(--clr-bg--3);
                 }
             }
 
@@ -227,7 +227,7 @@
             cursor: pointer;
 
             &:hover {
-                background: var(--clr-bg-secondary);
+                background: var(--clr-bg--3);
             }
 
             & > span:first-child {
@@ -333,7 +333,7 @@
         &.open {
             grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, .5833fr) 7.5rem;
 
-            background: var(--clr-search-active);
+            background: var(--clr-bg--3);
 
             & .destination::after {
                 display: none;

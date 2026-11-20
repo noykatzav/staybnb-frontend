@@ -34,7 +34,7 @@
             position: absolute;
             inset: 0;
 
-            background: var(--clr-bg-secondary);
+            background: var(--clr-bg--2);
             opacity: 0;
 
             content: '';

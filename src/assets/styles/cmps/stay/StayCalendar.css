@@ -57,7 +57,7 @@
         transition: transform .25s cubic-bezier(.2, 0, 0, 1), background-color .15s ease;
 
         &:hover:not(:disabled) {
-            background: var(--clr-bg-secondary);
+            background: var(--clr-bg--2);
         }
 
         &:active:not(:disabled) {
