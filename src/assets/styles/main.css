@@ -8,7 +8,7 @@
 @import url('./base/layout.css');
 @import url('./base/forms.css');
 
-/* Components — existing starter styles */
+/* Components */
 @import url('./components/AboutUs.css');
 @import url('./components/AppFooter.css');
 @import url('./components/AppHeader.css');
@@ -16,6 +16,7 @@
 @import url('./components/stay/StayIndex.css');
 @import url('./components/stay/StayList.css');
 @import url('./components/stay/StayPreview.css');
+@import url('./components/stay/StayCarousel.css');
 @import url('./components/Chat.css');
 @import url('./components/HomePage.css');
 @import url('./components/LoginSignup.css');
