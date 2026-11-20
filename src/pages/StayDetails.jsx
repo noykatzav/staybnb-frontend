@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadStay, addStayReview } from '../store/actions/stay.actions'
+import { StayGallery } from '../cmps/StayGallery'
 
 
 export function StayDetails() {
@@ -34,7 +35,7 @@ export function StayDetails() {
         <header className="stay-details-header">
           <h1>{stay.name}</h1>
         </header>
-
+        <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
         <section className="stay-overview">
           <h2>
             {stay.type} in {stay.loc.city}, {stay.loc.country}
@@ -42,8 +43,6 @@ export function StayDetails() {
 
           <p>{stay.capacity} guests</p>
         </section>
-
-        <pre>{JSON.stringify(stay, null, 2)}</pre>
 
         <button onClick={() => { onAddStayReview(stay._id) }}>
           Add stay review
