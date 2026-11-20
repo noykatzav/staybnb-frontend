@@ -1,8 +1,9 @@
+import { StayCarousel } from './StayCarousel'
 import { Link } from 'react-router-dom'
 
 export function StayPreview({ stay }) {
     return <Link to={`/stay/${stay._id}`} className="stay-preview">
-                <img src={stay.imgUrls[0]} alt={stay.name} />
+                <StayCarousel imgUrls={stay.imgUrls} />
                 <h1 className="stay-preview-location">{`${stay.type} in ${stay.loc.city}`}</h1>
                 <p className="stay-preview-rating">{`★ ${4.2.toLocaleString()}`}</p>
                 <p className="stay-preview-name">{stay.name}</p>
