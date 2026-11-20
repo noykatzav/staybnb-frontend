@@ -54,6 +54,14 @@
             inset-inline-end: 50%;
         }
 
+        &.fade-in::before {
+            background: linear-gradient(to right, transparent, var(--clr-bg--2));
+        }
+
+        &.fade-out::before {
+            background: linear-gradient(to right, var(--clr-bg--2), transparent);
+        }
+
         &:first-child::before {
             border-start-start-radius: .5rem;
             border-end-start-radius: .5rem;

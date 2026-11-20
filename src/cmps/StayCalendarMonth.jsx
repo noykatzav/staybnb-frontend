@@ -25,12 +25,15 @@ export function StayCalendarMonth({ month, todayKey, dateRange, previewDate, foc
                         <tr key={row}>
                             {Array.from({ length: 7 }, (_, column) => {
                                 const day = row * 7 + column - offset + 1
-                                if (day < 1 || day > daysInMonth) return <td key={column} />
                                 const date = new Date(month.getFullYear(), month.getMonth(), day)
                                 const key = getDateKey(date)
-                                const isDisabled = key < todayKey
-                                const isSelected = key === dateRange.checkIn || key === dateRange.checkOut
                                 const isInRange = Boolean(dateRange.checkIn && rangeEnd && key >= dateRange.checkIn && key <= rangeEnd)
+                                if (day < 1 || day > daysInMonth) {
+                                    const fade = day === 0 ? 'fade-in' : day === daysInMonth + 1 ? 'fade-out' : ''
+                                    return <td key={column} className={isInRange && fade ? `range ${fade}` : ''} />
+                                }
+                                const isDisabled = key < todayKey
+                                const isSelected = key === dateRange.checkIn || key === dateRange.checkOut || (!dateRange.checkOut && isInRange && key === previewDate)
                                 const classes = [
                                     isSelected ? 'selected' : '',
                                     isInRange ? 'range' : '',
