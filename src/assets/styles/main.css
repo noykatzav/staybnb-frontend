@@ -13,7 +13,6 @@
 @import url('./components/AppFooter.css');
 @import url('./components/AppHeader.css');
 @import url('./components/stay/StayFilter.css');
-@import url('./components/stay/StayHeader.css');
 @import url('./components/stay/StayIndex.css');
 @import url('./components/stay/StayList.css');
 @import url('./components/stay/StayPreview.css');
@@ -30,7 +29,12 @@
 /* Shared components */
 @import "cmps/ImgUploader";
 
-/* Stay calendar */
+/* Stay header and calendar */
+@import "cmps/stay/StayHeader";
+@import "cmps/stay/StayCategories";
+@import "cmps/stay/StayProfile";
+@import "cmps/stay/StaySearch";
+@import "cmps/stay/StayDateField";
 @import "cmps/stay/StayCalendar";
 @import "cmps/stay/StayCalendarMonth";
 

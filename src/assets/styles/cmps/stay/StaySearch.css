@@ -1,0 +1,183 @@
+.stay-search {
+    grid-area: search;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, .75fr) 4.125rem;
+    align-items: center;
+    justify-self: center;
+
+    width: min(100%, 53.125rem);
+    height: 4.125rem;
+    border: 1px solid var(--clr-border);
+    border-radius: 4rem;
+    background: var(--clr-bg);
+    box-shadow: 0 .5rem 1.5rem var(--header-shadow);
+    transition: grid-template-columns .2s ease-in-out, background-color .2s ease-in-out;
+
+    & .destination,
+    & .dates,
+    & .guests {
+        position: relative;
+        display: grid;
+        align-content: center;
+        gap: .125rem;
+
+        min-width: 0;
+        height: 100%;
+        padding-inline: 2rem;
+        border-radius: 4rem;
+
+        cursor: pointer;
+
+        &:hover {
+            background: var(--clr-bg--3);
+        }
+
+        & > span:first-child {
+            font-size: .75rem;
+            font-weight: 600;
+            line-height: 1rem;
+        }
+
+        & > span:last-child {
+            overflow: hidden;
+
+            color: var(--clr-text-secondary);
+            font-size: .875rem;
+            line-height: 1.25rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    & .destination::after,
+    & .dates::after {
+        position: absolute;
+        inset-inline-end: 0;
+        inset-block: 1rem;
+
+        width: 1px;
+        background: var(--clr-border);
+
+        content: '';
+    }
+
+    & input {
+        width: 100%;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+
+        color: var(--clr-text);
+        font-size: .875rem;
+        line-height: 1.25rem;
+
+        &::placeholder {
+            opacity: 1;
+            color: var(--clr-text-secondary);
+        }
+    }
+
+    & .btn-search {
+        display: grid;
+        place-items: center;
+        justify-self: center;
+
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: var(--search-clr);
+
+        &:hover {
+            background: color-mix(in srgb, var(--search-clr) 90%, var(--clr-text));
+        }
+
+        & img {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
+
+    &.open {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, .5833fr) 7.5rem;
+
+        background: var(--clr-bg--3);
+
+        & .destination::after {
+            display: none;
+        }
+    }
+
+    & .btn-search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+
+        color: var(--clr-bg);
+        transition: width .2s ease-in-out, border-radius .2s ease-in-out, gap .2s ease-in-out;
+
+        & span {
+            max-width: 0;
+            overflow: hidden;
+            opacity: 0;
+
+            font-size: .875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: max-width .2s ease-in-out, opacity .15s ease-in-out;
+        }
+    }
+
+    &.open .btn-search {
+        gap: .25rem;
+
+        width: 6.25rem;
+        border-radius: 2rem;
+        background: linear-gradient(to right, var(--clr-search-start), var(--clr-search-middle) 50%, var(--clr-search-end));
+
+        & span {
+            max-width: 4rem;
+            opacity: 1;
+        }
+
+        &:hover {
+            filter: brightness(.96);
+        }
+    }
+
+    @media (max-width: 48rem) {
+        &,
+        &.open {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, .7fr) 3rem;
+        }
+
+        & .destination,
+        & .dates,
+        & .guests {
+            padding-inline: .75rem;
+        }
+
+        & .btn-search,
+        &.open .btn-search {
+            gap: 0;
+
+            width: 2.5rem;
+            height: 2.5rem;
+
+            & span {
+                max-width: 0;
+                opacity: 0;
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &,
+        & .btn-search,
+        & .btn-search span {
+            transition: none;
+        }
+    }
+}
