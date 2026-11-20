@@ -4,9 +4,8 @@ import { StayCalendar } from './StayCalendar'
 import { dateService } from '../services/date.service'
 import { NavLink } from 'react-router-dom'
 import { userService } from '../services/user'
-import { StayFilter } from './StayFilter'
 
-export function StayHeader({ filterBy, setFilterBy, onAddStay }) {
+export function StayHeader({ onAddStay }) {
     const [dateRange, setDateRange] = useState({ checkIn: '', checkOut: '' })
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
     const datesRef = useRef(null)
@@ -162,13 +161,10 @@ export function StayHeader({ filterBy, setFilterBy, onAddStay }) {
                 <h2>Stays</h2>
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </div>
-            <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
         </header>
     )
 }
 
 StayHeader.propTypes = {
-    filterBy: PropTypes.object.isRequired,
-    setFilterBy: PropTypes.func.isRequired,
     onAddStay: PropTypes.func.isRequired,
 }

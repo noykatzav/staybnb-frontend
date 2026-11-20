@@ -11,7 +11,7 @@ import { StayHeader } from '../cmps/StayHeader'
 
 export function StayIndex() {
 
-    const [ filterBy, setFilterBy ] = useState(stayService.getDefaultFilter())
+    const [ filterBy ] = useState(stayService.getDefaultFilter())
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
@@ -53,7 +53,7 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <StayHeader filterBy={filterBy} setFilterBy={setFilterBy} onAddStay={onAddStay} />
+            <StayHeader onAddStay={onAddStay} />
             <StayList 
                 stays={stays}
                 onRemoveStay={onRemoveStay} 
