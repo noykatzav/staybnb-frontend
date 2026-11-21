@@ -78,7 +78,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
                     <span>When</span>
                     <span>{dateLabel}</span>
                 </button>
-                {dateRange.checkIn && (
+                {dateRange.checkIn && isCalendarOpen && (
                     <button type="button" className="btn-clear-dates" onClick={onClearDateRange} aria-label="Clear dates">
                         <img src="/icons/close.svg" alt="" />
                     </button>

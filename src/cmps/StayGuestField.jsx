@@ -65,7 +65,7 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
                 <span>Who</span>
                 <span>{summary}</span>
             </button>
-            {hasGuests && (
+            {hasGuests && isGuestsOpen && (
                 <button
                     type="button"
                     className="btn-clear-guests"

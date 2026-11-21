@@ -19,11 +19,13 @@
     }
 
     &.selected .guests {
-        padding-inline-end: 2.5rem;
-
         & > span:last-child {
             color: var(--clr-text);
         }
+    }
+
+    &.active.selected .guests {
+        padding-inline-end: 2.5rem;
     }
 
     & .btn-clear-guests {
@@ -134,7 +136,7 @@
             padding-inline: 1.5rem;
         }
 
-        &.selected .guests {
+        &.active.selected .guests {
             padding-inline-end: 1.75rem;
         }
 
