@@ -9,6 +9,7 @@ import { StayGallery } from '../cmps/StayGallery'
 import { StayAmenities } from '../cmps/StayAmenities'
 import { StayOrder } from '../cmps/StayOrder'
 import { getHostingDuration } from '../services/util.service'
+import { StayHighlights } from '../cmps/StayHighlights'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -111,6 +112,8 @@ export function StayDetails() {
                 )}
               </div>
             </section>
+
+            <StayHighlights highlights={stay.highlights} />
 
             <section className="stay-description" aria-label="About this space">
               <p>{stay.summary}</p>

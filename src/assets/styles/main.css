@@ -30,6 +30,7 @@
 @import url('./components/stay/StayGallery.css');
 @import url('./components/stay/StayAmenities.css');
 @import url('./components/stay/StayOrder.css');
+@import url('./components/stay/StayHighlights.css');
 
 /* Media queries */
 @import url('./setup/mq.css');
