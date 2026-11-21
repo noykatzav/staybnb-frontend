@@ -7,6 +7,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadStay, addStayReview } from '../store/actions/stay.actions'
 import { StayGallery } from '../cmps/StayGallery'
 import { StayAmenities } from '../cmps/StayAmenities'
+import { StayOrder } from '../cmps/StayOrder'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -100,6 +101,8 @@ export function StayDetails() {
 
             <StayAmenities amenities={stay.amenities} />
           </div>
+          
+            <StayOrder />
         </div>
 
         <button onClick={() => onAddStayReview(stay._id)}>
