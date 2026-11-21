@@ -8,8 +8,8 @@ export const stayService = {
     addStayReview
 }
 
-async function query(filterBy = { txt: '', maxPrice: 100 }) {
-    return httpService.get(`stay`, filterBy)
+async function query() {
+    return httpService.get('stay')
 }
 
 function getById(stayId) {

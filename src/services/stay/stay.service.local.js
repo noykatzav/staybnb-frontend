@@ -2,6 +2,7 @@
 import { storageService } from '../async-storage.service'
 import { makeId, saveToStorage } from '../util.service'
 import { userService } from '../user'
+import { filterLocalStays } from './stay-search.service'
 
 const STORAGE_KEY = 'stay'
 
@@ -20,6 +21,8 @@ async function query(filterBy = { txt: '', maxPrice: 100 }) {
     await seedStaysPromise
     var stays = await storageService.query(STORAGE_KEY)
     const { txt, maxPrice, sortField, sortDir } = filterBy
+
+    stays = filterLocalStays(stays, filterBy)
 
     if (txt) {
         const regex = new RegExp(filterBy.txt, 'i')
@@ -68,6 +71,7 @@ async function save(stay) {
             name: stay.name,
             type: stay.type,
             price: stay.price,
+            blockedDates: [],
             // Later, owner is set by the backend
             host: userService.getLoggedinUser(),
             reviews: []
@@ -104,6 +108,7 @@ async function _createStays() {
         price: 80.0,
         summary: 'Fantastic duplex apartment...',
         capacity: 8,
+        blockedDates: [],
         amenities: ['TV', 'Wifi', 'Kitchen', 'Smoking allowed', 'Pets allowed', 'Cooking basics'],
         labels: ['Top of the world', 'Trending', 'Play', 'Tropical'],
         host: {
