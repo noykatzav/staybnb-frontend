@@ -79,3 +79,15 @@
     position: relative;
     inset-block-start: -1px;
 }
+
+.stay-description {
+    padding-block: 32px;
+    border-block-end: 1px solid #ddd;
+}
+
+.stay-description p {
+    margin-block: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: pre-line;
+}

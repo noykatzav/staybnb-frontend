@@ -92,6 +92,10 @@ export function StayDetails() {
               <img src={stay.host.imgUrl} alt="" />
               <h3>Hosted by {stay.host.fullname}</h3>
             </section>
+
+            <section className="stay-description" aria-label="About this space">
+              <p>{stay.summary}</p>
+            </section>
           </div>
         </div>
 
