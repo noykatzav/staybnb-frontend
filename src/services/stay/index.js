@@ -17,14 +17,18 @@ function getEmptyStay() {
 function getDefaultFilter() {
     return {
         txt: '',
-        minSpeed: '',
+        maxPrice: '',
         sortField: '',
         sortDir: '',
     }
 }
 
+function getDefaultPage() {
+    return { idx: 0, size: 12 }
+}
+
 const service = (VITE_LOCAL === 'true') ? local : remote
-export const stayService = { getEmptyStay, getDefaultFilter, ...service }
+export const stayService = { getEmptyStay, getDefaultFilter, getDefaultPage, ...service }
 
 // Easy access to this service from the dev tools console
 // when using script - dev / dev:local
