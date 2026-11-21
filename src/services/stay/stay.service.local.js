@@ -13,11 +13,11 @@ export const stayService = {
     addStayReview
 }
 
-_createStays()
-window.cs = stayService
+const seedStaysPromise = _createStays()
 
 
 async function query(filterBy = { txt: '', maxPrice: 100 }) {
+    await seedStaysPromise
     var stays = await storageService.query(STORAGE_KEY)
     const { txt, maxPrice, sortField, sortDir } = filterBy
 
