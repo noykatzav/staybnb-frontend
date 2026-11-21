@@ -2,6 +2,9 @@
     --header-shadow: color-mix(in srgb, var(--clr-text) 12%, transparent);
     --search-clr: var(--clr-primary);
 
+    position: relative;
+    z-index: 2;
+
     & .header-content {
         display: grid;
         grid-template-columns: minmax(0, 1fr) 31.25rem minmax(0, 1fr);
