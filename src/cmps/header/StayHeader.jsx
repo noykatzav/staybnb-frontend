@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { userService } from '../services/user'
+import { userService } from '../../services/user'
 import { StayCategories } from './StayCategories'
 import { StayProfile } from './StayProfile'
 import { StaySearch } from './StaySearch'

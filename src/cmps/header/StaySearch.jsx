@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { getStaySearchFilter, getStaySearchParams } from '../services/stay/stay-search.service'
+import { getStaySearchFilter, getStaySearchParams } from '../../services/stay/stay-search.service'
 import { StayDateField } from './StayDateField'
 import { StayDestinationField } from './StayDestinationField'
 import { StayGuestField } from './StayGuestField'

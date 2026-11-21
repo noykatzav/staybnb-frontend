@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useId } from 'react'
-import { dateService } from '../services/date.service'
+import { dateService } from '../../services/date.service'
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 

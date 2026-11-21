@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
-import { dateService } from '../services/date.service'
+import { dateService } from '../../services/date.service'
 import { StayCalendarMonth } from './StayCalendarMonth'
 
 export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar }) {

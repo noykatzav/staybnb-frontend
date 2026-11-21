@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useId, useRef } from 'react'
-import { changeGuestCount } from '../services/stay/stay-search.service'
+import { changeGuestCount } from '../../services/stay/stay-search.service'
 
 const GUEST_ROWS = [
     { key: 'adults', label: 'Adults', hint: 'Ages 13 or above' },

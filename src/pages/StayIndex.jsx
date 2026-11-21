@@ -9,7 +9,7 @@ import { stayService } from '../services/stay'
 import { getStaySearchFilter } from '../services/stay/stay-search.service'
 
 import { StayList } from '../cmps/StayList'
-import { StayHeader } from '../cmps/StayHeader'
+import { StayHeader } from '../cmps/header/StayHeader'
 
 export function StayIndex() {
 
