@@ -30,16 +30,16 @@ async function query(filterBy = { txt: '', maxPrice: 100 }) {
         stays = stays.filter(stay => stay.price <= maxPrice)
     }
 
-    if(sortField === 'type'){
-        stays.sort((stay1, stay2) => 
+    if (sortField === 'type') {
+        stays.sort((stay1, stay2) =>
             stay1[sortField].localeCompare(stay2[sortField]) * +sortDir)
     }
 
-    if(sortField === 'price'){
-        stays.sort((stay1, stay2) => 
+    if (sortField === 'price') {
+        stays.sort((stay1, stay2) =>
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
-    
+
     stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }))
     return stays
 }
@@ -95,7 +95,7 @@ async function addStayReview(stayId, txt) {
 async function _createStays() {
     var stays = await storageService.query(STORAGE_KEY)
 
-    if (stays && stays.length > 0) return 
+    if (stays && stays.length > 0) return
 
     const stayData = [
         ['Ribeira Charming Duplex', 'Apartment', 'Lisbon', 'Portugal', 'PT', 180, 38.7223, -9.1393, 2, 4, ['Trending', 'Top of the world']],
@@ -162,7 +162,7 @@ async function _createStays() {
     ]
 
     stays = stayData.map(_createStay)
-    
+
     saveToStorage(STORAGE_KEY, stays)
 }
 
@@ -198,7 +198,7 @@ function _createStay(data, idx) {
         'photo-1600210492486-724fe5c67fb0',
         'photo-1510798831971-661eb04b3739',
         'photo-1449844908441-8829872d2607',
-    ]   
+    ]
 
     const stayAmenities = [
         'Wifi',
@@ -226,45 +226,55 @@ function _createStay(data, idx) {
             _id: 'u101',
             fullname: 'Davit Pok',
             imgUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
+            isSuperhost: true,
+            hostingSince: '2026-01-01',
         },
         {
             _id: 'u102',
             fullname: 'Sofia Martinez',
             imgUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
+            isSuperhost: false,
+            hostingSince: '2024-06-05',
         },
         {
             _id: 'u103',
             fullname: 'Lucas Weber',
             imgUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
+            isSuperhost: true,
+            hostingSince: '2023-10-25',
         },
         {
             _id: 'u104',
             fullname: 'Emily Johnson',
             imgUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+            isSuperhost: true,
+            hostingSince: '2022-02-27',
         },
         {
             _id: 'u105',
             fullname: 'Oliver Smith',
             imgUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200',
+            isSuperhost: false,
+            hostingSince: '2026-04-15',
         },
     ]
 
     const guests = [
-    {
-        _id: 'g101',
-        fullname: 'Anna Wilson',
-        imgUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
-    },
-    {
-        _id: 'g102',
-        fullname: 'Michael Brown',
-        imgUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200',
-    },
-    {
-        _id: 'g103',
-        fullname: 'Jessica Lee',
-        imgUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
-    },
+        {
+            _id: 'g101',
+            fullname: 'Anna Wilson',
+            imgUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
+        },
+        {
+            _id: 'g102',
+            fullname: 'Michael Brown',
+            imgUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200',
+        },
+        {
+            _id: 'g103',
+            fullname: 'Jessica Lee',
+            imgUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+        },
     ]
 
     const [
@@ -303,6 +313,70 @@ function _createStay(data, idx) {
         }
     }
 
+    const stayHighlights = [
+        {
+            id: 'location',
+            icon: 'location-pin',
+            title: `In ${city}, ${country}`,
+            description: `Explore ${city} during your stay.`,
+        },
+        {
+            id: 'capacity',
+            icon: 'user-circle',
+            title: `Space for ${capacity} guests`,
+            description: `This ${type.toLowerCase()} accommodates up to ${capacity} guests.`,
+        },
+        {
+            id: 'host',
+            icon: 'heart-outline',
+            title: `Hosted by ${host.fullname}`,
+            description: `Your host for this stay is ${host.fullname}.`,
+        },
+        {
+            id: 'kitchen',
+            icon: 'kitchen',
+            title: 'Cook during your stay',
+            description: 'A kitchen is available for preparing your meals.',
+            requiredAmenity: 'Kitchen',
+        },
+        {
+            id: 'parking',
+            icon: 'parking',
+            title: 'Free parking',
+            description: 'Parking is available at no extra cost.',
+            requiredAmenity: 'Free parking',
+        },
+        {
+            id: 'balcony',
+            icon: 'balcony',
+            title: 'Enjoy some fresh air',
+            description: 'Spend some outdoor time on the balcony.',
+            requiredAmenity: 'Balcony',
+        },
+    ]
+
+    const availableHighlights = stayHighlights.filter(highlight =>
+        !highlight.requiredAmenity ||
+        amenities.includes(highlight.requiredAmenity)
+    )
+
+    const highlightCount = getRandomIntInclusive(
+        2,
+        Math.min(5, availableHighlights.length)
+    )
+
+    const highlights = []
+
+    while (highlights.length < highlightCount) {
+        const randomIdx = getRandomIntInclusive(
+            0,
+            availableHighlights.length - 1
+        )
+
+        const highlight = availableHighlights.splice(randomIdx, 1)[0]
+        highlights.push(highlight)
+    }
+
     return {
         _id: 's' + makeId(),
         name,
@@ -316,6 +390,7 @@ function _createStay(data, idx) {
         bathrooms: getRandomIntInclusive(1, 3),
         amenities,
         labels,
+        highlights,
         host,
         loc: {
             country,
