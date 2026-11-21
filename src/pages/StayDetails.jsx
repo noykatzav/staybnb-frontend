@@ -7,11 +7,23 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadStay, addStayReview } from '../store/actions/stay.actions'
 import { StayGallery } from '../cmps/StayGallery'
 
-
 export function StayDetails() {
-
   const { stayId } = useParams()
   const stay = useSelector(storeState => storeState.stayModule.stay)
+
+  const reviews = stay?.reviews || []
+  const reviewCount = reviews.length
+
+  const ratedReviews = reviews.filter(review =>
+    Number.isFinite(review.rate)
+  )
+
+  const avgRate = ratedReviews.length > 0
+    ? (
+      ratedReviews.reduce((sum, review) => sum + review.rate, 0) /
+      ratedReviews.length
+    ).toFixed(2)
+    : null
 
   useEffect(() => {
     loadStay(stayId)
@@ -20,11 +32,10 @@ export function StayDetails() {
   async function onAddStayReview(stayId) {
     try {
       await addStayReview(stayId, 'bla bla ' + parseInt(Math.random() * 10))
-      showSuccessMsg(`Stay review added`)
+      showSuccessMsg('Stay review added')
     } catch (err) {
       showErrorMsg('Cannot add stay review')
     }
-
   }
 
   return (
@@ -35,40 +46,59 @@ export function StayDetails() {
         <header className="stay-details-header">
           <h1>{stay.name}</h1>
         </header>
+
         <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
-        <section className="stay-overview">
-         <div className="stay-details-content">
-  <div className="stay-details-info">
-    <section className="stay-overview">
-      <h2>
-        {stay.type} in {stay.loc.city}, {stay.loc.country}
-      </h2>
 
-      <p>
-        {stay.capacity} guests
-        {' · '}
-        {stay.bedrooms} {stay.bedrooms === 1 ? 'bedroom' : 'bedrooms'}
-        {' · '}
-        {stay.beds} {stay.beds === 1 ? 'bed' : 'beds'}
-        {' · '}
-        {stay.bathrooms} {stay.bathrooms === 1 ? 'bath' : 'baths'}
-      </p>
-    </section>
+        <div className="stay-details-content">
+          <div className="stay-details-info">
+            <section className="stay-overview">
+              <h2>
+                {stay.type} in {stay.loc.city}, {stay.loc.country}
+              </h2>
 
-    <section className="stay-host">
-      <img src={stay.host.imgUrl} alt="" />
-      <h3>Hosted by {stay.host.fullname}</h3>
-    </section>
-  </div>
-</div>
-        </section>
+              <p>
+                {stay.capacity} guests
+                {' · '}
+                {stay.bedrooms} {stay.bedrooms === 1 ? 'bedroom' : 'bedrooms'}
+                {' · '}
+                {stay.beds} {stay.beds === 1 ? 'bed' : 'beds'}
+                {' · '}
+                {stay.bathrooms} {stay.bathrooms === 1 ? 'bath' : 'baths'}
+              </p>
 
-        <button onClick={() => { onAddStayReview(stay._id) }}>
+              <p className="stay-rating">
+                {avgRate !== null && (
+                  <>
+                    <img
+                      className="stay-rating-icon"
+                      src="/icons/star.svg"
+                      alt=""
+                    />
+
+                    <span>{avgRate}</span>
+                    <span aria-hidden="true">·</span>
+                  </>
+                )}
+
+                <span>
+                  {reviewCount > 0
+                    ? `${reviewCount} ${reviewCount === 1 ? 'review' : 'reviews'}`
+                    : 'No reviews yet'}
+                </span>
+              </p>
+            </section>
+
+            <section className="stay-host">
+              <img src={stay.host.imgUrl} alt="" />
+              <h3>Hosted by {stay.host.fullname}</h3>
+            </section>
+          </div>
+        </div>
+
+        <button onClick={() => onAddStayReview(stay._id)}>
           Add stay review
         </button>
-      </div>
-      }
-
+      </div>}
     </section>
   )
 }

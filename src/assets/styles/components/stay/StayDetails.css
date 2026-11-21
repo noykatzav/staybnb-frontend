@@ -37,6 +37,7 @@
 .stay-overview p {
     margin-block: 0;
     font-size: 1rem;
+    line-height: 1.25;
 }
 
 .stay-host {
@@ -58,4 +59,23 @@
     margin-block: 0;
     font-size: 1rem;
     font-weight: 500;
+}
+
+.stay-overview .stay-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-block-start: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.stay-rating-icon {
+    display: block;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    flex-shrink: 0;
+    position: relative;
+    inset-block-start: -1px;
 }
