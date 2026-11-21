@@ -37,11 +37,30 @@ export function StayDetails() {
         </header>
         <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
         <section className="stay-overview">
-          <h2>
-            {stay.type} in {stay.loc.city}, {stay.loc.country}
-          </h2>
+         <div className="stay-details-content">
+  <div className="stay-details-info">
+    <section className="stay-overview">
+      <h2>
+        {stay.type} in {stay.loc.city}, {stay.loc.country}
+      </h2>
 
-          <p>{stay.capacity} guests</p>
+      <p>
+        {stay.capacity} guests
+        {' · '}
+        {stay.bedrooms} {stay.bedrooms === 1 ? 'bedroom' : 'bedrooms'}
+        {' · '}
+        {stay.beds} {stay.beds === 1 ? 'bed' : 'beds'}
+        {' · '}
+        {stay.bathrooms} {stay.bathrooms === 1 ? 'bath' : 'baths'}
+      </p>
+    </section>
+
+    <section className="stay-host">
+      <img src={stay.host.imgUrl} alt="" />
+      <h3>Hosted by {stay.host.fullname}</h3>
+    </section>
+  </div>
+</div>
         </section>
 
         <button onClick={() => { onAddStayReview(stay._id) }}>
