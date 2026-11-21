@@ -91,3 +91,13 @@
     line-height: 1.5;
     white-space: pre-line;
 }
+
+.stay-host-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-block: 4px 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #6a6a6a;
+}

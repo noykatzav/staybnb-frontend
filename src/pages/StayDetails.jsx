@@ -8,10 +8,12 @@ import { loadStay, addStayReview } from '../store/actions/stay.actions'
 import { StayGallery } from '../cmps/StayGallery'
 import { StayAmenities } from '../cmps/StayAmenities'
 import { StayOrder } from '../cmps/StayOrder'
+import { getHostingDuration } from '../services/util.service'
 
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  const hostingDuration = getHostingDuration(stay?.host?.hostingSince)
 
   const reviews = stay?.reviews || []
   const reviewCount = reviews.length
@@ -92,7 +94,22 @@ export function StayDetails() {
 
             <section className="stay-host">
               <img src={stay.host.imgUrl} alt="" />
-              <h3>Hosted by {stay.host.fullname}</h3>
+
+              <div>
+                <h3>Hosted by {stay.host.fullname}</h3>
+
+                {(stay.host.isSuperhost || hostingDuration) && (
+                  <p className="stay-host-meta">
+                    {stay.host.isSuperhost && <span>Superhost</span>}
+
+                    {stay.host.isSuperhost && hostingDuration && (
+                      <span aria-hidden="true">·</span>
+                    )}
+
+                    {hostingDuration && <span>{hostingDuration}</span>}
+                  </p>
+                )}
+              </div>
             </section>
 
             <section className="stay-description" aria-label="About this space">
@@ -101,8 +118,8 @@ export function StayDetails() {
 
             <StayAmenities amenities={stay.amenities} />
           </div>
-          
-            <StayOrder />
+
+          <StayOrder />
         </div>
 
         <button onClick={() => onAddStayReview(stay._id)}>
