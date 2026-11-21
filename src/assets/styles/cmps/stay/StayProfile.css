@@ -93,13 +93,7 @@
         }
     }
 
-    @media (min-width: 64rem) and (max-width: 79.9375rem) {
-        & > .btn-host {
-            display: none;
-        }
-    }
-
-    @media (max-width: 48rem) {
+    @media (max-width: 74.4375rem) {
         & > .btn-host {
             display: none;
         }
