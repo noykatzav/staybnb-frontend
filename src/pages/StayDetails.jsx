@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadStay, addStayReview } from '../store/actions/stay.actions'
 import { StayGallery } from '../cmps/StayGallery'
+import { StayAmenities } from '../cmps/StayAmenities'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -96,6 +97,8 @@ export function StayDetails() {
             <section className="stay-description" aria-label="About this space">
               <p>{stay.summary}</p>
             </section>
+
+            <StayAmenities amenities={stay.amenities} />
           </div>
         </div>
 

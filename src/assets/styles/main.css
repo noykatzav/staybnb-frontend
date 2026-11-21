@@ -28,6 +28,7 @@
 @import url('./components/UserMsg.css');
 @import url('./components/stay/StayDetails.css');
 @import url('./components/stay/StayGallery.css');
+@import url('./components/stay/StayAmenities.css');
 
 /* Media queries */
 @import url('./setup/mq.css');
