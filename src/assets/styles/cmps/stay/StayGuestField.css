@@ -1,0 +1,143 @@
+.stay-guest-field {
+    position: relative;
+
+    min-width: 0;
+    height: 100%;
+    border-radius: 4rem;
+
+    &.active {
+        background: var(--clr-bg);
+        box-shadow: 0 .25rem 1rem var(--header-shadow);
+    }
+
+    &.active .guests:hover {
+        background: transparent;
+    }
+
+    & .guests {
+        width: 100%;
+    }
+
+    &.selected .guests {
+        padding-inline-end: 2.5rem;
+
+        & > span:last-child {
+            color: var(--clr-text);
+        }
+    }
+
+    & .btn-clear-guests {
+        position: absolute;
+        inset-inline-end: .75rem;
+        inset-block-start: 50%;
+        display: grid;
+        place-items: center;
+        transform: translateY(-50%);
+
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+
+        &:hover {
+            background: var(--clr-border);
+        }
+
+        & img {
+            width: .75rem;
+            height: .75rem;
+        }
+    }
+
+    & .guest-panel {
+        position: absolute;
+        inset-block-start: calc(100% + .75rem);
+        inset-inline-end: 0;
+        z-index: 20;
+        display: grid;
+
+        width: min(24rem, calc(100vw - 2rem));
+        padding: .5rem 1.5rem;
+        border-radius: 1.5rem;
+        background: var(--clr-bg);
+        box-shadow: 0 .25rem 1.5rem var(--header-shadow);
+    }
+
+    & .guest-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        padding-block: 1rem;
+
+        &:not(:last-child) {
+            border-block-end: 1px solid var(--clr-border);
+        }
+    }
+
+    & .guest-label {
+        display: grid;
+        gap: .125rem;
+
+        & strong {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        & span {
+            color: var(--clr-text-secondary);
+            font-size: .875rem;
+        }
+    }
+
+    & .counter {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+
+        & button {
+            display: grid;
+            place-items: center;
+
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid var(--clr-text-secondary);
+            border-radius: 50%;
+            background: var(--clr-bg);
+
+            color: var(--clr-text);
+            font-size: 1.25rem;
+            line-height: 1;
+            text-align: center;
+
+            &:hover:not(:disabled) {
+                border-color: var(--clr-text);
+            }
+
+            &:disabled {
+                opacity: .35;
+                cursor: default;
+            }
+        }
+
+        & output {
+            min-width: 1ch;
+
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 48rem) {
+        & .guest-panel {
+            inset-inline-end: -3rem;
+        }
+
+        &.selected .guests {
+            padding-inline-end: 1.75rem;
+        }
+
+        & .btn-clear-guests {
+            inset-inline-end: .125rem;
+        }
+    }
+}
