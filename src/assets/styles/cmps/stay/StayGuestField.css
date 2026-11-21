@@ -51,12 +51,12 @@
     & .guest-panel {
         position: absolute;
         inset-block-start: calc(100% + .75rem);
-        inset-inline-end: 0;
+        inset-inline-end: -7.5rem;
         z-index: 20;
         display: grid;
 
-        width: min(24rem, calc(100vw - 2rem));
-        padding: .5rem 1.5rem;
+        width: min(26.5rem, calc(100vw - 2rem));
+        padding: 1rem 2.5rem 1.5rem;
         border-radius: 1.5rem;
         background: var(--clr-bg);
         box-shadow: 0 .25rem 1.5rem var(--header-shadow);
@@ -68,6 +68,7 @@
         justify-content: space-between;
         gap: 1rem;
 
+        min-height: 5.6875rem;
         padding-block: 1rem;
 
         &:not(:last-child) {
@@ -101,9 +102,8 @@
 
             width: 2rem;
             height: 2rem;
-            border: 1px solid var(--clr-text-secondary);
             border-radius: 50%;
-            background: var(--clr-bg);
+            background: var(--clr-bg--4);
 
             color: var(--clr-text);
             font-size: 1.25rem;
@@ -111,11 +111,11 @@
             text-align: center;
 
             &:hover:not(:disabled) {
-                border-color: var(--clr-text);
+                background: var(--clr-bg--3);
             }
 
             &:disabled {
-                opacity: .35;
+                color: var(--clr-disabled);
                 cursor: default;
             }
         }
@@ -130,6 +130,8 @@
     @media (max-width: 48rem) {
         & .guest-panel {
             inset-inline-end: -3rem;
+
+            padding-inline: 1.5rem;
         }
 
         &.selected .guests {

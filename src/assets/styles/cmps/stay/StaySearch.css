@@ -172,6 +172,30 @@
         }
     }
 
+    @media (min-width: 48.0625rem) {
+        &:has(.stay-guest-field.active)::after {
+            position: absolute;
+            grid-area: 1 / 3 / 2 / 5;
+            inset: 0;
+
+            border-radius: 4rem;
+            background: var(--clr-bg);
+            box-shadow: 0 .25rem 1rem var(--header-shadow);
+
+            content: '';
+            pointer-events: none;
+        }
+
+        & .stay-guest-field.active,
+        &.open .btn-search {
+            z-index: 1;
+        }
+
+        & .stay-guest-field.active {
+            box-shadow: none;
+        }
+    }
+
     @media (max-width: 48rem) {
         &,
         &.open {
