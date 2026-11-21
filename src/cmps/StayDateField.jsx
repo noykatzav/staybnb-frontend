@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { dateService } from '../services/date.service'
 import { StayCalendar } from './StayCalendar'
 
-export function StayDateField({ isCalendarOpen, setIsCalendarOpen }) {
-    const [dateRange, setDateRange] = useState({ checkIn: '', checkOut: '' })
+export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCalendarOpen }) {
     const datesRef = useRef(null)
     const calendarRef = useRef(null)
     const triggerRef = useRef(null)
@@ -95,6 +94,8 @@ export function StayDateField({ isCalendarOpen, setIsCalendarOpen }) {
 }
 
 StayDateField.propTypes = {
+    dateRange: PropTypes.shape({ checkIn: PropTypes.string.isRequired, checkOut: PropTypes.string.isRequired }).isRequired,
+    setDateRange: PropTypes.func.isRequired,
     isCalendarOpen: PropTypes.bool.isRequired,
     setIsCalendarOpen: PropTypes.func.isRequired,
 }

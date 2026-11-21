@@ -1,21 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 
 import { loadStays, addStay, updateStay, removeStay } from '../store/actions/stay.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { stayService } from '../services/stay'
+import { getStaySearchFilter } from '../services/stay/stay-search.service'
 
 import { StayList } from '../cmps/StayList'
 import { StayHeader } from '../cmps/StayHeader'
 
 export function StayIndex() {
 
-    const [ filterBy ] = useState(stayService.getDefaultFilter())
+    const [searchParams, setSearchParams] = useSearchParams()
+    const searchKey = searchParams.toString()
+    const filterBy = useMemo(() => getStaySearchFilter(new URLSearchParams(searchKey)), [searchKey])
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
-        loadStays(filterBy)
+        loadStays(filterBy).catch(() => showErrorMsg('Cannot load stays'))
     }, [filterBy])
 
     async function onRemoveStay(stayId) {
@@ -53,7 +57,7 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <StayHeader onAddStay={onAddStay} />
+            <StayHeader filterBy={filterBy} onSearch={setSearchParams} onAddStay={onAddStay} />
             <StayList 
                 stays={stays}
                 onRemoveStay={onRemoveStay} 

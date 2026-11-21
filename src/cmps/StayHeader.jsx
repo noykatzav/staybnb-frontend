@@ -5,7 +5,7 @@ import { StayCategories } from './StayCategories'
 import { StayProfile } from './StayProfile'
 import { StaySearch } from './StaySearch'
 
-export function StayHeader({ onAddStay }) {
+export function StayHeader({ filterBy, onSearch, onAddStay }) {
     return (
         <header className="stay-header">
             <div className="header-content">
@@ -15,7 +15,7 @@ export function StayHeader({ onAddStay }) {
                 </NavLink>
                 <StayCategories />
                 <StayProfile />
-                <StaySearch />
+                <StaySearch filterBy={filterBy} onSearch={onSearch} />
             </div>
             <div className="heading">
                 <h2>Stays</h2>
@@ -26,5 +26,7 @@ export function StayHeader({ onAddStay }) {
 }
 
 StayHeader.propTypes = {
+    filterBy: PropTypes.object.isRequired,
+    onSearch: PropTypes.func.isRequired,
     onAddStay: PropTypes.func.isRequired,
 }
