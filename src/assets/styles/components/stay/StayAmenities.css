@@ -20,6 +20,17 @@
 }
 
 .stay-amenities-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     font-size: 1rem;
     line-height: 1.5;
+}
+
+.stay-amenities-list img {
+    display: block;
+    inline-size: 24px;
+    block-size: 24px;
+    flex-shrink: 0;
+        fill: currentcolor;
 }
