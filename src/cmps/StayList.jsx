@@ -11,15 +11,15 @@ export function StayList({ stays, onRemoveStay, onUpdateStay }) {
         return stay.owner?._id === user._id
     }
 
-    return <section>
+    return <section className="stay-list-container">
+        <h2 className="stay-list-title">
+            {stays.length} homes in Eilat
+        </h2>
+
         <ul className="stay-list">
             {stays.map(stay =>
-                <li key={stay._id}>
+                <li key={stay._id} className="stay-list-item">
                     <StayPreview stay={stay}/>
-                    {shouldShowActionBtns(stay) && <div className="actions">
-                        <button onClick={() => onUpdateStay(stay)}>Edit</button>
-                        <button onClick={() => onRemoveStay(stay._id)}>x</button>
-                    </div>}
                 </li>)
             }
         </ul>

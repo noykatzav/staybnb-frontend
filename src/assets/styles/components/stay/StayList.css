@@ -1,21 +1,21 @@
-.stay-list {
-    --min-column-size: 220px;
+.stay-list-container {
+    width: 100%;
+    padding: 24px 16px;
 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-column-size), 1fr));
-    gap: .5em;
+    .stay-list-title {
+        margin: 0 0 24px;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
 
-    & li {
+    .stay-list {
         display: grid;
-        grid-template-columns: max-content auto;
-        padding: .5em;
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
 
-        .actions {
-            justify-self: end;
-
-            & button {
-                padding: .3em .5em;
-            }
-        }
+    .stay-list-item {
+        min-width: 0;
+        position: relative;
     }
 }
