@@ -10,11 +10,13 @@ export function StayOrder({
   onUpdateDateRange,
 }) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [activeDateField, setActiveDateField] = useState('checkIn')
   const [dateRangeToEdit, setDateRangeToEdit] = useState(
     () => structuredClone(dateRange)
   )
 
   const orderRef = useRef(null)
+  const checkInRef = useRef(null)
   const triggerRef = useRef(null)
   const calendarId = useId()
 
@@ -47,8 +49,9 @@ export function StayOrder({
     }
   }, [isCalendarOpen])
 
-  function onOpenCalendar(ev) {
+  function onOpenCalendar(ev, field = 'checkIn') {
     triggerRef.current = ev.currentTarget
+    setActiveDateField(field)
 
     if (!isCalendarOpen) {
       setDateRangeToEdit(structuredClone(dateRange))
@@ -65,18 +68,26 @@ export function StayOrder({
   function onSelectDateRange(nextDateRange) {
     setDateRangeToEdit(nextDateRange)
 
+    if (nextDateRange.checkIn && !nextDateRange.checkOut) {
+      setActiveDateField('checkOut')
+    }
+
     if (!nextDateRange.checkIn || !nextDateRange.checkOut) return
 
     onUpdateDateRange(nextDateRange)
     onCloseCalendar()
   }
 
-  function onClearDateRange() {
+function onClearDateRange() {
     const emptyDateRange = { checkIn: '', checkOut: '' }
 
     setDateRangeToEdit(emptyDateRange)
     onUpdateDateRange(emptyDateRange)
-  }
+    setActiveDateField('checkIn')
+
+    triggerRef.current = checkInRef.current
+    checkInRef.current?.focus()
+}
 
   function formatDate(key) {
     if (!key) return 'Add date'
@@ -107,42 +118,44 @@ export function StayOrder({
 
       <div className={`calendar-anchor${isCalendarOpen ? ' open' : ''}`}>
         <div className="stay-order-fields">
-          <button
-            type="button"
-            className="stay-order-field btn-date"
-            aria-expanded={isCalendarOpen}
-            aria-controls={calendarId}
-            aria-haspopup="dialog"
-            onClick={onOpenCalendar}
-          >
-            <span className="stay-order-label">CHECK-IN</span>
-            <span
-              className={`stay-order-value${displayedRange.checkIn
-                ? ''
-                : ' stay-order-placeholder'}`}
+          <div className="stay-order-dates">
+            <button
+              type="button"
+              className={`stay-order-field btn-date${activeDateField === 'checkIn' ? ' active' : ''}`}
+              aria-expanded={isCalendarOpen}
+              aria-controls={calendarId}
+              aria-haspopup="dialog"
+              onClick={ev => onOpenCalendar(ev, 'checkIn')}
+              ref={checkInRef}
             >
-              {formatDate(displayedRange.checkIn)}
-            </span>
-          </button>
+              <span className="stay-order-label">CHECK-IN</span>
+              <span
+                className={`stay-order-value${displayedRange.checkIn
+                  ? ''
+                  : ' stay-order-placeholder'}`}
+              >
+                {formatDate(displayedRange.checkIn)}
+              </span>
+            </button>
 
-          <button
-            type="button"
-            className="stay-order-field stay-order-checkout btn-date"
-            aria-expanded={isCalendarOpen}
-            aria-controls={calendarId}
-            aria-haspopup="dialog"
-            onClick={onOpenCalendar}
-            disabled={isCalendarOpen && !displayedRange.checkIn}
-          >
-            <span className="stay-order-label">CHECKOUT</span>
-            <span
-              className={`stay-order-value${displayedRange.checkOut
-                ? ''
-                : ' stay-order-placeholder'}`}
+            <button
+              type="button"
+              className={`stay-order-field stay-order-checkout btn-date${activeDateField === 'checkOut' ? ' active' : ''}`} aria-expanded={isCalendarOpen}
+              aria-controls={calendarId}
+              aria-haspopup="dialog"
+              onClick={ev => onOpenCalendar(ev, 'checkOut')}
+              disabled={isCalendarOpen && !displayedRange.checkIn}
             >
-              {formatDate(displayedRange.checkOut)}
-            </span>
-          </button>
+              <span className="stay-order-label">CHECKOUT</span>
+              <span
+                className={`stay-order-value${displayedRange.checkOut
+                  ? ''
+                  : ' stay-order-placeholder'}`}
+              >
+                {formatDate(displayedRange.checkOut)}
+              </span>
+            </button>
+          </div>
 
           <div className="stay-order-field stay-order-guests">
             <div>
