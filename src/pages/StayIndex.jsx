@@ -13,12 +13,11 @@ import { StayFilter } from '../cmps/StayFilter'
 export function StayIndex() {
 
     const [ filterBy, setFilterBy ] = useState(stayService.getDefaultFilter())
-    const [ page, setPage] = useState(stayService.getDefaultPage())
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
-        loadStays({filterBy, page})
-    }, [filterBy, page])
+        loadStays(filterBy)
+    }, [filterBy])
 
     async function onRemoveStay(stayId) {
         try {

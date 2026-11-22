@@ -17,7 +17,7 @@ _createStays()
 window.cs = stayService
 
 
-async function query({filterBy = { txt: '', maxPrice: 100 }, page = { idx: 0, size: 12 }}) {
+async function query(filterBy = { txt: '', maxPrice: 100 }) {
     var stays = await storageService.query(STORAGE_KEY)
     const { txt, maxPrice, sortField, sortDir } = filterBy
 
@@ -39,9 +39,6 @@ async function query({filterBy = { txt: '', maxPrice: 100 }, page = { idx: 0, si
         stays.sort((stay1, stay2) => 
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
-
-    const startIdx = page.idx * page.size
-    stays = stays.slice(startIdx, startIdx + page.size)
 
     stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }))
     return stays
