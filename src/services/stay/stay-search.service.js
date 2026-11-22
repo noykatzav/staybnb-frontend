@@ -102,20 +102,6 @@ export function changeGuestCount(guests, key, change) {
     return next
 }
 
-export function filterLocalStays(stays, filterBy) {
-    const destination = filterBy.destination?.trim().toLocaleLowerCase() || ''
-    const guestCount = (filterBy.adults || 0) + (filterBy.children || 0)
-
-    return stays.filter(stay => {
-        if (destination && ![stay.loc?.city, stay.loc?.country].some(value => value?.toLocaleLowerCase().includes(destination))) return false
-        if (guestCount && (!Number.isFinite(stay.capacity) || stay.capacity < guestCount)) return false
-        if (filterBy.pets > 0 && !stay.amenities?.includes('Pets allowed')) return false
-        if (filterBy.checkIn && filterBy.checkOut && stay.blockedDates?.some(range =>
-            range.checkIn <= filterBy.checkOut && range.checkOut >= filterBy.checkIn)) return false
-        return true
-    })
-}
-
 function getValidDateKey(key) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(key || '')) return ''
     const date = dateService.getDate(key)
