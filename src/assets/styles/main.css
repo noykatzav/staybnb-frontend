@@ -36,15 +36,15 @@
 @import "cmps/ImgUploader";
 
 /* Stay header and calendar */
-@import "cmps/stay/StayHeader";
-@import "cmps/stay/StayCategories";
-@import "cmps/stay/StayProfile";
-@import "cmps/stay/StaySearch";
-@import "cmps/stay/StayDestinationField";
-@import "cmps/stay/StayGuestField";
-@import "cmps/stay/StayDateField";
-@import "cmps/stay/StayCalendar";
-@import "cmps/stay/StayCalendarMonth";
+@import "cmps/stay/header/StayHeader";
+@import "cmps/stay/header/StayCategories";
+@import "cmps/stay/header/StayProfile";
+@import "cmps/stay/header/StaySearch";
+@import "cmps/stay/header/StayDestinationField";
+@import "cmps/stay/header/StayGuestField";
+@import "cmps/stay/header/StayDateField";
+@import "cmps/stay/header/StayCalendar";
+@import "cmps/stay/header/StayCalendarMonth";
 
 /* Media queries */
 @import url('./setup/mq.css');
