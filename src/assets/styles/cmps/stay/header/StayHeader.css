@@ -79,6 +79,10 @@
     }
 
     @media (max-width: 48rem) {
+        &.details {
+            display: none;
+        }
+
         & .header-content {
             grid-template-columns: minmax(0, 1fr) auto;
             grid-template-rows: auto auto auto;
