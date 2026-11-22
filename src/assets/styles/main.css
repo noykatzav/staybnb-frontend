@@ -26,6 +26,11 @@
 @import url('./components/RootCmp.css');
 @import url('./components/UserDetails.css');
 @import url('./components/UserMsg.css');
+@import url('./components/stay/StayDetails.css');
+@import url('./components/stay/StayGallery.css');
+@import url('./components/stay/StayAmenities.css');
+@import url('./components/stay/StayOrder.css');
+@import url('./components/stay/StayHighlights.css');
 
 /* Shared components */
 @import "cmps/ImgUploader";
