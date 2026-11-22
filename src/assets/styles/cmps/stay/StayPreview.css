@@ -35,6 +35,14 @@
 
         margin: 12px 0 0;
         padding-inline: 8px;
+
+        > span {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center; 
+            gap: 5px;
+            white-space: nowrap;
+        }
     }
 
     .stay-preview-name {
@@ -67,5 +75,12 @@
 
     &:hover img {
         filter: brightness(0.97);
+    }
+
+    .stay-rating-icon {
+        display: block;
+        width: 0.85rem;
+        height: 0.85rem;
+        flex-shrink: 0;
     }
 }

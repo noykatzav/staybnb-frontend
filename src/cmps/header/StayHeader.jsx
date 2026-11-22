@@ -18,7 +18,6 @@ export function StayHeader({ filterBy, onSearch, onAddStay }) {
                 <StaySearch filterBy={filterBy} onSearch={onSearch} />
             </div>
             <div className="heading">
-                <h2>Stays</h2>
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </div>
         </header>
