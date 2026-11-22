@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -14,6 +14,18 @@ import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
 
 export function StayDetails() {
     const { stayId } = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const filterBy = getFilterFromSearchParams(searchParams)
+
+    const dateRange = {
+        checkIn: filterBy.checkIn,
+        checkOut: filterBy.checkOut,
+    }
+
+    const guestCount = Math.max(1, filterBy.adults + filterBy.children)
+    const search = searchParams.toString()
+    const stayListUrl = search ? `/stay?${search}` : '/stay'
+
     const navigate = useNavigate()
     const searchFilter = useMemo(() => getFilterFromSearchParams(new URLSearchParams()), [])
     const stay = useSelector(storeState => storeState.stayModule.stay)
@@ -57,6 +69,22 @@ export function StayDetails() {
         navigate({ pathname: '/stay', search: searchParams.toString() })
     }
 
+    function onUpdateDateRange(nextDateRange) {
+        setSearchParams(currentParams => {
+            const nextParams = new URLSearchParams(currentParams)
+
+            if (nextDateRange.checkIn && nextDateRange.checkOut) {
+                nextParams.set('checkIn', nextDateRange.checkIn)
+                nextParams.set('checkOut', nextDateRange.checkOut)
+            } else {
+                nextParams.delete('checkIn')
+                nextParams.delete('checkOut')
+            }
+
+            return nextParams
+        }, { replace: true, preventScrollReset: true })
+    }
+
     return (
         <>
             <StayHeader
@@ -66,7 +94,7 @@ export function StayDetails() {
                 isDetailsPage
             />
             <section className="stay-details">
-                <Link to="/stay">Back to list</Link>
+                <Link to={stayListUrl}>Back to list</Link>
 
                 {stay?._id === stayId && <div>
                     <header className="stay-details-header">
@@ -143,7 +171,12 @@ export function StayDetails() {
                             <StayAmenities amenities={stay.amenities} />
                         </div>
 
-                        <StayOrder />
+                        <StayOrder
+                            price={stay.price}
+                            dateRange={dateRange}
+                            guestCount={guestCount}
+                            onUpdateDateRange={onUpdateDateRange}
+                        />
                     </div>
 
                     <button onClick={() => onAddStayReview(stay._id)}>

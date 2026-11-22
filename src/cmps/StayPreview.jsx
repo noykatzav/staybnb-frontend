@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types'
 import { StayCarousel } from './StayCarousel'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export function StayPreview({ stay }) {
     const reviewsCnt = stay.reviews?.length || 0
     const avgRating = stay.reviews?.length
         ? stay.reviews.reduce((sum, review) => sum + review.rate, 0) / reviewsCnt
         : 0
+const { search } = useLocation()
 
-    return <Link to={`/stay/${stay._id}`} className="stay-preview">
+    return <Link to={{ pathname: `/stay/${stay._id}`, search }} className="stay-preview">
                 <StayCarousel imgUrls={stay.imgUrls} />
                 <h1 className="stay-preview-location">{`${stay.type} in ${stay.loc.city}`}</h1>
                 <p className="stay-preview-rating">
