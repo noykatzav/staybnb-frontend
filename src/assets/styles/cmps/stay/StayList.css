@@ -18,4 +18,15 @@
             }
         }
     }
+
+    @media (max-width: 46.4375rem) {
+        & li {
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
+
+        & .stay-preview {
+            width: 100%;
+            min-width: 0;
+        }
+    }
 }

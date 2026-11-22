@@ -4,8 +4,8 @@ import {
     changeGuestCount,
     filterLocalStays,
     getStaySearchLabels,
-    getStaySearchFilter,
-    getStaySearchParams,
+    getFilterFromSearchParams,
+    getSearchParamsFromFilter,
 } from '../src/services/stay/stay-search.service.js'
 
 const emptyGuests = { adults: 0, children: 0, infants: 0, pets: 0 }
@@ -28,24 +28,24 @@ describe('stay search values', () => {
     })
 
     it('uses one night when only check-in is selected, including month boundaries', () => {
-        const params = getStaySearchParams({ destination: ' Lisbon ', checkIn: '2026-12-31', checkOut: '', ...emptyGuests })
+        const params = getSearchParamsFromFilter({ destination: ' Lisbon ', checkIn: '2026-12-31', checkOut: '', ...emptyGuests })
         assert.equal(params.toString(), 'destination=Lisbon&checkIn=2026-12-31&checkOut=2027-01-01')
-        assert.deepEqual(getStaySearchFilter(params), {
+        assert.deepEqual(getFilterFromSearchParams(params), {
             destination: 'Lisbon', checkIn: '2026-12-31', checkOut: '2027-01-01', ...emptyGuests,
         })
     })
 
     it('restores a URL search and normalizes invalid values', () => {
-        const filter = getStaySearchFilter(new URLSearchParams('destination=Porto&checkIn=2026-02-30&checkOut=2026-03-04&adults=-2&children=17&infants=9&pets=x'))
+        const filter = getFilterFromSearchParams(new URLSearchParams('destination=Porto&checkIn=2026-02-30&checkOut=2026-03-04&adults=-2&children=17&infants=9&pets=x'))
         assert.deepEqual(filter, {
             destination: 'Porto', checkIn: '', checkOut: '', adults: 1, children: 15, infants: 5, pets: 0,
         })
     })
 
     it('preserves submitted guest counts in the URL', () => {
-        const params = getStaySearchParams({ destination: '', checkIn: '', checkOut: '', adults: 2, children: 1, infants: 1, pets: 1 })
+        const params = getSearchParamsFromFilter({ destination: '', checkIn: '', checkOut: '', adults: 2, children: 1, infants: 1, pets: 1 })
         assert.equal(params.toString(), 'adults=2&children=1&infants=1&pets=1')
-        assert.deepEqual(getStaySearchFilter(params), { destination: '', checkIn: '', checkOut: '', adults: 2, children: 1, infants: 1, pets: 1 })
+        assert.deepEqual(getFilterFromSearchParams(params), { destination: '', checkIn: '', checkOut: '', adults: 2, children: 1, infants: 1, pets: 1 })
     })
 })
 

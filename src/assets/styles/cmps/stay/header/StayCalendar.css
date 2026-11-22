@@ -128,7 +128,7 @@
         white-space: nowrap;
     }
 
-    @media (max-width: 48rem) {
+    @media (max-width: 46.4375rem) {
         max-height: calc(100dvh - 14rem);
         padding: 1rem;
         border-radius: 1.5rem;
@@ -147,6 +147,21 @@
         & button {
             transition: none;
         }
+    }
+}
+
+.stay-search-mobile .stay-calendar {
+    max-height: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+
+    & .calendar-body {
+        overflow: visible;
+    }
+
+    & .calendar-heading .btn-close {
+        display: none;
     }
 }
 

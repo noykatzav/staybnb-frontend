@@ -41,6 +41,7 @@
 
 /* Stay header and calendar */
 @import "cmps/stay/header/StayHeader";
+@import "cmps/stay/header/StayMobileNav";
 @import "cmps/stay/header/StayCategories";
 @import "cmps/stay/header/StayProfile";
 @import "cmps/stay/header/StaySearch";

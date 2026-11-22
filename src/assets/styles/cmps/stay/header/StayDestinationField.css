@@ -136,7 +136,7 @@
         }
     }
 
-    @media (max-width: 48rem) {
+    @media (max-width: 46.4375rem) {
         & .destination.selected {
             padding-inline-end: 1.75rem;
         }
@@ -148,5 +148,50 @@
         & .destination-panel {
             padding: 1rem;
         }
+    }
+}
+
+.stay-search-mobile .stay-destination-field {
+    height: auto;
+
+    &.active {
+        z-index: auto;
+    }
+
+    & .destination,
+    &.active .destination {
+        display: block;
+
+        height: auto;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+
+        & > span:first-child {
+            display: none;
+        }
+    }
+
+    & input {
+        height: 3.5rem;
+        padding-inline: 1rem;
+        border: 1px solid var(--clr-text-secondary);
+        border-radius: .5rem;
+    }
+
+    & .btn-clear-destination {
+        inset-block-start: 1.75rem;
+    }
+
+    & .destination-panel {
+        position: static;
+
+        width: 100%;
+        max-height: none;
+        padding: 1rem 0 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
     }
 }

@@ -2,7 +2,7 @@ import { dateService } from '../date.service.js'
 
 const GUEST_KEYS = ['adults', 'children', 'infants', 'pets']
 
-export function getStaySearchFilter(searchParams) {
+export function getFilterFromSearchParams(searchParams) {
     const filterBy = {
         destination: searchParams.get('destination')?.trim() || '',
         checkIn: getValidDateKey(searchParams.get('checkIn')),
@@ -27,7 +27,7 @@ export function getStaySearchFilter(searchParams) {
     return filterBy
 }
 
-export function getStaySearchParams(filterBy) {
+export function getSearchParamsFromFilter(filterBy) {
     const searchParams = new URLSearchParams()
     if (filterBy.destination.trim()) searchParams.set('destination', filterBy.destination.trim())
 

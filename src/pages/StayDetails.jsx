@@ -10,12 +10,12 @@ import { StayOrder } from '../cmps/StayOrder'
 import { getHostingDuration } from '../services/util.service'
 import { StayHighlights } from '../cmps/StayHighlights'
 import { StayHeader } from '../cmps/header/StayHeader'
-import { getStaySearchFilter } from '../services/stay/stay-search.service'
+import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
 
 export function StayDetails() {
     const { stayId } = useParams()
     const navigate = useNavigate()
-    const searchFilter = useMemo(() => getStaySearchFilter(new URLSearchParams()), [])
+    const searchFilter = useMemo(() => getFilterFromSearchParams(new URLSearchParams()), [])
     const stay = useSelector(storeState => storeState.stayModule.stay)
     const hostingDuration = getHostingDuration(stay?.host?.hostingSince)
 

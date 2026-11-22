@@ -1,6 +1,10 @@
 .stay-index {
-    @media (min-width: 48.0625rem) {
+    @media (min-width: 46.5rem) {
         overflow-anchor: none;
+    }
+
+    @media (max-width: 46.4375rem) {
+        padding-block-end: calc(5rem + env(safe-area-inset-bottom));
     }
 
     & .heading {
