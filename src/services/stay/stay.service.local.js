@@ -40,7 +40,7 @@ async function query(filterBy = { txt: '', maxPrice: 100 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls }))
+    stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls, reviews }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls, reviews }))
     return stays
 }
 

@@ -1,5 +1,4 @@
 .stay-preview {
-    height: 420px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     column-gap: 8px;
