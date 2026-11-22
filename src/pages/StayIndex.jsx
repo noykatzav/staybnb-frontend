@@ -58,7 +58,7 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <StayHeader filterBy={filterBy} onSearch={setSearchParams} />
+            <StayHeader filterBy={filterBy} onSearch={setSearchParams} isCompact={Boolean(searchKey)} />
             <div className="heading">
                 <h2>Stays</h2>
                 {user && <button type="button" onClick={onAddStay}>Add a Stay</button>}

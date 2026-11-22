@@ -7,7 +7,7 @@ import { StaySearch } from './StaySearch'
 
 const DESKTOP_QUERY = '(min-width: 48.0625rem)'
 
-export function StayHeader({ filterBy, onSearch }) {
+export function StayHeader({ filterBy, onSearch, isCompact = false }) {
     const [isScrolled, setIsScrolled] = useState(() => window.matchMedia(DESKTOP_QUERY).matches && window.scrollY > 1)
 
     useEffect(() => {
@@ -26,13 +26,13 @@ export function StayHeader({ filterBy, onSearch }) {
     return (
         <header className="stay-header">
             <div className="header-content">
-                <NavLink to="/" className="logo" aria-label="Staybnb homepage">
+                <NavLink to="/stay" className="logo" aria-label="Stays homepage">
                     <img src="/icons/airbnb-mark.svg" alt="" />
-                    <span>Staybnb</span>
+                    <span>staybnb</span>
                 </NavLink>
                 <StayCategories />
                 <StayProfile />
-                <StaySearch filterBy={filterBy} onSearch={onSearch} isScrolled={isScrolled} />
+                <StaySearch filterBy={filterBy} onSearch={onSearch} isScrolled={isCompact || isScrolled} />
             </div>
         </header>
     )
@@ -41,4 +41,5 @@ export function StayHeader({ filterBy, onSearch }) {
 StayHeader.propTypes = {
     filterBy: PropTypes.object.isRequired,
     onSearch: PropTypes.func.isRequired,
+    isCompact: PropTypes.bool,
 }
