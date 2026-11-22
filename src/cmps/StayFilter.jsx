@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 
 export function StayFilter({ filterBy, setFilterBy }) {
@@ -5,7 +6,7 @@ export function StayFilter({ filterBy, setFilterBy }) {
 
     useEffect(() => {
         setFilterBy(filterToEdit)
-    }, [filterToEdit])
+    }, [filterToEdit, setFilterBy])
 
     function handleChange(ev) {
         const type = ev.target.type
@@ -16,17 +17,20 @@ export function StayFilter({ filterBy, setFilterBy }) {
             case 'text':
             case 'radio':
                 value = field === 'sortDir' ? +ev.target.value : ev.target.value
-                if(!filterToEdit.sortDir) filterToEdit.sortDir = 1
                 break
             case 'number':
                 value = +ev.target.value || ''
                 break
         }
-        setFilterToEdit({ ...filterToEdit, [field]: value })
+        setFilterToEdit(prevFilter => ({
+            ...prevFilter,
+            sortDir: prevFilter.sortDir || 1,
+            [field]: value,
+        }))
     }
 
     function clearFilter() {
-        setFilterToEdit({ ...filterToEdit, txt: '', maxPrice: '', maxPrice: '' })
+        setFilterToEdit({ ...filterToEdit, txt: '', maxPrice: '' })
     }
     
     function clearSort() {
@@ -73,7 +77,7 @@ export function StayFilter({ filterBy, setFilterBy }) {
                         type="radio"
                         name="sortField"
                         value="name"
-                        checked={filterToEdit.sortField === 'txt'}            
+                        checked={filterToEdit.sortField === 'name'}
                         onChange={handleChange}
                     />
                 </label>
@@ -104,4 +108,14 @@ export function StayFilter({ filterBy, setFilterBy }) {
                 className="btn-clear" 
                 onClick={clearSort}>Clear</button>
     </section>
+}
+
+StayFilter.propTypes = {
+    filterBy: PropTypes.shape({
+        txt: PropTypes.string.isRequired,
+        maxPrice: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([''])]),
+        sortField: PropTypes.string.isRequired,
+        sortDir: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    }).isRequired,
+    setFilterBy: PropTypes.func.isRequired,
 }

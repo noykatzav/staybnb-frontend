@@ -1,0 +1,80 @@
+.stay-date-field {
+    min-width: 0;
+    height: 100%;
+
+    & .date-field {
+        position: relative;
+
+        min-width: 0;
+        height: 100%;
+        border-radius: 4rem;
+
+        &.active {
+            background: var(--clr-bg);
+            box-shadow: 0 .25rem 1rem var(--header-shadow);
+        }
+
+        &.active .dates:hover {
+            background: transparent;
+        }
+
+        & .dates {
+            width: 100%;
+        }
+
+        &.selected .dates {
+            & > span:last-child {
+                color: var(--clr-text);
+            }
+        }
+
+        &.active.selected .dates {
+            padding-inline-end: 2.5rem;
+        }
+
+        &.active .dates::after {
+            display: none;
+        }
+    }
+
+    & .btn-clear-dates {
+        position: absolute;
+        inset-inline-end: .75rem;
+        inset-block-start: 50%;
+        display: grid;
+        place-items: center;
+        transform: translateY(-50%);
+
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+
+        &:hover {
+            background: var(--clr-border);
+        }
+
+        & img {
+            width: .75rem;
+            height: .75rem;
+        }
+    }
+
+    & .calendar-panel {
+        position: absolute;
+        inset-block-start: calc(100% + .75rem);
+        inset-inline: -1px;
+        z-index: 20;
+
+        min-width: 0;
+    }
+
+    @media (max-width: 48rem) {
+        & .date-field.active.selected .dates {
+            padding-inline-end: 1.75rem;
+        }
+
+        & .btn-clear-dates {
+            inset-inline-end: .125rem;
+        }
+    }
+}

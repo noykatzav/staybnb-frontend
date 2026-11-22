@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { StayCarousel } from './StayCarousel'
 import { Link } from 'react-router-dom'
 
@@ -18,5 +19,21 @@ export function StayPreview({ stay }) {
                     {stay.bathrooms && (<span>{` · ${stay.bathrooms} ${stay.bathrooms === 1 ? 'bath' : 'baths'}`}</span>)}
                 </p>
                 <p className="stay-preview-price">$<span>{stay.price.toLocaleString()}</span> per night</p>
-        </Link> 
+        </Link>
+}
+
+StayPreview.propTypes = {
+    stay: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        imgUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
+        loc: PropTypes.shape({
+            city: PropTypes.string.isRequired,
+        }).isRequired,
+        bedrooms: PropTypes.number,
+        beds: PropTypes.number,
+        bathrooms: PropTypes.number,
+        price: PropTypes.number.isRequired,
+    }).isRequired,
 }

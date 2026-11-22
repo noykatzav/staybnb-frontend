@@ -9,23 +9,42 @@
 @import url('./base/forms.css');
 
 /* Components */
-@import url('./components/AboutUs.css');
-@import url('./components/AppFooter.css');
-@import url('./components/AppHeader.css');
-@import url('./components/stay/StayFilter.css');
-@import url('./components/stay/StayIndex.css');
-@import url('./components/stay/StayList.css');
-@import url('./components/stay/StayPreview.css');
-@import url('./components/stay/StayCarousel.css');
-@import url('./components/Chat.css');
-@import url('./components/HomePage.css');
-@import url('./components/LoginSignup.css');
-@import url('./components/review/ReviewEdit.css');
-@import url('./components/review/ReviewList.css');
-@import url('./components/review/ReviewPreview.css');
-@import url('./components/RootCmp.css');
-@import url('./components/UserDetails.css');
-@import url('./components/UserMsg.css');
+@import url('./cmps/AboutUs.css');
+@import url('./cmps/AppFooter.css');
+@import url('./cmps/AppHeader.css');
+@import url('./cmps/stay/StayFilter.css');
+@import url('./cmps/stay/StayIndex.css');
+@import url('./cmps/stay/StayList.css');
+@import url('./cmps/stay/StayPreview.css');
+@import url('./cmps/stay/StayCarousel.css');
+@import url('./cmps/Chat.css');
+@import url('./cmps/HomePage.css');
+@import url('./cmps/LoginSignup.css');
+@import url('./cmps/review/ReviewEdit.css');
+@import url('./cmps/review/ReviewList.css');
+@import url('./cmps/review/ReviewPreview.css');
+@import url('./cmps/RootCmp.css');
+@import url('./cmps/UserDetails.css');
+@import url('./cmps/UserMsg.css');
+@import url('./cmps/stay/StayDetails.css');
+@import url('./cmps/stay/StayGallery.css');
+@import url('./cmps/stay/StayAmenities.css');
+@import url('./cmps/stay/StayOrder.css');
+@import url('./cmps/stay/StayHighlights.css');
+
+/* Shared components */
+@import "cmps/ImgUploader";
+
+/* Stay header and calendar */
+@import "cmps/stay/header/StayHeader";
+@import "cmps/stay/header/StayCategories";
+@import "cmps/stay/header/StayProfile";
+@import "cmps/stay/header/StaySearch";
+@import "cmps/stay/header/StayDestinationField";
+@import "cmps/stay/header/StayGuestField";
+@import "cmps/stay/header/StayDateField";
+@import "cmps/stay/header/StayCalendar";
+@import "cmps/stay/header/StayCalendarMonth";
 
 /* Media queries */
 @import url('./setup/mq.css');

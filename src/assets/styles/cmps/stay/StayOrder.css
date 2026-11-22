@@ -1,0 +1,88 @@
+.stay-order {
+    position: sticky;
+    inset-block-start: 96px;
+    align-self: start;
+    min-inline-size: 0;
+    padding-block: 24px;
+    padding-inline: 24px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    color: #222;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+}
+
+.stay-order h2 {
+    margin-block: 0 24px;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.625rem;
+}
+
+.stay-order-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid #8c8c8c;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.stay-order-field {
+    padding-block: 12px;
+    padding-inline: 12px;
+}
+
+.stay-order-checkout {
+    border-inline-start: 1px solid #8c8c8c;
+}
+
+.stay-order-label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stay-order-value {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.stay-order-placeholder {
+    color: #6a6a6a;
+}
+
+.stay-order-guests {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-block-start: 1px solid #8c8c8c;
+}
+
+.stay-order-guests img {
+    display: block;
+    inline-size: 16px;
+    block-size: 16px;
+    flex-shrink: 0;
+}
+
+.stay-order-button {
+    box-sizing: border-box;
+    display: block;
+    inline-size: 100%;
+    margin-block: 16px 0;
+    margin-inline: 0;
+    padding-block: 12px;
+    padding-inline: 16px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e61e4d, #d70466);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+}

@@ -28,7 +28,6 @@ export function getRandomIntInclusive(min, max) {
 
 export function randomPastTime() {
     const HOUR = 1000 * 60 * 60
-    const DAY = 1000 * 60 * 60 * 24
     const WEEK = 1000 * 60 * 60 * 24 * 7
 
     const pastTime = getRandomIntInclusive(HOUR, WEEK)
@@ -50,4 +49,34 @@ export function saveToStorage(key, value) {
 export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
+}
+
+export function getHostingDuration(hostingSince, today = new Date()) {
+    if (!hostingSince) return ''
+
+    const startDate = new Date(`${hostingSince}T00:00:00`)
+
+    if (Number.isNaN(startDate.getTime()) || startDate > today) return ''
+
+    let months = (today.getFullYear() - startDate.getFullYear()) * 12
+        + today.getMonth() - startDate.getMonth()
+
+    const lastDayOfMonth = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0
+    ).getDate()
+
+    const anniversaryDay = Math.min(startDate.getDate(), lastDayOfMonth)
+
+    if (today.getDate() < anniversaryDay) months--
+
+    if (months === 0) return 'New host'
+
+    if (months < 12) {
+        return `${months} ${months === 1 ? 'month' : 'months'} hosting`
+    }
+
+    const years = Math.floor(months / 12)
+    return `${years} ${years === 1 ? 'year' : 'years'} hosting`
 }

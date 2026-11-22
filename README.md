@@ -41,9 +41,13 @@ When running against the backend, the API base URL is `http://localhost:3030/api
 | `npm run dev:remote` | Start Vite using remote services |
 | `npm run build` | Create a production build in `dist/` |
 | `npm run lint` | Run ESLint |
+| `npm test` | Run the automated tests |
+| `npm run test:watch` | Re-run tests when files change |
 | `npm run preview` | Preview the production build locally |
 
-This package currently does not define a test script.
+Tests use Node's built-in test runner and require Node.js 20 or newer. Run `npm test` after installing dependencies. No browser or backend is required.
+
+The `tests/` directory covers calendar date arithmetic, stay and review state changes, loading state, and the shared storage service (including missing-record errors). Storage tests use isolated in-memory data and never access your browser's saved stays. React interactions and remote API integration are not covered by this suite.
 
 ## Project Structure
 

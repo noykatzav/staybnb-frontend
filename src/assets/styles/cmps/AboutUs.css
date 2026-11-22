@@ -1,0 +1,63 @@
+.about-us-page {
+    & .fancy-box {
+        padding: .3125rem;
+        margin: .3125rem;
+        background-color: var(--clr6);
+
+        text-align: center;
+
+        & button {
+            float: inline-end;
+        }
+    }
+
+    & .contacts {
+        height: 50vh;
+        background-color: var(--clr7);
+    }
+
+    & .projects {
+        min-height: 50vh;
+        background-color: var(--clr8);
+    }
+
+    & .proj-preview {
+        padding: .3125rem;
+        margin: .1875rem;
+        background-color: var(--clr9);
+
+        color: var(--clr-bg);
+    }
+
+    & .split-pane {
+        display: flex;
+
+        & > div {
+            transition: width .5s;
+        }
+
+        & > .right {
+            flex: 1;
+        }
+
+        &[data-width='10'] > .left { width: 10%; }
+
+        &[data-width='20'] > .left { width: 20%; }
+
+        &[data-width='30'] > .left { width: 30%; }
+
+        &[data-width='40'] > .left { width: 40%; }
+
+        &[data-width='50'] > .left { width: 50%; }
+
+        &[data-width='60'] > .left { width: 60%; }
+
+        &[data-width='70'] > .left { width: 70%; }
+
+        &[data-width='80'] > .left { width: 80%; }
+
+        &[data-width='90'] > .left { width: 90%; }
+
+        &[data-width='100'] > .left { width: 100%; }
+    }
+}

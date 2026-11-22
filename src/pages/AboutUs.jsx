@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 import { NavLink, Outlet } from 'react-router-dom'
 
 export function AboutUs() {
-    const [count, setCount] = useState(100)
+    const count = 100
 
     function onTellMeMore() {
         console.log('Telling you more')
     }
     return (
-        <section>
+        <section className="about-us-page">
             <h2>About Us</h2>
             <nav>
                 <NavLink to="team">Team</NavLink> |
@@ -95,15 +96,15 @@ export function AboutVision() {
 }
 
 
-function FancyBox(props) {
+function FancyBox({ onClose, children }) {
     return <div className="fancy-box">
-        <button style={{ float: 'right' }} onClick={props.onClose}>x</button>
-        {props.children}
+        <button onClick={onClose}>x</button>
+        {children}
     </div>
 }
 
 function Contacts() {
-    return <section style={{ height: '50vh', backgroundColor: 'pink' }}>
+    return <section className="contacts">
         <h2>Contacts</h2>
         <p>Click me</p>
     </section>
@@ -111,7 +112,7 @@ function Contacts() {
 
 function Projects() {
     const [projs, setProjs] = useState(['Puki Proj', 'Muki Proj'])
-    const projList = projs.map((proj, idx) => (
+    const projList = projs.map(proj => (
         <article className="proj-preview" key={proj} onClick={(ev) => {
             ev.stopPropagation()
             setProjs(projs.filter(p => p !== proj))
@@ -119,7 +120,7 @@ function Projects() {
             {proj}
         </article>
     ))
-    return <section style={{ minHeight: '50vh', backgroundColor: 'lightblue' }}>
+    return <section className="projects">
         <h2>Projects</h2>
         {projList}
         <button onClick={ev => {
@@ -129,29 +130,32 @@ function Projects() {
     </section>
 }
 
-function SplitPane(props) {
+function SplitPane({ left, right }) {
 
     const [width, setWidth] = useState(30)
 
-    if (false && width === 60) {
-        throw new Error('Projects cannot load')
-    }
     return (
-        <div className="split-pane" style={{
-            display: 'flex'
-        }}>
-            <div style={{ width: width + '%' }} onClick={() => {
+        <div className="split-pane" data-width={width}>
+            <div className="left" onClick={() => {
                 if (width + 10 <= 100) setWidth(width + 10)
             }}>
-                {props.left}
+                {left}
             </div>
-            <div style={{ flex: 1 }} onClick={() => {
+            <div className="right" onClick={() => {
                 if (width > 10) setWidth(width - 10)
             }}>
-                {props.right}
+                {right}
             </div>
         </div>
     )
 }
 
+FancyBox.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+}
 
+SplitPane.propTypes = {
+    left: PropTypes.node.isRequired,
+    right: PropTypes.node.isRequired,
+}

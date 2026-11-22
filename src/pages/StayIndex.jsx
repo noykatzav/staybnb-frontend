@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 
-import { loadStays, addStay, updateStay, removeStay, addStayReview } from '../store/actions/stay.actions'
+import { loadStays, addStay, updateStay, removeStay } from '../store/actions/stay.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { stayService } from '../services/stay'
-import { userService } from '../services/user'
+import { getStaySearchFilter } from '../services/stay/stay-search.service'
 
 import { StayList } from '../cmps/StayList'
-import { StayFilter } from '../cmps/StayFilter'
+import { StayHeader } from '../cmps/header/StayHeader'
 
 export function StayIndex() {
 
-    const [ filterBy, setFilterBy ] = useState(stayService.getDefaultFilter())
+    const [searchParams, setSearchParams] = useSearchParams()
+    const searchKey = searchParams.toString()
+    const filterBy = useMemo(() => getStaySearchFilter(new URLSearchParams(searchKey)), [searchKey])
     const stays = useSelector(storeState => storeState.stayModule.stays)
 
     useEffect(() => {
-        loadStays(filterBy)
+        loadStays(filterBy).catch(() => showErrorMsg('Cannot load stays'))
     }, [filterBy])
 
     async function onRemoveStay(stayId) {
@@ -54,10 +57,7 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <header>
-                {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
-            </header>
-            <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
+            <StayHeader filterBy={filterBy} onSearch={setSearchParams} onAddStay={onAddStay} />
             <StayList 
                 stays={stays}
                 onRemoveStay={onRemoveStay} 

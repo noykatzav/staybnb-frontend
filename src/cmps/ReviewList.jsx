@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { userService } from '../services/user'
 
 import { ReviewPreview } from './ReviewPreview.jsx'
@@ -24,4 +25,12 @@ export function ReviewList({ reviews, onRemoveReview }) {
             }
         </ul>
     </section>
+}
+
+ReviewList.propTypes = {
+    reviews: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        byUser: PropTypes.shape({ _id: PropTypes.string.isRequired }),
+    })).isRequired,
+    onRemoveReview: PropTypes.func.isRequired,
 }
