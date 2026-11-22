@@ -49,18 +49,37 @@
         }
     }
 
-    & .heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    @media (min-width: 46.5rem) {
+        position: sticky;
+        inset-block-start: 0;
 
-        padding-block: .3em;
+        & .header-content {
+            height: 12.0625rem;
+            transition: height .25s ease-in-out, padding-block-end .25s ease-in-out;
+        }
+
+        &:has(.stay-search.compact) .header-content {
+            grid-template-rows: 5.875rem;
+            grid-template-areas: 'logo search profile';
+
+            height: 6rem;
+            padding-block-end: 0;
+            background: var(--clr-bg);
+        }
+
+        &:has(.stay-search.compact) .stay-categories {
+            display: none;
+        }
     }
 
-    & h2 {
-        margin: 0;
+    @media (min-width: 46.5rem) and (max-width: 54rem) {
+        & .logo span {
+            display: none;
+        }
 
-        font-size: 1.3em;
+        & .header-content {
+            grid-template-columns: minmax(2rem, 1fr) minmax(0, 31.25rem) minmax(5.75rem, 1fr);
+        }
     }
 
     @media (min-width: 112.5rem) {
@@ -69,17 +88,38 @@
         }
     }
 
-    @media (max-width: 48rem) {
-        & .header-content {
-            grid-template-columns: minmax(0, 1fr) auto;
-            grid-template-rows: auto auto auto;
-            grid-template-areas:
-                'logo profile'
-                'categories categories'
-                'search search';
-            gap: 1rem;
+    @media (max-width: 46.4375rem) {
+        position: sticky;
+        inset-block-start: 0;
+        z-index: 30;
 
-            padding: 1rem;
+        &.details {
+            display: none;
+        }
+
+        & .header-content {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            grid-template-areas:
+                'search'
+                'categories';
+            gap: 1.125rem;
+
+            margin-inline: -1rem;
+            padding: .75rem 0 1rem;
+            border-block-end: 0;
+            background: var(--clr-bg);
+        }
+
+        & .logo,
+        & .stay-profile {
+            display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        & .header-content {
+            transition: none;
         }
     }
 }

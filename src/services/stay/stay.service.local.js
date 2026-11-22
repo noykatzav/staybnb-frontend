@@ -2,7 +2,6 @@
 import { storageService } from '../async-storage.service'
 import { makeId, saveToStorage, getRandomIntInclusive } from '../util.service'
 import { userService } from '../user'
-import { filterLocalStays } from './stay-search.service'
 
 const STORAGE_KEY = 'stay'
 
@@ -17,12 +16,12 @@ export const stayService = {
 const seedStaysPromise = _createStays()
 
 
-async function query(filterBy = { txt: '', maxPrice: 100 }) {
+async function query(filterBy = {}) {
     await seedStaysPromise
     var stays = await storageService.query(STORAGE_KEY)
     const { txt, maxPrice, sortField, sortDir } = filterBy
 
-    stays = filterLocalStays(stays, filterBy)
+    stays = _filterStays(stays, filterBy)
 
     if (txt) {
         const regex = new RegExp(filterBy.txt, 'i')
@@ -45,6 +44,20 @@ async function query(filterBy = { txt: '', maxPrice: 100 }) {
 
     stays = stays.map(({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls, reviews }) => ({ _id, name, type, summary, price, bedrooms, beds, bathrooms, loc, imgUrls, reviews }))
     return stays
+}
+
+function _filterStays(stays, filterBy) {
+    const destination = filterBy.destination?.trim().toLocaleLowerCase() || ''
+    const guestCount = (filterBy.adults || 0) + (filterBy.children || 0)
+
+    return stays.filter(stay => {
+        if (destination && ![stay.loc?.city, stay.loc?.country].some(value => value?.toLocaleLowerCase().includes(destination))) return false
+        if (guestCount && (!Number.isFinite(stay.capacity) || stay.capacity < guestCount)) return false
+        if (filterBy.pets > 0 && !stay.amenities?.includes('Pets allowed')) return false
+        if (filterBy.checkIn && filterBy.checkOut && stay.blockedDates?.some(range =>
+            range.checkIn <= filterBy.checkOut && range.checkOut >= filterBy.checkIn)) return false
+        return true
+    })
 }
 
 function getById(stayId) {

@@ -34,9 +34,13 @@ export function StayDestinationField({ destination, setDestination, isDestinatio
         : DESTINATIONS).slice(0, 6)
 
     useEffect(() => {
+        if (isDestinationOpen) inputRef.current?.focus()
+    }, [isDestinationOpen])
+
+    useEffect(() => {
         if (!isDestinationOpen) return
         function onDismissDestination(ev) {
-            if (!fieldRef.current?.contains(ev.target)) setIsDestinationOpen(false)
+            if (!fieldRef.current?.closest('form')?.contains(ev.target)) setIsDestinationOpen(false)
         }
         document.addEventListener('pointerdown', onDismissDestination)
         document.addEventListener('focusin', onDismissDestination)

@@ -6,7 +6,7 @@ import { loadStays, addStay, updateStay, removeStay } from '../store/actions/sta
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { stayService } from '../services/stay'
-import { getStaySearchFilter } from '../services/stay/stay-search.service'
+import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
 
 import { StayList } from '../cmps/StayList'
 import { StayHeader } from '../cmps/header/StayHeader'
@@ -15,8 +15,9 @@ export function StayIndex() {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const searchKey = searchParams.toString()
-    const filterBy = useMemo(() => getStaySearchFilter(new URLSearchParams(searchKey)), [searchKey])
+    const filterBy = useMemo(() => getFilterFromSearchParams(new URLSearchParams(searchKey)), [searchKey])
     const stays = useSelector(storeState => storeState.stayModule.stays)
+    const user = useSelector(storeState => storeState.userModule.user)
 
     useEffect(() => {
         loadStays(filterBy).catch(() => showErrorMsg('Cannot load stays'))
@@ -57,7 +58,11 @@ export function StayIndex() {
 
     return (
         <section className="stay-index">
-            <StayHeader filterBy={filterBy} onSearch={setSearchParams} onAddStay={onAddStay} />
+            <StayHeader filterBy={filterBy} onSearch={setSearchParams} isCompact={Boolean(searchKey)} />
+            <div className="heading">
+                <h2>Stays</h2>
+                {user && <button type="button" onClick={onAddStay}>Add a Stay</button>}
+            </div>
             <StayList 
                 stays={stays}
                 onRemoveStay={onRemoveStay} 

@@ -2,7 +2,7 @@ import { dateService } from '../date.service.js'
 
 const GUEST_KEYS = ['adults', 'children', 'infants', 'pets']
 
-export function getStaySearchFilter(searchParams) {
+export function getFilterFromSearchParams(searchParams) {
     const filterBy = {
         destination: searchParams.get('destination')?.trim() || '',
         checkIn: getValidDateKey(searchParams.get('checkIn')),
@@ -27,7 +27,7 @@ export function getStaySearchFilter(searchParams) {
     return filterBy
 }
 
-export function getStaySearchParams(filterBy) {
+export function getSearchParamsFromFilter(filterBy) {
     const searchParams = new URLSearchParams()
     if (filterBy.destination.trim()) searchParams.set('destination', filterBy.destination.trim())
 
@@ -46,6 +46,46 @@ export function getStaySearchParams(filterBy) {
     return searchParams
 }
 
+export function getStayDateLabel({ checkIn, checkOut }, today = new Date()) {
+    if (!checkIn) return 'Add dates'
+
+    const formatDate = key => {
+        const date = dateService.getDate(key)
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            ...(date.getFullYear() !== today.getFullYear() ? { year: 'numeric' } : {}),
+        })
+    }
+
+    const label = formatDate(checkIn)
+    if (!checkOut) return label
+
+    const start = dateService.getDate(checkIn)
+    const end = dateService.getDate(checkOut)
+    const isSameMonth = start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()
+    return isSameMonth
+        ? `${start.toLocaleDateString('en-US', { month: 'short' })} ${start.getDate()} - ${end.getDate()}${start.getFullYear() !== today.getFullYear() ? `, ${start.getFullYear()}` : ''}`
+        : `${label} - ${formatDate(checkOut)}`
+}
+
+export function getStayGuestLabel(guests) {
+    const guestCount = guests.adults + guests.children
+    return [
+        guestCount && `${guestCount} guest${guestCount === 1 ? '' : 's'}`,
+        guests.infants && `${guests.infants} infant${guests.infants === 1 ? '' : 's'}`,
+        guests.pets && `${guests.pets} pet${guests.pets === 1 ? '' : 's'}`,
+    ].filter(Boolean).join(', ') || 'Add guests'
+}
+
+export function getStaySearchLabels(filterBy, today = new Date()) {
+    return {
+        destination: filterBy.destination.trim() || 'Anywhere',
+        dates: filterBy.checkIn ? getStayDateLabel(filterBy, today) : 'Anytime',
+        guests: getStayGuestLabel(filterBy),
+    }
+}
+
 export function changeGuestCount(guests, key, change) {
     const next = { ...guests }
     if (!GUEST_KEYS.includes(key) || ![-1, 1].includes(change)) return next
@@ -60,20 +100,6 @@ export function changeGuestCount(guests, key, change) {
     }
     next[key] = count
     return next
-}
-
-export function filterLocalStays(stays, filterBy) {
-    const destination = filterBy.destination?.trim().toLocaleLowerCase() || ''
-    const guestCount = (filterBy.adults || 0) + (filterBy.children || 0)
-
-    return stays.filter(stay => {
-        if (destination && ![stay.loc?.city, stay.loc?.country].some(value => value?.toLocaleLowerCase().includes(destination))) return false
-        if (guestCount && (!Number.isFinite(stay.capacity) || stay.capacity < guestCount)) return false
-        if (filterBy.pets > 0 && !stay.amenities?.includes('Pets allowed')) return false
-        if (filterBy.checkIn && filterBy.checkOut && stay.blockedDates?.some(range =>
-            range.checkIn <= filterBy.checkOut && range.checkOut >= filterBy.checkIn)) return false
-        return true
-    })
 }
 
 function getValidDateKey(key) {

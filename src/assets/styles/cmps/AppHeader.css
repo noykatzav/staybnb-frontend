@@ -54,4 +54,10 @@
             border-radius: 50%;
         }
     }
+
+    @media (min-width: 48.0625rem) {
+        &.details {
+            display: none;
+        }
+    }
 }

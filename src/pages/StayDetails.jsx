@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -9,9 +9,13 @@ import { StayAmenities } from '../cmps/StayAmenities'
 import { StayOrder } from '../cmps/StayOrder'
 import { getHostingDuration } from '../services/util.service'
 import { StayHighlights } from '../cmps/StayHighlights'
+import { StayHeader } from '../cmps/header/StayHeader'
+import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
 
 export function StayDetails() {
     const { stayId } = useParams()
+    const navigate = useNavigate()
+    const searchFilter = useMemo(() => getFilterFromSearchParams(new URLSearchParams()), [])
     const stay = useSelector(storeState => storeState.stayModule.stay)
     const hostingDuration = getHostingDuration(stay?.host?.hostingSince)
 
@@ -49,92 +53,104 @@ export function StayDetails() {
         }
     }
 
+    function onSearchStays(searchParams) {
+        navigate({ pathname: '/stay', search: searchParams.toString() })
+    }
+
     return (
-        <section className="stay-details">
-            <Link to="/stay">Back to list</Link>
+        <>
+            <StayHeader
+                filterBy={searchFilter}
+                onSearch={onSearchStays}
+                isCompact
+                isDetailsPage
+            />
+            <section className="stay-details">
+                <Link to="/stay">Back to list</Link>
 
-            {stay?._id === stayId && <div>
-                <header className="stay-details-header">
-                    <h1>{stay.name}</h1>
-                </header>
+                {stay?._id === stayId && <div>
+                    <header className="stay-details-header">
+                        <h1>{stay.name}</h1>
+                    </header>
 
-                <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
+                    <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
 
-                <div className="stay-details-content">
-                    <div className="stay-details-info">
-                        <section className="stay-overview">
-                            <h2>
-                                {stay.type} in {stay.loc.city}, {stay.loc.country}
-                            </h2>
+                    <div className="stay-details-content">
+                        <div className="stay-details-info">
+                            <section className="stay-overview">
+                                <h2>
+                                    {stay.type} in {stay.loc.city}, {stay.loc.country}
+                                </h2>
 
-                            <p>
-                                {stay.capacity} guests
-                                {' · '}
-                                {stay.bedrooms} {stay.bedrooms === 1 ? 'bedroom' : 'bedrooms'}
-                                {' · '}
-                                {stay.beds} {stay.beds === 1 ? 'bed' : 'beds'}
-                                {' · '}
-                                {stay.bathrooms} {stay.bathrooms === 1 ? 'bath' : 'baths'}
-                            </p>
+                                <p>
+                                    {stay.capacity} guests
+                                    {' · '}
+                                    {stay.bedrooms} {stay.bedrooms === 1 ? 'bedroom' : 'bedrooms'}
+                                    {' · '}
+                                    {stay.beds} {stay.beds === 1 ? 'bed' : 'beds'}
+                                    {' · '}
+                                    {stay.bathrooms} {stay.bathrooms === 1 ? 'bath' : 'baths'}
+                                </p>
 
-                            <p className="stay-rating">
-                                {avgRate !== null && (
-                                    <>
-                                        <img
-                                            className="stay-rating-icon"
-                                            src="/icons/star.svg"
-                                            alt=""
-                                        />
+                                <p className="stay-rating">
+                                    {avgRate !== null && (
+                                        <>
+                                            <img
+                                                className="stay-rating-icon"
+                                                src="/icons/star.svg"
+                                                alt=""
+                                            />
 
-                                        <span>{avgRate}</span>
-                                        <span aria-hidden="true">·</span>
-                                    </>
-                                )}
-
-                                <span>
-                                    {reviewCount > 0
-                                        ? `${reviewCount} ${reviewCount === 1 ? 'review' : 'reviews'}`
-                                        : 'No reviews yet'}
-                                </span>
-                            </p>
-                        </section>
-
-                        <section className="stay-host">
-                            <img src={stay.host.imgUrl} alt="" />
-
-                            <div>
-                                <h3>Hosted by {stay.host.fullname}</h3>
-
-                                {(stay.host.isSuperhost || hostingDuration) && (
-                                    <p className="stay-host-meta">
-                                        {stay.host.isSuperhost && <span>Superhost</span>}
-
-                                        {stay.host.isSuperhost && hostingDuration && (
+                                            <span>{avgRate}</span>
                                             <span aria-hidden="true">·</span>
-                                        )}
+                                        </>
+                                    )}
 
-                                        {hostingDuration && <span>{hostingDuration}</span>}
-                                    </p>
-                                )}
-                            </div>
-                        </section>
+                                    <span>
+                                        {reviewCount > 0
+                                            ? `${reviewCount} ${reviewCount === 1 ? 'review' : 'reviews'}`
+                                            : 'No reviews yet'}
+                                    </span>
+                                </p>
+                            </section>
 
-                        <StayHighlights highlights={stay.highlights} />
+                            <section className="stay-host">
+                                <img src={stay.host.imgUrl} alt="" />
 
-                        <section className="stay-description" aria-label="About this space">
-                            <p>{stay.summary}</p>
-                        </section>
+                                <div>
+                                    <h3>Hosted by {stay.host.fullname}</h3>
 
-                        <StayAmenities amenities={stay.amenities} />
+                                    {(stay.host.isSuperhost || hostingDuration) && (
+                                        <p className="stay-host-meta">
+                                            {stay.host.isSuperhost && <span>Superhost</span>}
+
+                                            {stay.host.isSuperhost && hostingDuration && (
+                                                <span aria-hidden="true">·</span>
+                                            )}
+
+                                            {hostingDuration && <span>{hostingDuration}</span>}
+                                        </p>
+                                    )}
+                                </div>
+                            </section>
+
+                            <StayHighlights highlights={stay.highlights} />
+
+                            <section className="stay-description" aria-label="About this space">
+                                <p>{stay.summary}</p>
+                            </section>
+
+                            <StayAmenities amenities={stay.amenities} />
+                        </div>
+
+                        <StayOrder />
                     </div>
 
-                    <StayOrder />
-                </div>
-
-                <button onClick={() => onAddStayReview(stay._id)}>
-                    Add stay review
-                </button>
-            </div>}
-        </section>
+                    <button onClick={() => onAddStayReview(stay._id)}>
+                        Add stay review
+                    </button>
+                </div>}
+            </section>
+        </>
     )
 }

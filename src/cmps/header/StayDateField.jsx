@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useId, useRef } from 'react'
-import { dateService } from '../../services/date.service'
+import { getStayDateLabel } from '../../services/stay/stay-search.service'
 import { StayCalendar } from './StayCalendar'
 
 export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCalendarOpen }) {
@@ -12,7 +12,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
     useEffect(() => {
         if (!isCalendarOpen) return
         function onDismissCalendar(ev) {
-            if (datesRef.current?.contains(ev.target) || calendarRef.current?.contains(ev.target)) return
+            if (datesRef.current?.closest('form')?.contains(ev.target) || calendarRef.current?.contains(ev.target)) return
             setIsCalendarOpen(false)
         }
         document.addEventListener('pointerdown', onDismissCalendar)
@@ -34,28 +34,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
         triggerRef.current?.focus()
     }
 
-    function formatDate(key) {
-        const date = dateService.getDate(key)
-        const shouldShowYear = date.getFullYear() !== new Date().getFullYear()
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            ...(shouldShowYear ? { year: 'numeric' } : {}),
-        })
-    }
-
-    let dateLabel = 'Add dates'
-    if (dateRange.checkIn) {
-        dateLabel = formatDate(dateRange.checkIn)
-        if (dateRange.checkOut) {
-            const checkIn = dateService.getDate(dateRange.checkIn)
-            const checkOut = dateService.getDate(dateRange.checkOut)
-            const isSameMonth = checkIn.getFullYear() === checkOut.getFullYear() && checkIn.getMonth() === checkOut.getMonth()
-            dateLabel = isSameMonth
-                ? `${checkIn.toLocaleDateString('en-US', { month: 'short' })} ${checkIn.getDate()} - ${checkOut.getDate()}${checkIn.getFullYear() !== new Date().getFullYear() ? `, ${checkIn.getFullYear()}` : ''}`
-                : `${dateLabel} - ${formatDate(dateRange.checkOut)}`
-        }
-    }
+    const dateLabel = getStayDateLabel(dateRange)
 
     return (
         <div className="stay-date-field">

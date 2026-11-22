@@ -68,7 +68,7 @@
         min-width: 0;
     }
 
-    @media (max-width: 48rem) {
+    @media (max-width: 46.4375rem) {
         & .date-field.active.selected .dates {
             padding-inline-end: 1.75rem;
         }
@@ -76,5 +76,20 @@
         & .btn-clear-dates {
             inset-inline-end: .125rem;
         }
+    }
+}
+
+.stay-search-mobile .stay-date-field {
+    height: auto;
+
+    & .date-field {
+        display: none;
+    }
+
+    & .calendar-panel {
+        position: static;
+        z-index: auto;
+
+        width: 100%;
     }
 }

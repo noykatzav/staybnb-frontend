@@ -129,7 +129,7 @@
         }
     }
 
-    @media (max-width: 48rem) {
+    @media (max-width: 46.4375rem) {
         & .guest-panel {
             inset-inline-end: -3rem;
 
@@ -143,5 +143,28 @@
         & .btn-clear-guests {
             inset-inline-end: .125rem;
         }
+    }
+}
+
+.stay-search-mobile .stay-guest-field {
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+
+    & .guests,
+    & .btn-clear-guests {
+        display: none;
+    }
+
+    & .guest-panel {
+        position: static;
+        z-index: auto;
+
+        width: 100%;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
     }
 }

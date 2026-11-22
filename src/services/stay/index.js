@@ -16,10 +16,13 @@ function getEmptyStay() {
 
 function getDefaultFilter() {
     return {
-        txt: '',
-        maxPrice: '',
-        sortField: '',
-        sortDir: '',
+        destination: '',
+        checkIn: '',
+        checkOut: '',
+        adults: 0,
+        children: 0,
+        infants: 0,
+        pets: 0,
     }
 }
 

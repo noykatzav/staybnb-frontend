@@ -17,12 +17,12 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 
 
 export function RootCmp() {
-    //remove later
     const isStayIndex = Boolean(useMatch('/stay'))
+    const isStayDetails = Boolean(useMatch('/stay/:stayId'))
 
     return (
         <div className="main-container">
-            {!isStayIndex && <AppHeader />}
+            {!isStayIndex && <AppHeader isDetailsPage={isStayDetails} />}
             <UserMsg />
 
             <main>

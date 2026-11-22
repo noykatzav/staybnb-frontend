@@ -8,6 +8,10 @@
 @import url('./base/layout.css');
 @import url('./base/forms.css');
 
+/* Swiper */
+@import "swiper/css";
+@import "swiper/css/navigation";
+
 /* Components */
 @import url('./cmps/AboutUs.css');
 @import url('./cmps/AppFooter.css');
@@ -37,6 +41,7 @@
 
 /* Stay header and calendar */
 @import "cmps/stay/header/StayHeader";
+@import "cmps/stay/header/StayMobileNav";
 @import "cmps/stay/header/StayCategories";
 @import "cmps/stay/header/StayProfile";
 @import "cmps/stay/header/StaySearch";

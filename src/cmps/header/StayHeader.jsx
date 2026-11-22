@@ -1,25 +1,45 @@
 import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { userService } from '../../services/user'
 import { StayCategories } from './StayCategories'
 import { StayProfile } from './StayProfile'
 import { StaySearch } from './StaySearch'
+import { StayMobileNav } from './StayMobileNav'
 
-export function StayHeader({ filterBy, onSearch, onAddStay }) {
+const DESKTOP_QUERY = '(min-width: 46.5rem)'
+
+export function StayHeader({ filterBy, onSearch, isCompact = false, isDetailsPage = false }) {
+    const [isScrolled, setIsScrolled] = useState(() => window.matchMedia(DESKTOP_QUERY).matches && window.scrollY > 1)
+    const [isMobile, setIsMobile] = useState(() => !window.matchMedia(DESKTOP_QUERY).matches)
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia(DESKTOP_QUERY)
+        const onUpdateScroll = () => {
+            setIsMobile(!mediaQuery.matches)
+            setIsScrolled(mediaQuery.matches && window.scrollY > 1)
+        }
+
+        onUpdateScroll()
+        window.addEventListener('scroll', onUpdateScroll, { passive: true })
+        mediaQuery.addEventListener('change', onUpdateScroll)
+        return () => {
+            window.removeEventListener('scroll', onUpdateScroll)
+            mediaQuery.removeEventListener('change', onUpdateScroll)
+        }
+    }, [])
+
     return (
-        <header className="stay-header">
+        <header className={`stay-header${isDetailsPage ? ' details' : ''}`}>
             <div className="header-content">
-                <NavLink to="/" className="logo" aria-label="Staybnb homepage">
+                <NavLink to="/stay" className="logo" aria-label="Stays homepage">
                     <img src="/icons/airbnb-mark.svg" alt="" />
-                    <span>Staybnb</span>
+                    <span>staybnb</span>
                 </NavLink>
-                <StayCategories />
+                <StayCategories isMobile={isMobile} />
                 <StayProfile />
-                <StaySearch filterBy={filterBy} onSearch={onSearch} />
+                <StaySearch filterBy={filterBy} onSearch={onSearch} isScrolled={isCompact || isScrolled} isMobile={isMobile} />
             </div>
-            <div className="heading">
-                {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
-            </div>
+            {!isDetailsPage && <StayMobileNav />}
         </header>
     )
 }
@@ -27,5 +47,6 @@ export function StayHeader({ filterBy, onSearch, onAddStay }) {
 StayHeader.propTypes = {
     filterBy: PropTypes.object.isRequired,
     onSearch: PropTypes.func.isRequired,
-    onAddStay: PropTypes.func.isRequired,
+    isCompact: PropTypes.bool,
+    isDetailsPage: PropTypes.bool,
 }
