@@ -46,6 +46,46 @@ export function getStaySearchParams(filterBy) {
     return searchParams
 }
 
+export function getStayDateLabel({ checkIn, checkOut }, today = new Date()) {
+    if (!checkIn) return 'Add dates'
+
+    const formatDate = key => {
+        const date = dateService.getDate(key)
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            ...(date.getFullYear() !== today.getFullYear() ? { year: 'numeric' } : {}),
+        })
+    }
+
+    const label = formatDate(checkIn)
+    if (!checkOut) return label
+
+    const start = dateService.getDate(checkIn)
+    const end = dateService.getDate(checkOut)
+    const isSameMonth = start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()
+    return isSameMonth
+        ? `${start.toLocaleDateString('en-US', { month: 'short' })} ${start.getDate()} - ${end.getDate()}${start.getFullYear() !== today.getFullYear() ? `, ${start.getFullYear()}` : ''}`
+        : `${label} - ${formatDate(checkOut)}`
+}
+
+export function getStayGuestLabel(guests) {
+    const guestCount = guests.adults + guests.children
+    return [
+        guestCount && `${guestCount} guest${guestCount === 1 ? '' : 's'}`,
+        guests.infants && `${guests.infants} infant${guests.infants === 1 ? '' : 's'}`,
+        guests.pets && `${guests.pets} pet${guests.pets === 1 ? '' : 's'}`,
+    ].filter(Boolean).join(', ') || 'Add guests'
+}
+
+export function getStaySearchLabels(filterBy, today = new Date()) {
+    return {
+        destination: filterBy.destination.trim() || 'Anywhere',
+        dates: filterBy.checkIn ? getStayDateLabel(filterBy, today) : 'Anytime',
+        guests: getStayGuestLabel(filterBy),
+    }
+}
+
 export function changeGuestCount(guests, key, change) {
     const next = { ...guests }
     if (!GUEST_KEYS.includes(key) || ![-1, 1].includes(change)) return next

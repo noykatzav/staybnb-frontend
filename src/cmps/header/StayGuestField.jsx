@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useEffect, useId, useRef } from 'react'
-import { changeGuestCount } from '../../services/stay/stay-search.service'
+import { changeGuestCount, getStayGuestLabel } from '../../services/stay/stay-search.service'
 
 const GUEST_ROWS = [
     { key: 'adults', label: 'Adults', hint: 'Ages 13 or above' },
@@ -13,18 +13,17 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
     const fieldRef = useRef(null)
     const triggerRef = useRef(null)
     const panelId = useId()
-    const guestCount = guests.adults + guests.children
-    const summary = [
-        guestCount && `${guestCount} guest${guestCount === 1 ? '' : 's'}`,
-        guests.infants && `${guests.infants} infant${guests.infants === 1 ? '' : 's'}`,
-        guests.pets && `${guests.pets} pet${guests.pets === 1 ? '' : 's'}`,
-    ].filter(Boolean).join(', ') || 'Add guests'
+    const summary = getStayGuestLabel(guests)
     const hasGuests = Object.values(guests).some(Boolean)
+
+    useEffect(() => {
+        if (isGuestsOpen) triggerRef.current?.focus()
+    }, [isGuestsOpen])
 
     useEffect(() => {
         if (!isGuestsOpen) return
         function onDismissGuests(ev) {
-            if (!fieldRef.current?.contains(ev.target)) setIsGuestsOpen(false)
+            if (!fieldRef.current?.closest('form')?.contains(ev.target)) setIsGuestsOpen(false)
         }
         document.addEventListener('pointerdown', onDismissGuests)
         document.addEventListener('focusin', onDismissGuests)

@@ -172,6 +172,58 @@
         }
     }
 
+    &.compact {
+        display: flex;
+        gap: .125rem;
+
+        width: min(100%, 25rem);
+        height: 3rem;
+        padding: .25rem;
+        box-shadow: 0 .125rem .5rem var(--header-shadow);
+
+        &::before {
+            display: none;
+        }
+
+        & > img {
+            flex: none;
+
+            width: 1.75rem;
+            height: 1.75rem;
+            object-fit: contain;
+        }
+
+        & > button:not(.btn-search) {
+            flex: 1;
+            overflow: hidden;
+
+            min-width: 0;
+            height: 2rem;
+            padding-inline: .5rem;
+            border-inline-end: 1px solid var(--clr-border);
+
+            font-size: .875rem;
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        & > button[data-field='destination'] {
+            flex: 1.25;
+        }
+
+        & > button[data-field='guests'] {
+            border-inline-end: 0;
+        }
+
+        & .btn-search {
+            flex: none;
+
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+    }
+
     @media (min-width: 48.0625rem) {
         &:has(.stay-guest-field.active)::after {
             position: absolute;

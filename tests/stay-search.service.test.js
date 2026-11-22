@@ -3,6 +3,7 @@ import { describe, it } from 'node:test'
 import {
     changeGuestCount,
     filterLocalStays,
+    getStaySearchLabels,
     getStaySearchFilter,
     getStaySearchParams,
 } from '../src/services/stay/stay-search.service.js'
@@ -16,6 +17,16 @@ const stays = [
 ]
 
 describe('stay search values', () => {
+    it('labels empty and populated compact searches', () => {
+        const today = new Date(2026, 10, 22)
+        assert.deepEqual(getStaySearchLabels({ destination: '', checkIn: '', checkOut: '', ...emptyGuests }, today), {
+            destination: 'Anywhere', dates: 'Anytime', guests: 'Add guests',
+        })
+        assert.deepEqual(getStaySearchLabels({ destination: ' Lisbon ', checkIn: '2026-12-18', checkOut: '2026-12-20', adults: 2, children: 1, infants: 1, pets: 1 }, today), {
+            destination: 'Lisbon', dates: 'Dec 18 - 20', guests: '3 guests, 1 infant, 1 pet',
+        })
+    })
+
     it('uses one night when only check-in is selected, including month boundaries', () => {
         const params = getStaySearchParams({ destination: ' Lisbon ', checkIn: '2026-12-31', checkOut: '', ...emptyGuests })
         assert.equal(params.toString(), 'destination=Lisbon&checkIn=2026-12-31&checkOut=2027-01-01')

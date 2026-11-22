@@ -1,4 +1,22 @@
 .stay-index {
+    @media (min-width: 48.0625rem) {
+        overflow-anchor: none;
+    }
+
+    & .heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding-block: .3em;
+
+        & h2 {
+            margin: 0;
+
+            font-size: 1.3em;
+        }
+    }
+
     & button {
         margin-inline-end: 0;
     }
