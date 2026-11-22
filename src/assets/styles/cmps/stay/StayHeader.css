@@ -14,6 +14,7 @@
             'search search search';
         align-items: center;
 
+        margin-inline: -1rem;
         padding: 0 2rem 2rem;
         border-block-end: 1px solid var(--clr-border);
         background: linear-gradient(in srgb, var(--clr-bg) 39.9%, color-mix(in srgb, var(--clr-bg--4) 54%, var(--clr-bg)) 100%);
@@ -78,7 +79,7 @@
                 'search search';
             gap: 1rem;
 
-            padding: 1rem 0;
+            padding: 1rem;
         }
     }
 }
