@@ -200,6 +200,11 @@ export function StayOrder({
 
         {isCalendarOpen && (
           <div id={calendarId} className="calendar-panel">
+            <div className="order-calendar-heading">
+              <h2>{calendarTitle}</h2>
+              <p>{calendarSubtitle}</p>
+            </div>
+
             <StayCalendar
               dateRange={dateRangeToEdit}
               onSelectDateRange={onSelectDateRange}
@@ -214,6 +219,14 @@ export function StayOrder({
                 onClick={onClearDateRange}
               >
                 Clear dates
+              </button>
+
+              <button
+                type="button"
+                className="btn-close-calendar"
+                onClick={onCloseCalendar}
+              >
+                Close
               </button>
             </div>
           </div>
