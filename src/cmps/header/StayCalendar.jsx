@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { dateService } from '../../services/date.service'
 import { StayCalendarMonth } from './StayCalendarMonth'
 
-export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar }) {
+export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar, activeDateField }) {
     const { getDateKey, getDate, addDays, addMonths, getMonthStart } = dateService
     const todayKey = getDateKey(new Date())
     const initialDate = dateRange.checkIn && dateRange.checkIn >= todayKey ? dateRange.checkIn : todayKey
@@ -47,6 +47,24 @@ export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar }) 
 
     function onSelectDate(key) {
         setPreviewDate('')
+
+        if (activeDateField === 'checkIn') {
+            onSelectDateRange({
+                checkIn: key,
+                checkOut: dateRange.checkOut > key ? dateRange.checkOut : '',
+            })
+            return
+        }
+
+        if (
+            activeDateField === 'checkOut' &&
+            dateRange.checkIn &&
+            key > dateRange.checkIn
+        ) {
+            onSelectDateRange({ ...dateRange, checkOut: key })
+            return
+        }
+
         if (!dateRange.checkIn || dateRange.checkOut || key <= dateRange.checkIn) {
             onSelectDateRange({ checkIn: key, checkOut: '' })
         } else {
@@ -162,4 +180,5 @@ StayCalendar.propTypes = {
     dateRange: PropTypes.shape({ checkIn: PropTypes.string.isRequired, checkOut: PropTypes.string.isRequired }).isRequired,
     onSelectDateRange: PropTypes.func.isRequired,
     onCloseCalendar: PropTypes.func.isRequired,
+    activeDateField: PropTypes.oneOf(['checkIn', 'checkOut']),
 }

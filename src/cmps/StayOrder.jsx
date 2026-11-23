@@ -31,6 +31,20 @@ export function StayOrder({
 
   const hasDates = Number.isFinite(nightCount) && nightCount > 0
   const totalPrice = hasDates ? price * nightCount : 0
+  const calendarNightCount = displayedRange.checkIn && displayedRange.checkOut
+    ? (
+      Date.parse(displayedRange.checkOut) -
+      Date.parse(displayedRange.checkIn)
+    ) / (1000 * 60 * 60 * 24)
+    : 0
+
+  const calendarTitle = calendarNightCount > 0
+    ? `${calendarNightCount} ${calendarNightCount === 1 ? 'night' : 'nights'}`
+    : 'Select dates'
+
+  const calendarSubtitle = calendarNightCount > 0
+    ? `${formatCalendarDate(displayedRange.checkIn)} - ${formatCalendarDate(displayedRange.checkOut)}`
+    : 'Add your travel dates for exact pricing'
 
   useEffect(() => {
     if (!isCalendarOpen) return
@@ -51,7 +65,11 @@ export function StayOrder({
 
   function onOpenCalendar(ev, field = 'checkIn') {
     triggerRef.current = ev.currentTarget
-    setActiveDateField(field)
+    const nextField = field === 'checkOut' && !displayedRange.checkIn
+      ? 'checkIn'
+      : field
+
+    setActiveDateField(nextField)
 
     if (!isCalendarOpen) {
       setDateRangeToEdit(structuredClone(dateRange))
@@ -68,17 +86,20 @@ export function StayOrder({
   function onSelectDateRange(nextDateRange) {
     setDateRangeToEdit(nextDateRange)
 
-    if (nextDateRange.checkIn && !nextDateRange.checkOut) {
+    if (!nextDateRange.checkIn || !nextDateRange.checkOut) {
       setActiveDateField('checkOut')
+      return
     }
 
-    if (!nextDateRange.checkIn || !nextDateRange.checkOut) return
-
     onUpdateDateRange(nextDateRange)
-    onCloseCalendar()
-  }
 
-function onClearDateRange() {
+    if (activeDateField === 'checkOut') {
+      onCloseCalendar()
+    } else {
+      setActiveDateField('checkOut')
+    }
+  }
+  function onClearDateRange() {
     const emptyDateRange = { checkIn: '', checkOut: '' }
 
     setDateRangeToEdit(emptyDateRange)
@@ -87,7 +108,7 @@ function onClearDateRange() {
 
     triggerRef.current = checkInRef.current
     checkInRef.current?.focus()
-}
+  }
 
   function formatDate(key) {
     if (!key) return 'Add date'
@@ -95,6 +116,14 @@ function onClearDateRange() {
     return dateService.getDate(key).toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
+      year: 'numeric',
+    })
+  }
+
+  function formatCalendarDate(key) {
+    return dateService.getDate(key).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
       year: 'numeric',
     })
   }
@@ -175,6 +204,7 @@ function onClearDateRange() {
               dateRange={dateRangeToEdit}
               onSelectDateRange={onSelectDateRange}
               onCloseCalendar={onCloseCalendar}
+              activeDateField={activeDateField}
             />
 
             <div className="calendar-actions">
