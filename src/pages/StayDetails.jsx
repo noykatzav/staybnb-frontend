@@ -19,7 +19,7 @@ export function StayDetails() {
 
     const dateRange = {
         checkIn: filterBy.checkIn,
-        checkOut: filterBy.checkOut,
+        checkOut: searchParams.get('checkOut') ? filterBy.checkOut : '',
     }
 
     const guestCount = Math.max(1, filterBy.adults + filterBy.children)
@@ -73,11 +73,15 @@ export function StayDetails() {
         setSearchParams(currentParams => {
             const nextParams = new URLSearchParams(currentParams)
 
-            if (nextDateRange.checkIn && nextDateRange.checkOut) {
+            if (nextDateRange.checkIn) {
                 nextParams.set('checkIn', nextDateRange.checkIn)
-                nextParams.set('checkOut', nextDateRange.checkOut)
             } else {
                 nextParams.delete('checkIn')
+            }
+
+            if (nextDateRange.checkOut) {
+                nextParams.set('checkOut', nextDateRange.checkOut)
+            } else {
                 nextParams.delete('checkOut')
             }
 

@@ -63,42 +63,47 @@ export function StayOrder({
     }
   }, [isCalendarOpen])
 
-  function onOpenCalendar(ev, field = 'checkIn') {
+function onOpenCalendar(ev, field = 'checkIn') {
     triggerRef.current = ev.currentTarget
-    const nextField = field === 'checkOut' && !displayedRange.checkIn
-      ? 'checkIn'
-      : field
+
+    let nextField = field
+
+    if (!displayedRange.checkIn) {
+        nextField = 'checkIn'
+    } else if (!isCalendarOpen && !displayedRange.checkOut) {
+        nextField = 'checkOut'
+    }
 
     setActiveDateField(nextField)
 
     if (!isCalendarOpen) {
-      setDateRangeToEdit(structuredClone(dateRange))
+        setDateRangeToEdit(structuredClone(dateRange))
     }
 
     setIsCalendarOpen(true)
-  }
+}
 
   function onCloseCalendar() {
     setIsCalendarOpen(false)
     triggerRef.current?.focus()
   }
 
-  function onSelectDateRange(nextDateRange) {
+function onSelectDateRange(nextDateRange) {
     setDateRangeToEdit(nextDateRange)
-
-    if (!nextDateRange.checkIn || !nextDateRange.checkOut) {
-      setActiveDateField('checkOut')
-      return
-    }
-
     onUpdateDateRange(nextDateRange)
 
-    if (activeDateField === 'checkOut') {
-      onCloseCalendar()
-    } else {
-      setActiveDateField('checkOut')
+    if (!nextDateRange.checkIn || !nextDateRange.checkOut) {
+        setActiveDateField('checkOut')
+        return
     }
-  }
+
+    if (activeDateField === 'checkOut') {
+        onCloseCalendar()
+    } else {
+        setActiveDateField('checkOut')
+    }
+}
+
   function onClearDateRange() {
     const emptyDateRange = { checkIn: '', checkOut: '' }
 
