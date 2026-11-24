@@ -22,7 +22,12 @@ export function StayDetails() {
         checkOut: searchParams.get('checkOut') ? filterBy.checkOut : '',
     }
 
-    const guestCount = Math.max(1, filterBy.adults + filterBy.children)
+    const guests = {
+        adults: filterBy.adults || 1,
+        children: filterBy.children,
+        infants: filterBy.infants,
+        pets: filterBy.pets,
+    }
     const search = searchParams.toString()
     const stayListUrl = search ? `/stay?${search}` : '/stay'
 
@@ -178,7 +183,7 @@ export function StayDetails() {
                         <StayOrder
                             price={stay.price}
                             dateRange={dateRange}
-                            guestCount={guestCount}
+                            guests={guests}
                             onUpdateDateRange={onUpdateDateRange}
                         />
                     </div>

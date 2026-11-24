@@ -40,7 +40,7 @@
 .stay-order .stay-order-fields {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow: hidden;
+    overflow: visible;
     border: 0.0625rem solid var(--clr-input-border);
     border-radius: 0.75rem;
 }
@@ -81,10 +81,9 @@
 
 .stay-order .stay-order-guests {
     grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem;
+    position: relative;
+    display: block;
+    padding: 0;
     border-block-start: 0.0625rem solid var(--clr-input-border);
 }
 
@@ -260,4 +259,74 @@
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
+}
+
+.stay-order .stay-order-guests > .stay-order-label {
+    position: absolute;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.stay-order .stay-order-guests > img {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: 0.75rem;
+    inline-size: 1rem;
+    block-size: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.stay-order .stay-order-guests.open > img {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.stay-order .stay-order-guests .stay-guest-field {
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.stay-order .stay-order-guests .guests {
+    box-sizing: border-box;
+    padding-block: 1.75rem 0.75rem;
+    padding-inline: 0.75rem 2.5rem;
+    text-align: start;
+}
+
+.stay-order .stay-order-guests .guests > span:first-child {
+    display: none;
+}
+
+.stay-order .stay-order-guests .guests > span:last-child {
+    display: block;
+    color: var(--clr-text);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.stay-order .stay-order-guests .btn-clear-guests {
+    display: none;
+}
+
+.stay-order .stay-order-guests .guest-panel {
+    inset-block-start: 100%;
+    inset-inline-end: 0;
+    z-index: 30;
+    box-sizing: border-box;
+    inline-size: 100%;
+    padding: 0.25rem 1rem;
+    border: 0.0625rem solid var(--clr-border);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.25rem 0.75rem
+        color-mix(in srgb, var(--clr-text) 15%, transparent);
+}
+
+.stay-order .stay-order-guests .guest-row {
+    box-sizing: border-box;
+    min-block-size: 4.75rem;
+    padding-block: 0.75rem;
 }

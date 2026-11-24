@@ -2,17 +2,22 @@ import PropTypes from 'prop-types'
 import { useEffect, useId, useRef, useState } from 'react'
 import { dateService } from '../services/date.service'
 import { StayCalendar } from './header/StayCalendar'
+import { StayGuestField } from './header/StayGuestField'
 
 export function StayOrder({
   price,
   dateRange,
-  guestCount,
+  guests,
   onUpdateDateRange,
 }) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [activeDateField, setActiveDateField] = useState('checkIn')
   const [dateRangeToEdit, setDateRangeToEdit] = useState(
     () => structuredClone(dateRange)
+  )
+  const [isGuestsOpen, setIsGuestsOpen] = useState(false)
+  const [guestsToEdit, setGuestsToEdit] = useState(
+    () => structuredClone(guests)
   )
 
   const orderRef = useRef(null)
@@ -63,46 +68,46 @@ export function StayOrder({
     }
   }, [isCalendarOpen])
 
-function onOpenCalendar(ev, field = 'checkIn') {
+  function onOpenCalendar(ev, field = 'checkIn') {
     triggerRef.current = ev.currentTarget
 
     let nextField = field
 
     if (!displayedRange.checkIn) {
-        nextField = 'checkIn'
+      nextField = 'checkIn'
     } else if (!isCalendarOpen && !displayedRange.checkOut) {
-        nextField = 'checkOut'
+      nextField = 'checkOut'
     }
 
     setActiveDateField(nextField)
 
     if (!isCalendarOpen) {
-        setDateRangeToEdit(structuredClone(dateRange))
+      setDateRangeToEdit(structuredClone(dateRange))
     }
 
     setIsCalendarOpen(true)
-}
+  }
 
   function onCloseCalendar() {
     setIsCalendarOpen(false)
     triggerRef.current?.focus()
   }
 
-function onSelectDateRange(nextDateRange) {
+  function onSelectDateRange(nextDateRange) {
     setDateRangeToEdit(nextDateRange)
     onUpdateDateRange(nextDateRange)
 
     if (!nextDateRange.checkIn || !nextDateRange.checkOut) {
-        setActiveDateField('checkOut')
-        return
+      setActiveDateField('checkOut')
+      return
     }
 
     if (activeDateField === 'checkOut') {
-        onCloseCalendar()
+      onCloseCalendar()
     } else {
-        setActiveDateField('checkOut')
+      setActiveDateField('checkOut')
     }
-}
+  }
 
   function onClearDateRange() {
     const emptyDateRange = { checkIn: '', checkOut: '' }
@@ -190,18 +195,21 @@ function onSelectDateRange(nextDateRange) {
               </span>
             </button>
           </div>
+          <div className={`stay-order-field stay-order-guests${isGuestsOpen ? ' open' : ''}`}>
+    <span className="stay-order-label">GUESTS</span>
 
-          <div className="stay-order-field stay-order-guests">
-            <div>
-              <span className="stay-order-label">GUESTS</span>
-              <span className="stay-order-value">
-                {guestCount} {guestCount === 1 ? 'guest' : 'guests'}
-              </span>
-            </div>
+    <StayGuestField
+        guests={guestsToEdit}
+        setGuests={setGuestsToEdit}
+        isGuestsOpen={isGuestsOpen}
+        setIsGuestsOpen={setIsGuestsOpen}
+    />
 
-            <img src="/icons/chevron-down.svg" alt="" />
-          </div>
+    <img src="/icons/chevron-down.svg" alt="" />
+</div>
         </div>
+
+     
 
         {isCalendarOpen && (
           <div id={calendarId} className="calendar-panel">
@@ -261,6 +269,11 @@ StayOrder.propTypes = {
     checkIn: PropTypes.string.isRequired,
     checkOut: PropTypes.string.isRequired,
   }).isRequired,
-  guestCount: PropTypes.number.isRequired,
+  guests: PropTypes.shape({
+    adults: PropTypes.number.isRequired,
+    children: PropTypes.number.isRequired,
+    infants: PropTypes.number.isRequired,
+    pets: PropTypes.number.isRequired,
+  }).isRequired,
   onUpdateDateRange: PropTypes.func.isRequired,
 }
