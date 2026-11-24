@@ -25,7 +25,7 @@ export function StayPreview({ stay }) {
                     {stay.beds && (<span>{` · ${stay.beds} ${stay.beds === 1 ? 'bed' : 'beds'}`}</span>)}
                     {stay.bathrooms && (<span>{` · ${stay.bathrooms} ${stay.bathrooms === 1 ? 'bath' : 'baths'}`}</span>)}
                 </p>
-                <p className="stay-preview-price">$<span>{stay.price.toLocaleString()}</span> per night</p>
+                <p className="stay-preview-price">₪<span>{stay.price.toLocaleString()}</span> per night</p>
         </Link>
 }
 
