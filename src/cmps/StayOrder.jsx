@@ -69,6 +69,7 @@ export function StayOrder({
   }, [isCalendarOpen])
 
   function onOpenCalendar(ev, field = 'checkIn') {
+    setIsGuestsOpen(false)
     triggerRef.current = ev.currentTarget
 
     let nextField = field
@@ -120,6 +121,11 @@ export function StayOrder({
     checkInRef.current?.focus()
   }
 
+function onToggleGuests(nextOpen) {
+    setIsCalendarOpen(false)
+    setIsGuestsOpen(nextOpen)
+}
+
   function formatDate(key) {
     if (!key) return 'Add date'
 
@@ -149,6 +155,7 @@ export function StayOrder({
         }
       }}
     >
+      <form className="stay-order-form" onSubmit={ev => ev.preventDefault()}>
       <h2>
         {hasDates
           ? `$${totalPrice.toLocaleString('en-US')} total`
@@ -198,18 +205,11 @@ export function StayOrder({
           <div className={`stay-order-field stay-order-guests${isGuestsOpen ? ' open' : ''}`}>
     <span className="stay-order-label">GUESTS</span>
 
-    <StayGuestField
-        guests={guestsToEdit}
-        setGuests={setGuestsToEdit}
-        isGuestsOpen={isGuestsOpen}
-        setIsGuestsOpen={setIsGuestsOpen}
-    />
+    <StayGuestField guests={guestsToEdit} setGuests={setGuestsToEdit} isGuestsOpen={isGuestsOpen} setIsGuestsOpen={onToggleGuests}/>
 
     <img src="/icons/chevron-down.svg" alt="" />
 </div>
         </div>
-
-     
 
         {isCalendarOpen && (
           <div id={calendarId} className="calendar-panel">
@@ -226,39 +226,23 @@ export function StayOrder({
             />
 
             <div className="calendar-actions">
-              <button
-                type="button"
-                className="btn-clear"
-                onClick={onClearDateRange}
-              >
-                Clear dates
-              </button>
-
-              <button
-                type="button"
-                className="btn-close-calendar"
-                onClick={onCloseCalendar}
-              >
-                Close
-              </button>
+              <button type="button" className="btn-clear" onClick={onClearDateRange}>Clear dates</button>
+              <button type="button" className="btn-close-calendar" onClick={onCloseCalendar}>Close</button>
             </div>
           </div>
         )}
       </div>
 
-      <button
-        type="button"
-        className="stay-order-button"
+      <button type="button" className="stay-order-button"
         onClick={hasDates ? undefined : onOpenCalendar}
       >
         {hasDates ? 'Reserve' : 'Check availability'}
       </button>
 
       {hasDates && (
-        <p className="charge-note">
-          You won&apos;t be charged yet
-        </p>
+        <p className="charge-note">You won&apos;t be charged yet</p>
       )}
+      </form>
     </aside>
   )
 }
