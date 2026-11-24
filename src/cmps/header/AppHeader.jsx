@@ -27,8 +27,7 @@ export function AppHeader({ isDetailsPage = false }) {
                 </NavLink>
                 <NavLink to="about">About</NavLink>
                 <NavLink to="stay">Stays</NavLink>
-                <NavLink to="chat">Chat</NavLink>
-                <NavLink to="review">Review</NavLink>
+                <NavLink to="chat">Chat</NavLink>     
 
                 {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 

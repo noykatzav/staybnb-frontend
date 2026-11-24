@@ -3,7 +3,6 @@ import { Routes, Route, useMatch } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
-import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { Chat } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 
@@ -35,7 +34,6 @@ export function RootCmp() {
                     <Route path="stay" element={<StayIndex />} />
                     <Route path="stay/:stayId" element={<StayDetails />} />
                     <Route path="user/:id" element={<UserDetails />} />
-                    <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<Chat />} />
                     <Route path="admin" element={<AdminIndex />} />
                     <Route path="auth" element={<LoginSignup />}>

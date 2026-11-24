@@ -5,8 +5,8 @@ import {
     REMOVE_STAY, ADD_STAY_REVIEW,
 } from '../src/store/reducers/stay.reducer.js'
 import {
-    reviewReducer, SET_REVIEWS, ADD_REVIEW, UPDATE_REVIEW, REMOVE_REVIEW,
-} from '../src/store/reducers/review.reducer.js'
+    orderReducer, SET_ORDERS, ADD_ORDER,
+} from '../src/store/reducers/order.reducer.js'
 import {
     systemReducer, LOADING_START, LOADING_DONE,
 } from '../src/store/reducers/system.reducer.js'
@@ -84,40 +84,39 @@ describe('stay state', () => {
     })
 })
 
-describe('review state', () => {
-    it('starts with no reviews', () => {
-        assert.deepEqual(reviewReducer(), { reviews: [] })
+describe('order state', () => {
+    it('starts with no orders', () => {
+        assert.deepEqual(orderReducer(), { orders: [] })
     })
 
-    it('replaces reviews while preserving other state', () => {
-        const state = Object.freeze({ reviews: Object.freeze([]), filterBy: { txt: 'great' } })
-        const reviews = [{ _id: 'a' }]
-        assert.deepEqual(reviewReducer(state, { type: SET_REVIEWS, reviews }), { ...state, reviews })
+    it('replaces orders while preserving other state', () => {
+        const state = Object.freeze({
+            orders: Object.freeze([]),
+            extra: 'keep',
+        })
+        const orders = [{ _id: 'a' }]
+
+        assert.deepEqual(
+            orderReducer(state, { type: SET_ORDERS, orders }),
+            { ...state, orders }
+        )
     })
 
-    it('adds, updates, and removes reviews immutably by id', () => {
-        const original = Object.freeze({ _id: 'a', txt: 'Original' })
-        const other = Object.freeze({ _id: 'b', txt: 'Other' })
-        const state = Object.freeze({ reviews: Object.freeze([original]) })
-        const added = reviewReducer(state, { type: ADD_REVIEW, review: other })
-        Object.freeze(added.reviews)
-        Object.freeze(added)
-        assert.deepEqual(added.reviews, [original, other])
-        const savedReview = { ...original, txt: 'Updated' }
-        const updated = reviewReducer(added, { type: UPDATE_REVIEW, review: savedReview })
-        Object.freeze(updated.reviews)
-        Object.freeze(updated)
-        assert.deepEqual(updated.reviews, [savedReview, other])
-        assert.deepEqual(reviewReducer(updated, { type: REMOVE_REVIEW, reviewId: 'a' }).reviews, [other])
-        assert.deepEqual(state.reviews, [original])
-        assert.deepEqual(added.reviews, [original, other])
-        assert.deepEqual(updated.reviews, [savedReview, other])
-    })
+    it('adds an order without mutating previous state', () => {
+        const original = Object.freeze({ _id: 'a' })
+        const other = Object.freeze({ _id: 'b' })
+        const state = Object.freeze({
+            orders: Object.freeze([original]),
+        })
 
-    it('preserves reviews when an updated or removed id is missing', () => {
-        const state = { reviews: [{ _id: 'a' }] }
-        assert.deepEqual(reviewReducer(state, { type: UPDATE_REVIEW, review: { _id: 'missing' } }), state)
-        assert.deepEqual(reviewReducer(state, { type: REMOVE_REVIEW, reviewId: 'missing' }), state)
+        const added = orderReducer(state, {
+            type: ADD_ORDER,
+            order: other,
+        })
+
+        assert.deepEqual(added.orders, [original, other])
+        assert.deepEqual(state.orders, [original])
+        assert.notEqual(added.orders, state.orders)
     })
 })
 
@@ -133,7 +132,7 @@ describe('loading state', () => {
     })
 })
 
-for (const reducer of [stayReducer, reviewReducer, systemReducer]) {
+for (const reducer of [stayReducer, orderReducer, systemReducer]) {
     it(`${reducer.name} preserves state for unrelated actions`, () => {
         const state = Object.freeze(reducer())
         assert.equal(reducer(state, { type: 'UNRELATED_ACTION' }), state)
