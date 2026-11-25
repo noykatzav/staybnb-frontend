@@ -61,7 +61,7 @@ export function StayIndex() {
     return (
         <section className="stay-index">
             <div className="heading">
-                {user && <button type="button" onClick={onAddStay}>Add a Stay</button>}
+                {/* {user && <button type="button" onClick={onAddStay}>Add a Stay</button>} */}
             </div>
             <StayList 
                 stays={stays}
