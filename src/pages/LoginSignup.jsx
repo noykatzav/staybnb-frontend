@@ -24,9 +24,9 @@ export function LoginSignup() {
     }
 
     return (
-        <Modal title="Welcome to Stay" onClose={onClose}>
+        <Modal title="Welcome to Staybnb" onClose={onClose}>
 
-            <nav className="auth-tabs">
+            <nav className="loginsignup-tabs">
                 <NavLink to="login" state={location.state}>
                     Log in
                 </NavLink>
@@ -36,7 +36,7 @@ export function LoginSignup() {
                 </NavLink>
             </nav>
 
-            <div className="auth-content">
+            <div className="loginsignup-content">
                 <Outlet />
             </div>
 
@@ -69,25 +69,32 @@ export function Login() {
     
     return (
         <form className="login-form" onSubmit={onLogin}>
-            <input
-                type="text"
-                name="username"
-                value={credentials.username}
-                placeholder="Username"
-                aria-label="Username"
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="password"
-                name="password"
-                value={credentials.password}
-                placeholder="Password"
-                aria-label="Password"
-                onChange={handleChange}
-                required
-            />
-            <button>Login</button>
+            <div className="loginsignup-form-field">
+                <input
+                    type="text"
+                    name="username"
+                    value={credentials.username}
+                    placeholder=""
+                    aria-label="Username"
+                    onChange={handleChange}
+                    required
+                />
+                <label>Username</label>
+            </div>
+            
+            <div className="loginsignup-form-field">
+                <input
+                    type="password"
+                    name="password"
+                    value={credentials.password}
+                    placeholder=""
+                    aria-label="Password"
+                    onChange={handleChange}
+                    required
+                />
+                <label>Password</label>
+            </div>
+            <button type="submit">Login</button>
         </form>
     )
 }
@@ -125,32 +132,43 @@ export function Signup() {
 
     return (
         <form className="signup-form" onSubmit={onSignup}>
-            <input
-                type="text"
-                name="fullname"
-                value={credentials.fullname}
-                placeholder="Fullname"
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="username"
-                value={credentials.username}
-                placeholder="Username"
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="password"
-                name="password"
-                value={credentials.password}
-                placeholder="Password"
-                onChange={handleChange}
-                required
-            />
+            <div className="loginsignup-form-field">
+                <input
+                    type="text"
+                    name="fullname"
+                    value={credentials.fullname}
+                    placeholder=""
+                    onChange={handleChange}
+                    required
+                />
+                <label>Fullname</label>
+            </div>
+
+            <div className="loginsignup-form-field">
+                <input
+                    type="text"
+                    name="username"
+                    value={credentials.username}
+                    placeholder=""
+                    onChange={handleChange}
+                    required
+                />
+                <label>Username</label>
+            </div>
+
+            <div className="loginsignup-form-field">
+                <input
+                    type="password"
+                    name="password"
+                    value={credentials.password}
+                    placeholder=""
+                    onChange={handleChange}
+                    required
+                />
+                <label>Password</label>
+            </div>
             <ImgUploader onUploaded={onUploaded} />
-            <button>Signup</button>
+            <button type="submit">Signup</button>
         </form>
     )
 }

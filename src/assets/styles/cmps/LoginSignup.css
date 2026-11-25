@@ -1,4 +1,4 @@
-.auth-tabs {
+.loginsignup-tabs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
@@ -21,7 +21,7 @@
     }
 }
 
-.auth-content {
+.loginsignup-content {
     display: grid;
     justify-items: center;
 
@@ -30,5 +30,91 @@
     > * {
         width: 100%;
         max-width: 400px;
+    }
+}
+
+.login-form,
+.signup-form {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        height: 56px;
+        padding: 14px 16px;
+
+        border: 1px solid #b0b0b0;
+        border-radius: 10px;
+
+        background-color: #fff;
+        color: #222;
+        font-size: 16px;
+
+        outline: none;
+        transition: border-color 0.2s;
+
+        &::placeholder {
+            color: #717171;
+        }
+
+        &:hover {
+            border-color: #222;
+        }
+
+        &:focus {
+            border: 2px solid #222;
+        }
+    }
+
+    button[type='submit'] {
+        margin: 0;
+        transition: opacity 0.2s;
+        
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+}
+
+.loginsignup-form-field {
+    position: relative;
+    width: 100%;
+
+    input {
+        width: 100%;
+        height: 64px;
+        box-sizing: border-box;
+        padding: 24px 16px 10px;
+
+        border: 1px solid #b0b0b0;
+        border-radius: 10px;
+        font-size: 16px;
+
+        &:focus {
+            border: 2px solid #222;
+            outline: none;
+        }
+
+        &:focus + label,
+        &:not(:placeholder-shown) + label {
+            top: 18px;
+            left: 16px;
+            font-size: 11px;
+        }
+    }
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 16px;
+        transform: translateY(-50%);
+
+        font-size: 16px;
+        color: #717171;
+        pointer-events: none;
+
+        transition: all 0.2s ease;
     }
 }
