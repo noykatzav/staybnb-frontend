@@ -81,18 +81,6 @@ export function HostIndex() {
 
     return (
         <section className="host-index">
-            <header className="host-header">
-                <Link to="/stay" className="host-logo">Staybnb</Link>
-
-                <span className="host-nav-active">Reservations</span>
-
-                <div className="host-header-user">
-                    <Link to="/stay">Switch to traveling</Link>
-                    {user?.imgUrl && (
-                        <img src={user.imgUrl} alt="" />
-                    )}
-                </div>
-            </header>
 
             {!user ? (
                 <p>
