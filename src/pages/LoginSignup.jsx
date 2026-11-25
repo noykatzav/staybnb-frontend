@@ -148,7 +148,10 @@ export function Signup() {
     }
 
     function onUploaded(imgUrl) {
-        setCredentials({ ...credentials, imgUrl })
+        setCredentials(prevCredentials => ({
+            ...prevCredentials,
+            imgUrl
+        }))    
     }
 
     return (

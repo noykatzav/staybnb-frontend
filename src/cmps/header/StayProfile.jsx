@@ -11,7 +11,11 @@ export function StayProfile() {
         <nav className="stay-profile" aria-label="Profile">
             <button type="button" className="btn-host">Become a host</button>
             <NavLink to="/auth/login" aria-label="Log in or sign up">
-                <img src="/icons/user-circle.svg" alt="" />
+                {user ? (
+                    <img className="user-avatar" src={user.imgUrl} alt="" />
+                ) : (
+                    <img src="/icons/user-circle.svg" alt="" />
+                )}
             </NavLink>
             <details className="navigation-menu" ref={menuRef}>
                 <summary aria-label="Main navigation menu">

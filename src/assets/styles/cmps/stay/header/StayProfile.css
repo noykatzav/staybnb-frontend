@@ -93,6 +93,13 @@
         }
     }
 
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
     @media (max-width: 74.4375rem) {
         & > .btn-host {
             display: none;
