@@ -90,21 +90,23 @@ export function Login() {
         <form className="login-form" onSubmit={onLogin}>
             <div className="loginsignup-form-field">
                 <input
-                    type="text"
+                    type="email"
                     name="username"
+                    autoComplete="email"
                     value={credentials.username}
                     placeholder=""
-                    aria-label="Username"
+                    aria-label="Email"
                     onChange={handleChange}
                     required
                 />
-                <label>Username</label>
+                <label>Email</label>
             </div>
             
             <div className="loginsignup-form-field">
                 <input
                     type="password"
                     name="password"
+                    autoComplete="current-password"
                     value={credentials.password}
                     placeholder=""
                     aria-label="Password"
@@ -155,30 +157,33 @@ export function Signup() {
                 <input
                     type="text"
                     name="fullname"
+                    autoComplete="name"
                     value={credentials.fullname}
                     placeholder=""
                     onChange={handleChange}
                     required
                 />
-                <label>Fullname</label>
+                <label>Full Name</label>
             </div>
 
             <div className="loginsignup-form-field">
                 <input
                     type="text"
                     name="username"
+                    autoComplete="email"
                     value={credentials.username}
                     placeholder=""
                     onChange={handleChange}
                     required
                 />
-                <label>Username</label>
+                <label>Email</label>
             </div>
 
             <div className="loginsignup-form-field">
                 <input
                     type="password"
                     name="password"
+                    autoComplete="current-password"
                     value={credentials.password}
                     placeholder=""
                     onChange={handleChange}
