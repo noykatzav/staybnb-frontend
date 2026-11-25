@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router'
+import { Outlet, useNavigate, useLocation } from 'react-router'
 import { NavLink } from 'react-router-dom'
 
 import { useState } from 'react'
@@ -6,17 +6,41 @@ import { useState } from 'react'
 import { userService } from '../services/user'
 import { showErrorMsg } from '../services/event-bus.service'
 import { login, signup } from '../store/actions/user.actions'
+
 import { ImgUploader } from '../cmps/ImgUploader'
+import { Modal } from '../cmps/Modal'
+
 
 export function LoginSignup() {
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    function onClose() {
+        if (location.state?.backgroundLocation) {
+            navigate(-1)
+        } else {
+            navigate('/stay')
+        }
+    }
+
     return (
-        <div className="login-page">
-            <nav>
-                <NavLink to="login">Login</NavLink>
-                <NavLink to="signup">Signup</NavLink>
+        <Modal title="Welcome to Stay" onClose={onClose}>
+
+            <nav className="auth-tabs">
+                <NavLink to="login" state={location.state}>
+                    Log in
+                </NavLink>
+
+                <NavLink to="signup" state={location.state}>
+                    Sign up
+                </NavLink>
             </nav>
-            <Outlet/>
-        </div>
+
+            <div className="auth-content">
+                <Outlet />
+            </div>
+
+        </Modal>
     )
 }
 

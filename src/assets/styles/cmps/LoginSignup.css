@@ -1,50 +1,34 @@
-.login-form,
-.signup-form {
+.auth-tabs {
     display: grid;
-    width: min(80%, 300px);
-    margin: auto;
+    grid-template-columns: repeat(2, 1fr);
 
-    padding: 1em;
-    background-color: var(--clr4);
-}
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
 
-.signup-form {
-    >input {
-        width: 100%;
-        margin: 0.4em 0;
-    }
-
-    .admin-toggle {
-        display: flex;
-        align-items: center;
-        justify-self: start;
-
-        >span {
-            font-size: .8em;
-        }
-    }
-}
-
-.login-page nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-
-    margin-block: 100px 0.5em;
-
-
-    > a {
-        font-size: 0.8em;
-        color: var(--clr4);
-
-        &:hover {
-            color: var(--clr1);
-        }
+    a {
+        padding: 12px;
+        text-align: center;
+        text-decoration: none;
+        color: #717171;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
 
         &.active {
-            text-decoration: underline;
-            color: var(--clr2);
+            color: #222;
+            border-bottom-color: #222;
         }
+    }
+}
+
+.auth-content {
+    display: grid;
+    justify-items: center;
+
+    width: 100%;
+    
+    > * {
+        width: 100%;
+        max-width: 400px;
     }
 }

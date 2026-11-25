@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react'
 
 export function Modal({ children, onClose, title }) {
