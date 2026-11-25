@@ -29,6 +29,15 @@ export function Modal({ children, onClose, title }) {
                 aria-modal="true"
                 aria-label={title}
             >
+                <button
+                    className="modal-close-btn"
+                    onClick={onClose}
+                    aria-label="Close modal"
+                    type="button"
+                >
+                    ×
+                </button>
+
                 {title && <h2 className="modal-title">{title}</h2>}
 
                 <div className="modal-content">
