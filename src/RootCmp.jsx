@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router'
 
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
-import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { Chat } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 
@@ -13,6 +12,7 @@ import { StayHeader } from './cmps/header/StayHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
+import { HostIndex } from './pages/HostIndex'
 
 
 export function RootCmp() {
@@ -30,9 +30,9 @@ export function RootCmp() {
                     <Route path="stay" element={<StayIndex />} />
                     <Route path="stay/:stayId" element={<StayDetails />} />
                     <Route path="user/:id" element={<UserDetails />} />
-                    <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<Chat />} />
                     <Route path="admin" element={<AdminIndex />} />
+                    <Route path="hosting" element={<HostIndex />} />
                     <Route path="auth" element={<LoginSignup />}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup />} />

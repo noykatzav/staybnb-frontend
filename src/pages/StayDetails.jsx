@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -9,16 +9,33 @@ import { StayAmenities } from '../cmps/StayAmenities'
 import { StayOrder } from '../cmps/StayOrder'
 import { getHostingDuration } from '../services/util.service'
 import { StayHighlights } from '../cmps/StayHighlights'
+import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
+import { addOrder } from '../store/actions/order.actions'
 
 export function StayDetails() {
     const { stayId } = useParams()
-    const { search } = useLocation()
-    const backTo = `/stay${search}`
+    const [searchParams, setSearchParams] = useSearchParams()
+    const filterBy = getFilterFromSearchParams(searchParams)
+
+    const dateRange = {
+        checkIn: filterBy.checkIn,
+        checkOut: searchParams.get('checkOut') ? filterBy.checkOut : '',
+    }
+
+    const guests = {
+        adults: filterBy.adults || 1,
+        children: filterBy.children,
+        infants: filterBy.infants,
+        pets: filterBy.pets,
+    }
+    const search = searchParams.toString()
+    const backTo = search ? `/stay?${search}` : '/stay'
     const stay = useSelector(storeState => storeState.stayModule.stay)
     const hostingDuration = getHostingDuration(stay?.host?.hostingSince)
 
     const reviews = stay?.reviews || []
     const reviewCount = reviews.length
+    const [isSavingOrder, setIsSavingOrder] = useState(false)
 
     const ratedReviews = reviews.filter(review =>
         Number.isFinite(review.rate)
@@ -48,6 +65,76 @@ export function StayDetails() {
             showSuccessMsg('Stay review added')
         } catch (err) {
             showErrorMsg('Cannot add stay review')
+        }
+    }
+
+    function onUpdateDateRange(nextDateRange) {
+        setSearchParams(currentParams => {
+            const nextParams = new URLSearchParams(currentParams)
+
+            if (nextDateRange.checkIn) {
+                nextParams.set('checkIn', nextDateRange.checkIn)
+            } else {
+                nextParams.delete('checkIn')
+            }
+
+            if (nextDateRange.checkOut) {
+                nextParams.set('checkOut', nextDateRange.checkOut)
+            } else {
+                nextParams.delete('checkOut')
+            }
+
+            return nextParams
+        }, { replace: true, preventScrollReset: true })
+    }
+
+    async function onReserve(selectedGuests) {
+        if (isSavingOrder) return
+
+        const nightCount = (
+            Date.parse(dateRange.checkOut) -
+            Date.parse(dateRange.checkIn)
+        ) / (1000 * 60 * 60 * 24)
+
+        if (!Number.isFinite(nightCount) || nightCount <= 0) {
+            showErrorMsg('Please select valid dates')
+            return
+        }
+
+        if (selectedGuests.adults < 1) {
+            showErrorMsg('Please select at least one adult')
+            return
+        }
+
+        const guestCount = selectedGuests.adults + selectedGuests.children
+
+        if (guestCount > stay.capacity) {
+            showErrorMsg(`This stay allows up to ${stay.capacity} guests`)
+            return
+        }
+
+        const orderToAdd = {
+            hostId: stay.host._id,
+            stay: {
+                _id: stay._id,
+                name: stay.name,
+                imgUrl: stay.imgUrls[0],
+                price: stay.price,
+            },
+            checkIn: dateRange.checkIn,
+            checkOut: dateRange.checkOut,
+            guests: { ...selectedGuests },
+            totalPrice: stay.price * nightCount,
+        }
+
+        try {
+            setIsSavingOrder(true)
+            await addOrder(orderToAdd)
+            showSuccessMsg('Reservation request sent')
+        } catch (err) {
+            showErrorMsg(err.message || 'Cannot create order')
+        } finally {
+            setIsSavingOrder(false)
         }
     }
 
@@ -131,7 +218,14 @@ export function StayDetails() {
                             <StayAmenities amenities={stay.amenities} />
                         </div>
 
-                        <StayOrder />
+                        <StayOrder
+                            price={stay.price}
+                            dateRange={dateRange}
+                            guests={guests}
+                            onUpdateDateRange={onUpdateDateRange}
+                            onReserve={onReserve}
+                            isSaving={isSavingOrder}
+                        />
                     </div>
 
                     <button onClick={() => onAddStayReview(stay._id)}>

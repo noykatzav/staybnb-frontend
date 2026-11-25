@@ -1,41 +1,67 @@
 .user-msg {
     position: fixed;
-    top: 70px;
-    right: 0;
+    z-index: 1000;
+    bottom: 1.5rem;
+    right: 1rem;
 
     display: flex;
     align-items: center;
+    gap: 0.25rem;
 
-    padding: .2em;
-    padding-inline-end: 1.5em;
-    background-color: var(--gray3);
+    box-sizing: border-box;
+    max-inline-size: min(26rem, calc(100vw - 2rem));
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--clr-input-border);
+    border-radius: 0.75rem;
+    background: var(--clr-bg);
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 12%);
 
-    color: white;
-    font-size: .9em;
+    color: var(--clr-text);
+    font-size: 0.875rem;
+    line-height: 1.4;
 
     opacity: 0;
     translate: 150%;
-    transition: 600ms;
+    pointer-events: none;
+    transition: opacity 250ms, translate 250ms;
 
     &.visible {
         opacity: 1;
         translate: 0;
+        pointer-events: auto;
+
     }
 
     &.success {
-        background-color: var(--success);
+        border-color: var(--success);
+
     }
 
     &.error {
-        background-color: var(--error);
+        border-color: var(--error);
     }
 
     & button {
-        background-color: var(--gray1);
-        padding: 1px 6px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+
+        inline-size: 1.5rem;
+        block-size: 1.5rem;
+        padding: 0;
         border: 0;
         border-radius: 50%;
-        color: var(--gray4);
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+
     }
 
+    &.user-msg p {
+        margin: 0;
+    }
+
+    &.user-msg button:hover {
+        background: var(--clr-bg--2);
+    }
 }

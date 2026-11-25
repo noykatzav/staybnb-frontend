@@ -34,6 +34,7 @@
 @import url('./cmps/stay/StayAmenities.css');
 @import url('./cmps/stay/StayOrder.css');
 @import url('./cmps/stay/StayHighlights.css');
+@import url('./cmps/HostIndex.css');
 
 /* Shared components */
 @import "cmps/ImgUploader";
