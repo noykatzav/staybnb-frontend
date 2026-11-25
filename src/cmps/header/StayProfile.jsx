@@ -17,10 +17,10 @@ export function StayProfile() {
                         <span>Languages &amp; currency</span>
                     </button>
                     <a href="https://www.airbnb.com/help">Help Center</a>
-                    <button type="button" className="btn-host">
-                        <span>Become a host</span>
+                    <NavLink to="/hosting" className="btn-host">
+                        <span>Switch to hosting</span>
                         <span>It&apos;s easy to start hosting and earn extra income.</span>
-                    </button>
+                    </NavLink>
                     <a href="https://www.airbnb.com/refer">Refer a Host</a>
                     <a href="https://www.airbnb.com/co-hosts/home">Find a co-host</a>
                     <a href="https://www.airbnb.com/giftcards">Gift cards</a>

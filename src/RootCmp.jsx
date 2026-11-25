@@ -13,6 +13,7 @@ import { AppHeader } from './cmps/header/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
+import { HostIndex } from './pages/HostIndex'
 
 
 export function RootCmp() {
@@ -36,6 +37,7 @@ export function RootCmp() {
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="chat" element={<Chat />} />
                     <Route path="admin" element={<AdminIndex />} />
+                    <Route path="hosting" element={<HostIndex />} />
                     <Route path="auth" element={<LoginSignup />}>
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup />} />
