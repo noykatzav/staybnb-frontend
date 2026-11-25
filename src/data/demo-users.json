@@ -1,7 +1,7 @@
 [
     {
         "_id": "u100",
-        "username": "admin",
+        "username": "admin@email.com",
         "password": "123456",
         "fullname": "Demo Admin",
         "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
@@ -11,7 +11,7 @@
     },
     {
         "_id": "u101",
-        "username": "host101",
+        "username": "host101@email.com",
         "password": "123456",
         "fullname": "Davit Pok",
         "imgUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200",
@@ -21,7 +21,7 @@
     },
     {
         "_id": "u102",
-        "username": "host102",
+        "username": "host102@email.com",
         "password": "123456",
         "fullname": "Sofia Martinez",
         "imgUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200",
@@ -31,7 +31,7 @@
     },
     {
         "_id": "u103",
-        "username": "host103",
+        "username": "host103@email.com",
         "password": "123456",
         "fullname": "Lucas Weber",
         "imgUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
@@ -51,7 +51,7 @@
     },
     {
         "_id": "u105",
-        "username": "host105",
+        "username": "host105@email.com",
         "password": "123456",
         "fullname": "Oliver Smith",
         "imgUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200",
@@ -61,7 +61,7 @@
     },
     {
         "_id": "u106",
-        "username": "guest106",
+        "username": "guest106@email.com",
         "password": "123456",
         "fullname": "Demo Guest",
         "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
