@@ -155,7 +155,7 @@ export function HostIndex() {
                                     <th>Checkout</th>
                                     <th>Booked</th>
                                     <th>Listing</th>
-                                    <th>Total price</th>
+                                    <th>Total Payout</th>
                                     <th>Action</th>
                                     <th>Details</th>
                                 </tr>
