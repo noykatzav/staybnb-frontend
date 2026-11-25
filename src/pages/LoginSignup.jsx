@@ -1,9 +1,10 @@
 import { Outlet, useNavigate } from 'react-router'
 import { NavLink } from 'react-router-dom'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import { userService } from '../services/user'
+import { showErrorMsg } from '../services/event-bus.service'
 import { login, signup } from '../store/actions/user.actions'
 import { ImgUploader } from '../cmps/ImgUploader'
 
@@ -20,26 +21,20 @@ export function LoginSignup() {
 }
 
 export function Login() {
-    const [users, setUsers] = useState([])
-    const [credentials, setCredentials] = useState({ username: '', password: '', fullname: '' })
+    const [credentials, setCredentials] = useState({ username: '', password: '' })
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-        loadUsers()
-    }, [])
-
-    async function loadUsers() {
-        const users = await userService.getUsers()
-        setUsers(users)
-    }
 
     async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.username) return
-        await login(credentials)
-        navigate('/')
+        if (!credentials.username || !credentials.password) return
+        try {
+            await login(credentials)
+            navigate('/')
+        } catch (err) {
+            showErrorMsg('Invalid username or password')
+        }
     }
 
     function handleChange(ev) {
@@ -50,13 +45,24 @@ export function Login() {
     
     return (
         <form className="login-form" onSubmit={onLogin}>
-            <select
+            <input
+                type="text"
                 name="username"
                 value={credentials.username}
-                onChange={handleChange}>
-                    <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-            </select>
+                placeholder="Username"
+                aria-label="Username"
+                onChange={handleChange}
+                required
+            />
+            <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                placeholder="Password"
+                aria-label="Password"
+                onChange={handleChange}
+                required
+            />
             <button>Login</button>
         </form>
     )
@@ -80,9 +86,13 @@ export function Signup() {
         if (ev) ev.preventDefault()
 
         if (!credentials.username || !credentials.password || !credentials.fullname) return
-        await signup(credentials)
-        clearState()
-        navigate('/')
+        try {
+            await signup(credentials)
+            clearState()
+            navigate('/')
+        } catch (err) {
+            showErrorMsg(err.message === 'Username already exists' ? err.message : 'Cannot sign up')
+        }
     }
 
     function onUploaded(imgUrl) {

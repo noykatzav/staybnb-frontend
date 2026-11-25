@@ -5,7 +5,7 @@ import {
     REMOVE_STAY, ADD_STAY_REVIEW,
 } from '../src/store/reducers/stay.reducer.js'
 import {
-    orderReducer, SET_ORDERS, ADD_ORDER,
+    orderReducer, SET_ORDERS, ADD_ORDER, UPDATE_ORDER,
 } from '../src/store/reducers/order.reducer.js'
 import {
     systemReducer, LOADING_START, LOADING_DONE,
@@ -117,6 +117,18 @@ describe('order state', () => {
         assert.deepEqual(added.orders, [original, other])
         assert.deepEqual(state.orders, [original])
         assert.notEqual(added.orders, state.orders)
+    })
+
+    it('updates only the matching order without mutating the previous list', () => {
+        const pending = Object.freeze({ _id: 'a', status: 'pending' })
+        const other = Object.freeze({ _id: 'b', status: 'pending' })
+        const state = Object.freeze({ orders: Object.freeze([pending, other]) })
+        const approved = { ...pending, status: 'approved' }
+
+        const updated = orderReducer(state, { type: UPDATE_ORDER, order: approved })
+
+        assert.deepEqual(updated.orders, [approved, other])
+        assert.deepEqual(state.orders, [pending, other])
     })
 })
 

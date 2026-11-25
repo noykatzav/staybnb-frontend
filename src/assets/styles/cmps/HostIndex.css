@@ -18,7 +18,7 @@
 }
 
 .host-index .host-logo {
-    color: #ff385c;
+    color: var(--clr-primary);
     font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
@@ -158,21 +158,37 @@
     cursor: pointer;
 }
 
+.host-index .host-orders-table select {
+    min-inline-size: 7.5rem;
+    padding: 0.5rem;
+    border: 0;
+    border-block-end: 1px solid var(--clr-border);
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.host-index .host-orders-table select:disabled {
+    color: var(--clr-text-secondary);
+    cursor: wait;
+}
+
 .host-index .host-status {
     font-weight: 600;
     text-transform: capitalize;
 }
 
 .host-index .host-status[data-status="pending"] {
-    color: #9b7000;
+    color: var(--host-status-pending);
 }
 
 .host-index .host-status[data-status="approved"] {
-    color: #28764b;
+    color: var(--host-status-approved);
 }
 
 .host-index .host-status[data-status="declined"] {
-    color: #b23838;
+    color: var(--host-status-declined);
 }
 
 .host-index .host-status[data-status="cancelled"] {

@@ -4,6 +4,7 @@ export const orderService = {
     add,
     query,
     remove,
+    updateStatus,
 }
 
 function query(filterBy = {}) {
@@ -27,4 +28,8 @@ async function remove(orderId) {
 
 async function add(order) {
     return await httpService.post('order', order)
+}
+
+function updateStatus(orderId, status) {
+    return httpService.put(`order/${orderId}`, { status })
 }

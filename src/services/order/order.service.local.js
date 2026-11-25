@@ -49,7 +49,7 @@ async function add(order) {
 }
 
 async function updateStatus(orderId, status) {
-    const validStatuses = ['pending', 'approved', 'declined', 'cancelled']
+    const validStatuses = ['pending', 'approved', 'declined']
 
     if (!validStatuses.includes(status)) {
         throw new Error('Invalid order status')

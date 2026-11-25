@@ -1,5 +1,8 @@
 import { storageService } from '../async-storage.service'
+import { saveToStorage } from '../util.service'
+import demoUsers from '../../data/demo-users.json'
 
+const STORAGE_KEY = 'user'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export const userService = {
@@ -14,46 +17,57 @@ export const userService = {
     saveLoggedinUser,
 }
 
+let seedUsersPromise
+
 async function getUsers() {
-    const users = await storageService.query('user')
-    return users.map(user => {
-        delete user.password
-        return user
-    })
+    await _ensureUsers()
+    const users = await storageService.query(STORAGE_KEY)
+    return users.map(_withoutPassword)
 }
 
 async function getById(userId) {
-    return await storageService.get('user', userId)
+    await _ensureUsers()
+    const user = await storageService.get(STORAGE_KEY, userId)
+    return _withoutPassword(user)
 }
 
-function remove(userId) {
-    return storageService.remove('user', userId)
+async function remove(userId) {
+    await _ensureUsers()
+    return storageService.remove(STORAGE_KEY, userId)
 }
 
 async function update({ _id, score }) {
-    const user = await storageService.get('user', _id)
+    await _ensureUsers()
+    const user = await storageService.get(STORAGE_KEY, _id)
     user.score = score
-    await storageService.put('user', user)
+    await storageService.put(STORAGE_KEY, user)
 
 	// When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser?._id === user._id) saveLoggedinUser(user)
 
-    return user
+    return _withoutPassword(user)
 }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    await _ensureUsers()
+    const users = await storageService.query(STORAGE_KEY)
+    const user = users.find(user => user.username === userCred.username && user.password === userCred.password)
 
-    if (user) return saveLoggedinUser(user)
+    if (!user) throw new Error('Invalid username or password')
+    return saveLoggedinUser(user)
 }
 
 async function signup(userCred) {
+    await _ensureUsers()
+    const users = await storageService.query(STORAGE_KEY)
+    if (users.some(user => user.username === userCred.username)) throw new Error('Username already exists')
+
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
     userCred.score = 10000
+    userCred.isHost = false
 
-    const user = await storageService.post('user', userCred)
+    const user = await storageService.post(STORAGE_KEY, userCred)
     return saveLoggedinUser(user)
 }
 
@@ -71,8 +85,27 @@ function saveLoggedinUser(user) {
         fullname: user.fullname, 
         imgUrl: user.imgUrl, 
         score: user.score, 
-        isAdmin: user.isAdmin 
+        isAdmin: user.isAdmin,
+        isHost: user.isHost
     }
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
 	return user
+}
+
+async function _createUsers() {
+    const users = await storageService.query(STORAGE_KEY)
+    if (users.length) return
+
+    saveToStorage(STORAGE_KEY, demoUsers)
+}
+
+function _ensureUsers() {
+    seedUsersPromise ||= _createUsers()
+    return seedUsersPromise
+}
+
+function _withoutPassword(user) {
+    const publicUser = { ...user }
+    delete publicUser.password
+    return publicUser
 }
