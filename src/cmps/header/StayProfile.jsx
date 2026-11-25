@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useMatch } from 'react-router-dom'
 import { useRef } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -7,9 +7,16 @@ export function StayProfile() {
 
     const user = useSelector(storeState => storeState.userModule.user)
 
+    const isHosting = Boolean(useMatch('/hosting/*'))
+
     return (
         <nav className="stay-profile" aria-label="Profile">
-            <button type="button" className="btn-host">Become a host</button>
+            <NavLink
+                className="btn-host"
+                to={isHosting ? '/stay' : '/hosting'}
+            >
+                {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
+            </NavLink>
             <NavLink to="/auth/login" aria-label="Log in or sign up">
                 {user ? (
                     <img className="user-avatar" src={user.imgUrl} alt="" />
