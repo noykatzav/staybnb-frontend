@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { StayPreview } from './StayPreview'
 
-export function StayList({ stays}) {
+export function StayList({ stays }) {
     return <section className="stay-list-container">
         <h2 className="stay-list-title">
             {stays.length} stays
@@ -10,7 +10,7 @@ export function StayList({ stays}) {
         <ul className="stay-list">
             {stays.map(stay =>
                 <li key={stay._id} className="stay-list-item">
-                    <StayPreview stay={stay}/>
+                    <StayPreview stay={stay} />
                 </li>)
             }
         </ul>

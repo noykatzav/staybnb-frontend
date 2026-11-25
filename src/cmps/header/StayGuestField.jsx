@@ -9,7 +9,7 @@ const GUEST_ROWS = [
     { key: 'pets', label: 'Pets', hint: 'Bringing a pet?' },
 ]
 
-export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpen }) {
+export function StayGuestField({ guests, setGuests, isGuestsOpen, onCloseGuests, onToggleGuests }) {
     const fieldRef = useRef(null)
     const triggerRef = useRef(null)
     const panelId = useId()
@@ -23,7 +23,7 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
     useEffect(() => {
         if (!isGuestsOpen) return
         function onDismissGuests(ev) {
-            if (!fieldRef.current?.closest('form')?.contains(ev.target)) setIsGuestsOpen(false)
+            if (!fieldRef.current?.closest('form')?.contains(ev.target)) onCloseGuests()
         }
         document.addEventListener('pointerdown', onDismissGuests)
         document.addEventListener('focusin', onDismissGuests)
@@ -31,14 +31,14 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
             document.removeEventListener('pointerdown', onDismissGuests)
             document.removeEventListener('focusin', onDismissGuests)
         }
-    }, [isGuestsOpen, setIsGuestsOpen])
+    }, [isGuestsOpen, onCloseGuests])
 
     function onChangeGuest(key, change) {
         setGuests(current => changeGuestCount(current, key, change))
     }
 
-    function onCloseGuests() {
-        setIsGuestsOpen(false)
+    function onCloseWithFocus() {
+        onCloseGuests()
         triggerRef.current?.focus()
     }
 
@@ -49,7 +49,7 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
             onKeyDown={ev => {
                 if (ev.key !== 'Escape') return
                 ev.stopPropagation()
-                onCloseGuests()
+                onCloseWithFocus()
             }}
         >
             <button
@@ -59,7 +59,7 @@ export function StayGuestField({ guests, setGuests, isGuestsOpen, setIsGuestsOpe
                 aria-expanded={isGuestsOpen}
                 aria-controls={panelId}
                 aria-haspopup="dialog"
-                onClick={() => setIsGuestsOpen(isOpen => !isOpen)}
+                onClick={onToggleGuests}
             >
                 <span>Who</span>
                 <span>{summary}</span>
@@ -110,5 +110,6 @@ StayGuestField.propTypes = {
     }).isRequired,
     setGuests: PropTypes.func.isRequired,
     isGuestsOpen: PropTypes.bool.isRequired,
-    setIsGuestsOpen: PropTypes.func.isRequired,
+    onCloseGuests: PropTypes.func.isRequired,
+    onToggleGuests: PropTypes.func.isRequired,
 }

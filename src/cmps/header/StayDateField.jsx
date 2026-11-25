@@ -3,7 +3,7 @@ import { useEffect, useId, useRef } from 'react'
 import { getStayDateLabel } from '../../services/stay/stay-search.service'
 import { StayCalendar } from './StayCalendar'
 
-export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCalendarOpen }) {
+export function StayDateField({ dateRange, setDateRange, isCalendarOpen, onOpenCalendar, onCloseCalendar, onToggleCalendar }) {
     const datesRef = useRef(null)
     const calendarRef = useRef(null)
     const triggerRef = useRef(null)
@@ -13,7 +13,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
         if (!isCalendarOpen) return
         function onDismissCalendar(ev) {
             if (datesRef.current?.closest('form')?.contains(ev.target) || calendarRef.current?.contains(ev.target)) return
-            setIsCalendarOpen(false)
+            onCloseCalendar()
         }
         document.addEventListener('pointerdown', onDismissCalendar)
         document.addEventListener('focusin', onDismissCalendar)
@@ -21,16 +21,16 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
             document.removeEventListener('pointerdown', onDismissCalendar)
             document.removeEventListener('focusin', onDismissCalendar)
         }
-    }, [isCalendarOpen, setIsCalendarOpen])
+    }, [isCalendarOpen, onCloseCalendar])
 
-    function onCloseCalendar() {
-        setIsCalendarOpen(false)
+    function onCloseWithFocus() {
+        onCloseCalendar()
         triggerRef.current?.focus()
     }
 
     function onClearDateRange() {
         setDateRange({ checkIn: '', checkOut: '' })
-        setIsCalendarOpen(true)
+        onOpenCalendar()
         triggerRef.current?.focus()
     }
 
@@ -42,7 +42,10 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
                 ref={datesRef}
                 className={`date-field${isCalendarOpen ? ' active' : ''}${dateRange.checkIn ? ' selected' : ''}`}
                 onKeyDown={ev => {
-                    if (ev.key === 'Escape') onCloseCalendar()
+                    if (ev.key === 'Escape') {
+                        ev.stopPropagation()
+                        onCloseWithFocus()
+                    }
                 }}
             >
                 <button
@@ -52,7 +55,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
                     aria-expanded={isCalendarOpen}
                     aria-controls={calendarId}
                     aria-haspopup="dialog"
-                    onClick={() => setIsCalendarOpen(isOpen => !isOpen)}
+                    onClick={onToggleCalendar}
                 >
                     <span>When</span>
                     <span>{dateLabel}</span>
@@ -65,7 +68,7 @@ export function StayDateField({ dateRange, setDateRange, isCalendarOpen, setIsCa
             </div>
             {isCalendarOpen && (
                 <div ref={calendarRef} id={calendarId} className="calendar-panel">
-                    <StayCalendar dateRange={dateRange} onSelectDateRange={setDateRange} onCloseCalendar={onCloseCalendar} />
+                    <StayCalendar dateRange={dateRange} onSelectDateRange={setDateRange} onCloseCalendar={onCloseWithFocus} />
                 </div>
             )}
         </div>
@@ -76,5 +79,7 @@ StayDateField.propTypes = {
     dateRange: PropTypes.shape({ checkIn: PropTypes.string.isRequired, checkOut: PropTypes.string.isRequired }).isRequired,
     setDateRange: PropTypes.func.isRequired,
     isCalendarOpen: PropTypes.bool.isRequired,
-    setIsCalendarOpen: PropTypes.func.isRequired,
+    onOpenCalendar: PropTypes.func.isRequired,
+    onCloseCalendar: PropTypes.func.isRequired,
+    onToggleCalendar: PropTypes.func.isRequired,
 }

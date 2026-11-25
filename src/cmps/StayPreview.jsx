@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types'
 import { StayCarousel } from './StayCarousel'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export function StayPreview({ stay }) {
+    const { search } = useLocation()
     const reviewsCnt = stay.reviews?.length || 0
     const avgRating = stay.reviews?.length
         ? stay.reviews.reduce((sum, review) => sum + review.rate, 0) / reviewsCnt
         : 0
 
-    return <Link to={`/stay/${stay._id}`} className="stay-preview">
+    return <Link to={`/stay/${stay._id}${search}`} className="stay-preview">
                 <StayCarousel imgUrls={stay.imgUrls} />
                 <h1 className="stay-preview-location">{`${stay.type} in ${stay.loc.city}`}</h1>
                 <p className="stay-preview-rating">
@@ -42,5 +43,6 @@ StayPreview.propTypes = {
         beds: PropTypes.number,
         bathrooms: PropTypes.number,
         price: PropTypes.number.isRequired,
+        reviews: PropTypes.arrayOf(PropTypes.shape({ rate: PropTypes.number })),
     }).isRequired,
 }

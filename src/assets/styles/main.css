@@ -44,6 +44,7 @@
 @import "cmps/stay/header/StayCategories";
 @import "cmps/stay/header/StayProfile";
 @import "cmps/stay/header/StaySearch";
+@import "cmps/stay/header/StayMobileSearch";
 @import "cmps/stay/header/StayDestinationField";
 @import "cmps/stay/header/StayGuestField";
 @import "cmps/stay/header/StayDateField";

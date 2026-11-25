@@ -1,4 +1,4 @@
-import { Routes, Route, useMatch } from 'react-router'
+import { Routes, Route } from 'react-router'
 
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
@@ -16,12 +16,9 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 
 
 export function RootCmp() {
-    const isStayIndex = Boolean(useMatch('/stay'))
-    const isStayDetails = Boolean(useMatch('/stay/:stayId'))
-
     return (
         <div className="main-container">
-            {!isStayIndex && !isStayDetails && <StayHeader />}
+            <StayHeader />
             <UserMsg />
 
             <main>

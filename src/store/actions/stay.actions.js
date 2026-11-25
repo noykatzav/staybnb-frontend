@@ -2,10 +2,13 @@ import { stayService } from '../../services/stay/index.js'
 import { store } from '../store.js'
 import { ADD_STAY, REMOVE_STAY, SET_STAYS, SET_STAY, UPDATE_STAY, ADD_STAY_REVIEW } from '../reducers/stay.reducer.js'
 
+let latestStaysRequestId = 0
+
 export async function loadStays(filterBy) {
+    const requestId = ++latestStaysRequestId
     try {
         const stays = await stayService.query(filterBy)
-        store.dispatch(getCmdSetStays(stays))
+        if (requestId === latestStaysRequestId) store.dispatch(getCmdSetStays(stays))
     } catch (err) {
         console.log('Cannot load stays', err)
         throw err

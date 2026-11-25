@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -9,13 +9,11 @@ import { StayAmenities } from '../cmps/StayAmenities'
 import { StayOrder } from '../cmps/StayOrder'
 import { getHostingDuration } from '../services/util.service'
 import { StayHighlights } from '../cmps/StayHighlights'
-import { StayHeader } from '../cmps/header/StayHeader'
-import { getFilterFromSearchParams } from '../services/stay/stay-search.service'
 
 export function StayDetails() {
     const { stayId } = useParams()
-    const navigate = useNavigate()
-    const searchFilter = useMemo(() => getFilterFromSearchParams(new URLSearchParams()), [])
+    const { search } = useLocation()
+    const backTo = `/stay${search}`
     const stay = useSelector(storeState => storeState.stayModule.stay)
     const hostingDuration = getHostingDuration(stay?.host?.hostingSince)
 
@@ -53,26 +51,17 @@ export function StayDetails() {
         }
     }
 
-    function onSearchStays(searchParams) {
-        navigate({ pathname: '/stay', search: searchParams.toString() })
-    }
-
     return (
         <>
-            <StayHeader
-                variant="details"
-                filterBy={searchFilter}
-                onSearch={onSearchStays}
-            />
             <section className="stay-details">
-                <Link to="/stay" className="back-to-list">Back to list</Link>
+                <Link to={backTo} className="back-to-list">Back to list</Link>
 
                 {stay?._id === stayId && <div>
                     <header className="stay-details-header">
                         <h1>{stay.name}</h1>
                     </header>
 
-                    <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} />
+                    <StayGallery imgUrls={stay.imgUrls} stayName={stay.name} backTo={backTo} />
 
                     <div className="stay-details-content">
                         <div className="stay-details-info">

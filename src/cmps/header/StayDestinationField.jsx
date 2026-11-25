@@ -24,7 +24,7 @@ const DESTINATIONS = [
     { city: 'Vienna', country: 'Austria', image: 'vienna.avif' },
 ]
 
-export function StayDestinationField({ destination, setDestination, isDestinationOpen, setIsDestinationOpen }) {
+export function StayDestinationField({ destination, setDestination, isDestinationOpen, onOpenDestination, onCloseDestination }) {
     const fieldRef = useRef(null)
     const inputRef = useRef(null)
     const panelId = useId()
@@ -40,7 +40,7 @@ export function StayDestinationField({ destination, setDestination, isDestinatio
     useEffect(() => {
         if (!isDestinationOpen) return
         function onDismissDestination(ev) {
-            if (!fieldRef.current?.closest('form')?.contains(ev.target)) setIsDestinationOpen(false)
+            if (!fieldRef.current?.closest('form')?.contains(ev.target)) onCloseDestination()
         }
         document.addEventListener('pointerdown', onDismissDestination)
         document.addEventListener('focusin', onDismissDestination)
@@ -48,22 +48,22 @@ export function StayDestinationField({ destination, setDestination, isDestinatio
             document.removeEventListener('pointerdown', onDismissDestination)
             document.removeEventListener('focusin', onDismissDestination)
         }
-    }, [isDestinationOpen, setIsDestinationOpen])
+    }, [isDestinationOpen, onCloseDestination])
 
-    function onCloseDestination() {
+    function onCloseWithFocus() {
         inputRef.current?.focus()
-        setIsDestinationOpen(false)
+        onCloseDestination()
     }
 
     function onSelectDestination(city) {
         setDestination(city)
-        onCloseDestination()
+        onCloseWithFocus()
     }
 
     function onClearDestination() {
         setDestination('')
         inputRef.current?.focus()
-        setIsDestinationOpen(true)
+        onOpenDestination()
     }
 
     return (
@@ -74,7 +74,7 @@ export function StayDestinationField({ destination, setDestination, isDestinatio
                 if (ev.key !== 'Escape' || !isDestinationOpen) return
                 ev.preventDefault()
                 ev.stopPropagation()
-                onCloseDestination()
+                onCloseWithFocus()
             }}
         >
             <label className={`destination${destination && isDestinationOpen ? ' selected' : ''}`}>
@@ -86,10 +86,10 @@ export function StayDestinationField({ destination, setDestination, isDestinatio
                     value={destination}
                     onChange={ev => {
                         setDestination(ev.target.value)
-                        setIsDestinationOpen(true)
+                        onOpenDestination()
                     }}
-                    onFocus={() => setIsDestinationOpen(true)}
-                    onClick={() => setIsDestinationOpen(true)}
+                    onFocus={onOpenDestination}
+                    onClick={onOpenDestination}
                     placeholder="Search destinations"
                     autoComplete="off"
                     aria-expanded={isDestinationOpen}
@@ -129,5 +129,6 @@ StayDestinationField.propTypes = {
     destination: PropTypes.string.isRequired,
     setDestination: PropTypes.func.isRequired,
     isDestinationOpen: PropTypes.bool.isRequired,
-    setIsDestinationOpen: PropTypes.func.isRequired,
+    onOpenDestination: PropTypes.func.isRequired,
+    onCloseDestination: PropTypes.func.isRequired,
 }

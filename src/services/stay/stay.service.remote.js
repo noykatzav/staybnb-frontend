@@ -8,8 +8,8 @@ export const stayService = {
     addStayReview
 }
 
-async function query() {
-    return httpService.get('stay')
+async function query(filterBy) {
+    return httpService.get('stay', filterBy)
 }
 
 function getById(stayId) {

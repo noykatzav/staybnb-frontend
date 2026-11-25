@@ -150,20 +150,7 @@
     }
 }
 
-.stay-search-mobile .stay-calendar {
-    max-height: none;
-    padding: 0;
-    border-radius: 0;
-    box-shadow: none;
 
-    & .calendar-body {
-        overflow: visible;
-    }
-
-    & .calendar-heading .btn-close {
-        display: none;
-    }
-}
 
 @keyframes stay-calendar-open {
     from {

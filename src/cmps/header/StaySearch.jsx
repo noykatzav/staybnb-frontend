@@ -4,30 +4,24 @@ import { getFilterFromSearchParams, getStaySearchLabels, getSearchParamsFromFilt
 import { StayDateField } from './StayDateField'
 import { StayDestinationField } from './StayDestinationField'
 import { StayGuestField } from './StayGuestField'
-import { StayCategories } from './StayCategories'
+import { StayMobileSearch } from './StayMobileSearch'
 
-export function StaySearch({ filterBy, onSearch, isScrolled, isMobile = false }) {
+export function StaySearch({ filterBy, onSearch, mode, isMobile = false }) {
     const [filterToEdit, setFilterToEdit] = useState(() => structuredClone(filterBy))
-    const [isDestinationOpen, setIsDestinationOpen] = useState(false)
-    const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-    const [isGuestsOpen, setIsGuestsOpen] = useState(false)
+    const [activeField, setActiveField] = useState(null)
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
-    const [activeMobileField, setActiveMobileField] = useState('destination')
     const compactRef = useRef(null)
     const mobileTriggerRef = useRef(null)
     const mobileDialogRef = useRef(null)
     const restoreFocusFieldRef = useRef('')
-    const isOpen = isDestinationOpen || isCalendarOpen || isGuestsOpen
-    const isCompact = isScrolled && !isOpen
+    const displayedMode = activeField ? 'expanded' : mode
     const compactLabels = getStaySearchLabels(filterToEdit)
     const hasGuestFilter = filterToEdit.adults + filterToEdit.children + filterToEdit.infants + filterToEdit.pets > 0
     const hasSearchFilter = Boolean(filterToEdit.destination || filterToEdit.checkIn || hasGuestFilter)
 
     useEffect(() => {
         setFilterToEdit(structuredClone(filterBy))
-        setIsDestinationOpen(false)
-        setIsCalendarOpen(false)
-        setIsGuestsOpen(false)
+        setActiveField(null)
         setIsMobileSearchOpen(false)
     }, [filterBy])
 
@@ -41,54 +35,34 @@ export function StaySearch({ filterBy, onSearch, isScrolled, isMobile = false })
     useEffect(() => {
         if (isMobile || !isMobileSearchOpen) return
         setIsMobileSearchOpen(false)
-        setIsDestinationOpen(false)
-        setIsCalendarOpen(false)
-        setIsGuestsOpen(false)
+        setActiveField(null)
     }, [isMobile, isMobileSearchOpen])
 
     useEffect(() => {
-        if (!isCompact || !restoreFocusFieldRef.current) return
+        if (displayedMode !== 'compact' || !restoreFocusFieldRef.current) return
         compactRef.current?.querySelector(`[data-field="${restoreFocusFieldRef.current}"]`)?.focus()
         restoreFocusFieldRef.current = ''
-    }, [isCompact])
+    }, [displayedMode])
 
-    function onOpenCompactField(field) {
+    function onOpenField(field) {
         restoreFocusFieldRef.current = ''
-        if (field === 'destination') onToggleDestination(true)
-        if (field === 'dates') onToggleCalendar(true)
-        if (field === 'guests') onToggleGuests(true)
+        setActiveField(field)
+    }
+
+    function onCloseField(field) {
+        if (mode === 'compact' && !isMobile) restoreFocusFieldRef.current = field
+        setActiveField(currentField => currentField === field ? null : currentField)
+    }
+
+    function onToggleField(field) {
+        if (activeField === field) onCloseField(field)
+        else onOpenField(field)
     }
 
     function onEscapeSearch(ev) {
-        if (ev.key !== 'Escape' || !isOpen) return
-        if (isScrolled) restoreFocusFieldRef.current = isDestinationOpen ? 'destination' : isCalendarOpen ? 'dates' : 'guests'
-        setIsDestinationOpen(false)
-        setIsCalendarOpen(false)
-        setIsGuestsOpen(false)
-    }
-
-    function onToggleDestination(nextOpen) {
-        setIsDestinationOpen(nextOpen)
-        if (nextOpen) {
-            setIsCalendarOpen(false)
-            setIsGuestsOpen(false)
-        }
-    }
-
-    function onToggleCalendar(nextOpen) {
-        setIsCalendarOpen(nextOpen)
-        if (typeof nextOpen === 'function' || nextOpen) {
-            setIsDestinationOpen(false)
-            setIsGuestsOpen(false)
-        }
-    }
-
-    function onToggleGuests(nextOpen) {
-        setIsGuestsOpen(nextOpen)
-        if (typeof nextOpen === 'function' || nextOpen) {
-            setIsDestinationOpen(false)
-            setIsCalendarOpen(false)
-        }
+        if (ev.key !== 'Escape' || !activeField) return
+        ev.preventDefault()
+        onCloseField(activeField)
     }
 
     function onSubmitSearch(ev) {
@@ -96,38 +70,27 @@ export function StaySearch({ filterBy, onSearch, isScrolled, isMobile = false })
         restoreFocusFieldRef.current = ''
         const searchParams = getSearchParamsFromFilter(filterToEdit)
         setFilterToEdit(getFilterFromSearchParams(searchParams))
-        setIsDestinationOpen(false)
-        setIsCalendarOpen(false)
-        setIsGuestsOpen(false)
+        setActiveField(null)
         setIsMobileSearchOpen(false)
         onSearch(searchParams)
-    }
-
-    function onOpenMobileField(field) {
-        setActiveMobileField(field)
-        onToggleDestination(field === 'destination')
-        onToggleCalendar(field === 'dates')
-        onToggleGuests(field === 'guests')
     }
 
     function onOpenMobileSearch() {
         setFilterToEdit(structuredClone(filterBy))
         setIsMobileSearchOpen(true)
-        onOpenMobileField('destination')
+        setActiveField('destination')
     }
 
     function onCloseMobileSearch() {
         setFilterToEdit(structuredClone(filterBy))
         setIsMobileSearchOpen(false)
-        setIsDestinationOpen(false)
-        setIsCalendarOpen(false)
-        setIsGuestsOpen(false)
+        setActiveField(null)
         mobileTriggerRef.current?.focus()
     }
 
     function onClearMobileSearch() {
         setFilterToEdit(getFilterFromSearchParams(new URLSearchParams()))
-        onOpenMobileField('destination')
+        setActiveField('destination')
     }
 
     function onMobileDialogKeyDown(ev) {
@@ -151,118 +114,65 @@ export function StaySearch({ filterBy, onSearch, isScrolled, isMobile = false })
         }
     }
 
-    if (isMobile) return (
-        <div className="stay-search-mobile">
-            <button ref={mobileTriggerRef} type="button" className="mobile-search-trigger" onClick={onOpenMobileSearch} aria-label="Start your search">
-                <img src="/icons/search-filled.svg" alt="" />
-                <span>{hasSearchFilter ? [compactLabels.destination, compactLabels.dates, hasGuestFilter && compactLabels.guests].filter(Boolean).join(' · ') : 'Start your search'}</span>
-            </button>
-            {isMobileSearchOpen && (
-                <div ref={mobileDialogRef} className="mobile-search-dialog" role="dialog" aria-modal="true" aria-label="Find a stay" onKeyDownCapture={onMobileDialogKeyDown}>
-                    <div className="dialog-top">
-                        <StayCategories isMobile isDialog />
-                        <button type="button" className="btn-close" onClick={onCloseMobileSearch} aria-label="Close search">
-                            <img src="/icons/close.svg" alt="" />
-                        </button>
-                    </div>
-                    <form className="stay-search mobile" role="search" aria-label="Find a stay" onSubmit={onSubmitSearch}>
-                        <div className="mobile-fields">
-                            <section className={`mobile-field${activeMobileField === 'destination' ? ' active' : ''}`}>
-                                {activeMobileField === 'destination' ? (
-                                    <>
-                                        <h2>Where?</h2>
-                                        <StayDestinationField
-                                            destination={filterToEdit.destination}
-                                            setDestination={destination => setFilterToEdit(current => ({ ...current, destination }))}
-                                            isDestinationOpen={isDestinationOpen}
-                                            setIsDestinationOpen={onToggleDestination}
-                                        />
-                                    </>
-                                ) : (
-                                    <button type="button" className="field-summary" onClick={() => onOpenMobileField('destination')}>
-                                        <span>Where</span><strong>{compactLabels.destination}</strong>
-                                    </button>
-                                )}
-                            </section>
-                            <section className={`mobile-field${activeMobileField === 'dates' ? ' active' : ''}`}>
-                                {activeMobileField === 'dates' ? (
-                                    <>
-                                        <h2>When?</h2>
-                                        <StayDateField
-                                            dateRange={{ checkIn: filterToEdit.checkIn, checkOut: filterToEdit.checkOut }}
-                                            setDateRange={range => setFilterToEdit(current => ({ ...current, ...range }))}
-                                            isCalendarOpen={isCalendarOpen}
-                                            setIsCalendarOpen={onToggleCalendar}
-                                        />
-                                    </>
-                                ) : (
-                                    <button type="button" className="field-summary" onClick={() => onOpenMobileField('dates')}>
-                                        <span>When</span><strong>{compactLabels.dates}</strong>
-                                    </button>
-                                )}
-                            </section>
-                            <section className={`mobile-field${activeMobileField === 'guests' ? ' active' : ''}`}>
-                                {activeMobileField === 'guests' ? (
-                                    <>
-                                        <h2>Who?</h2>
-                                        <StayGuestField
-                                            guests={{ adults: filterToEdit.adults, children: filterToEdit.children, infants: filterToEdit.infants, pets: filterToEdit.pets }}
-                                            setGuests={update => setFilterToEdit(current => ({ ...current, ...(typeof update === 'function' ? update(current) : update) }))}
-                                            isGuestsOpen={isGuestsOpen}
-                                            setIsGuestsOpen={onToggleGuests}
-                                        />
-                                    </>
-                                ) : (
-                                    <button type="button" className="field-summary" onClick={() => onOpenMobileField('guests')}>
-                                        <span>Who</span><strong>{compactLabels.guests}</strong>
-                                    </button>
-                                )}
-                            </section>
-                        </div>
-                        <footer className="mobile-search-actions">
-                            <button type="button" className="btn-clear" onClick={onClearMobileSearch}>Clear all</button>
-                            <button type="submit" className="btn-submit">
-                                <img src="/icons/search-white.svg" alt="" />Search
-                            </button>
-                        </footer>
-                    </form>
-                </div>
-            )}
-        </div>
-    )
+    const destinationField = <StayDestinationField
+        destination={filterToEdit.destination}
+        setDestination={destination => setFilterToEdit(current => ({ ...current, destination }))}
+        isDestinationOpen={activeField === 'destination'}
+        onOpenDestination={() => onOpenField('destination')}
+        onCloseDestination={() => onCloseField('destination')}
+    />
+    const dateField = <StayDateField
+        dateRange={{ checkIn: filterToEdit.checkIn, checkOut: filterToEdit.checkOut }}
+        setDateRange={range => setFilterToEdit(current => ({ ...current, ...range }))}
+        isCalendarOpen={activeField === 'dates'}
+        onOpenCalendar={() => onOpenField('dates')}
+        onCloseCalendar={() => onCloseField('dates')}
+        onToggleCalendar={() => onToggleField('dates')}
+    />
+    const guestField = <StayGuestField
+        guests={{ adults: filterToEdit.adults, children: filterToEdit.children, infants: filterToEdit.infants, pets: filterToEdit.pets }}
+        setGuests={update => setFilterToEdit(current => ({ ...current, ...(typeof update === 'function' ? update(current) : update) }))}
+        isGuestsOpen={activeField === 'guests'}
+        onCloseGuests={() => onCloseField('guests')}
+        onToggleGuests={() => onToggleField('guests')}
+    />
 
-    if (isCompact) return (
+    if (isMobile) return <StayMobileSearch
+        compactLabels={compactLabels}
+        hasSearchFilter={hasSearchFilter}
+        hasGuestFilter={hasGuestFilter}
+        activeField={activeField}
+        isOpen={isMobileSearchOpen}
+        triggerRef={mobileTriggerRef}
+        dialogRef={mobileDialogRef}
+        destinationField={destinationField}
+        dateField={dateField}
+        guestField={guestField}
+        onOpenSearch={onOpenMobileSearch}
+        onCloseSearch={onCloseMobileSearch}
+        onClearSearch={onClearMobileSearch}
+        onSelectField={onOpenField}
+        onSubmitSearch={onSubmitSearch}
+        onDialogKeyDown={onMobileDialogKeyDown}
+    />
+
+    if (displayedMode === 'compact') return (
         <div ref={compactRef} className="stay-search compact" role="search" aria-label="Find a stay">
             <img src="/icons/navigation-homes-poster.avif" alt="" />
-            <button type="button" data-field="destination" aria-label={`Where: ${compactLabels.destination}`} onClick={() => onOpenCompactField('destination')}>{compactLabels.destination}</button>
-            <button type="button" data-field="dates" aria-label={`When: ${compactLabels.dates}`} onClick={() => onOpenCompactField('dates')}>{compactLabels.dates}</button>
-            <button type="button" data-field="guests" aria-label={`Who: ${compactLabels.guests}`} onClick={() => onOpenCompactField('guests')}>{compactLabels.guests}</button>
-            <button type="button" className="btn-search" aria-label="Open search" onClick={() => onOpenCompactField('destination')}>
+            <button type="button" data-field="destination" aria-label={`Where: ${compactLabels.destination}`} onClick={() => onOpenField('destination')}>{compactLabels.destination}</button>
+            <button type="button" data-field="dates" aria-label={`When: ${compactLabels.dates}`} onClick={() => onOpenField('dates')}>{compactLabels.dates}</button>
+            <button type="button" data-field="guests" aria-label={`Who: ${compactLabels.guests}`} onClick={() => onOpenField('guests')}>{compactLabels.guests}</button>
+            <button type="button" className="btn-search" aria-label="Open search" onClick={() => onOpenField('destination')}>
                 <img src="/icons/search-white.svg" alt="" />
             </button>
         </div>
     )
 
     return (
-        <form className={`stay-search${isOpen ? ' open' : ''}`} role="search" aria-label="Find a stay" onSubmit={onSubmitSearch} onKeyDownCapture={onEscapeSearch}>
-            <StayDestinationField
-                destination={filterToEdit.destination}
-                setDestination={destination => setFilterToEdit(current => ({ ...current, destination }))}
-                isDestinationOpen={isDestinationOpen}
-                setIsDestinationOpen={onToggleDestination}
-            />
-            <StayDateField
-                dateRange={{ checkIn: filterToEdit.checkIn, checkOut: filterToEdit.checkOut }}
-                setDateRange={range => setFilterToEdit(current => ({ ...current, ...range }))}
-                isCalendarOpen={isCalendarOpen}
-                setIsCalendarOpen={onToggleCalendar}
-            />
-            <StayGuestField
-                guests={{ adults: filterToEdit.adults, children: filterToEdit.children, infants: filterToEdit.infants, pets: filterToEdit.pets }}
-                setGuests={update => setFilterToEdit(current => ({ ...current, ...(typeof update === 'function' ? update(current) : update) }))}
-                isGuestsOpen={isGuestsOpen}
-                setIsGuestsOpen={onToggleGuests}
-            />
+        <form className={`stay-search${activeField ? ' open' : ''}`} role="search" aria-label="Find a stay" onSubmit={onSubmitSearch} onKeyDown={onEscapeSearch}>
+            {destinationField}
+            {dateField}
+            {guestField}
             <button type="submit" className="btn-search" aria-label="Search">
                 <img src="/icons/search-white.svg" alt="" />
                 <span>Search</span>
@@ -282,6 +192,6 @@ StaySearch.propTypes = {
         pets: PropTypes.number.isRequired,
     }).isRequired,
     onSearch: PropTypes.func.isRequired,
-    isScrolled: PropTypes.bool.isRequired,
+    mode: PropTypes.oneOf(['expanded', 'compact']).isRequired,
     isMobile: PropTypes.bool,
 }

@@ -78,18 +78,3 @@
         }
     }
 }
-
-.stay-search-mobile .stay-date-field {
-    height: auto;
-
-    & .date-field {
-        display: none;
-    }
-
-    & .calendar-panel {
-        position: static;
-        z-index: auto;
-
-        width: 100%;
-    }
-}

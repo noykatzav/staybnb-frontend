@@ -47,11 +47,6 @@
         }
     }
 
-    &.browse .header-content,
-    &.details .header-content {
-        margin-inline: -1rem;
-    }
-
     /* Mobile */
     @media (width < 46.5rem) {
         z-index: 30;
@@ -60,7 +55,7 @@
             display: none;
         }
 
-        &.browse .header-content {
+        &.list .header-content {
             grid-template-columns: minmax(0, 1fr);
             grid-template-rows: auto auto;
             grid-template-areas:
@@ -72,8 +67,8 @@
             border-block-end: 0;
         }
 
-        &.browse .logo,
-        &.browse .stay-profile {
+        &.list .logo,
+        &.list .stay-profile {
             display: none;
         }
     }
@@ -85,13 +80,13 @@
             padding-inline: 2rem;
         }
 
-        &.browse .header-content,
+        &.list .header-content,
         &.details .header-content {
             grid-template-columns: minmax(0, 1fr) 31.25rem minmax(0, 1fr);
             grid-template-areas: 'logo search profile';
         }
 
-        &.browse .header-content {
+        &.list .header-content {
             grid-template-rows: 5.875rem 4.125rem;
             grid-template-areas:
                 'logo categories profile'
@@ -103,7 +98,7 @@
             transition: height .25s ease-in-out, padding-block-end .25s ease-in-out;
         }
 
-        &.browse:has(.stay-search.compact) .header-content {
+        &.list:has(.stay-search.compact) .header-content {
             grid-template-rows: 5.875rem;
             grid-template-areas: 'logo search profile';
 
@@ -112,7 +107,7 @@
             background: var(--clr-bg);
         }
 
-        &.browse:has(.stay-search.compact) .stay-categories {
+        &.list:has(.stay-search.compact) .stay-categories {
             display: none;
         }
 
@@ -132,12 +127,12 @@
     }
 
     @media (min-width: 46.5rem) and (max-width: 54rem) {
-        &.browse .logo span,
+        &.list .logo span,
         &.details .logo span {
             display: none;
         }
 
-        &.browse .header-content,
+        &.list .header-content,
         &.details .header-content {
             grid-template-columns: minmax(2rem, 1fr) minmax(0, 31.25rem) minmax(5.75rem, 1fr);
         }
@@ -150,7 +145,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        &.browse .header-content {
+        &.list .header-content {
             transition: none;
         }
     }

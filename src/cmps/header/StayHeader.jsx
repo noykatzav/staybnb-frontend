@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation, useMatch, useNavigate } from 'react-router-dom'
+import { getFilterFromSearchParams } from '../../services/stay/stay-search.service'
 import { StayCategories } from './StayCategories'
 import { StayProfile } from './StayProfile'
 import { StaySearch } from './StaySearch'
@@ -8,10 +8,17 @@ import { StayMobileNav } from './StayMobileNav'
 
 const DESKTOP_QUERY = '(min-width: 46.5rem)'
 
-export function StayHeader({ variant = 'default', filterBy, onSearch, isCompact = false }) {
+export function StayHeader() {
+    const isStayList = Boolean(useMatch('/stay'))
+    const isStayDetails = Boolean(useMatch('/stay/:stayId'))
+    const { pathname, search } = useLocation()
+    const navigate = useNavigate()
+    const variant = isStayList ? 'list' : isStayDetails ? 'details' : 'default'
+    const filterBy = useMemo(() => getFilterFromSearchParams(new URLSearchParams(search)), [search])
     const [isScrolled, setIsScrolled] = useState(() => window.matchMedia(DESKTOP_QUERY).matches && window.scrollY > 1)
     const [isMobile, setIsMobile] = useState(() => !window.matchMedia(DESKTOP_QUERY).matches)
-    const hasSearch = variant === 'browse' || variant === 'details'
+    const hasSearch = variant !== 'default'
+    const mode = variant === 'details' || isScrolled ? 'compact' : 'expanded'
 
     useEffect(() => {
         const mediaQuery = window.matchMedia(DESKTOP_QUERY)
@@ -27,7 +34,11 @@ export function StayHeader({ variant = 'default', filterBy, onSearch, isCompact 
             window.removeEventListener('scroll', onUpdateScroll)
             mediaQuery.removeEventListener('change', onUpdateScroll)
         }
-    }, [])
+    }, [pathname])
+
+    function onSearch(searchParams) {
+        navigate({ pathname: '/stay', search: searchParams.toString() })
+    }
 
     return (
         <header className={`stay-header full ${variant}`}>
@@ -36,25 +47,19 @@ export function StayHeader({ variant = 'default', filterBy, onSearch, isCompact 
                     <img src="/icons/airbnb-mark.svg" alt="" />
                     <span>staybnb</span>
                 </NavLink>
-                {variant === 'browse' && <StayCategories isMobile={isMobile} />}
+                {variant === 'list' && <StayCategories isMobile={isMobile} />}
                 <StayProfile />
                 {hasSearch && (
                     <StaySearch
+                        key={variant}
                         filterBy={filterBy}
                         onSearch={onSearch}
-                        isScrolled={variant === 'details' || isCompact || isScrolled}
+                        mode={mode}
                         isMobile={isMobile}
                     />
                 )}
             </div>
-            {variant === 'browse' && <StayMobileNav />}
+            {variant === 'list' && <StayMobileNav />}
         </header>
     )
-}
-
-StayHeader.propTypes = {
-    variant: PropTypes.oneOf(['default', 'browse', 'details']),
-    filterBy: PropTypes.object,
-    onSearch: PropTypes.func,
-    isCompact: PropTypes.bool,
 }
