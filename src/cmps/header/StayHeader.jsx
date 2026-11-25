@@ -8,9 +8,10 @@ import { StayMobileNav } from './StayMobileNav'
 
 const DESKTOP_QUERY = '(min-width: 46.5rem)'
 
-export function StayHeader({ filterBy, onSearch, isCompact = false, isDetailsPage = false }) {
+export function StayHeader({ variant = 'default', filterBy, onSearch, isCompact = false }) {
     const [isScrolled, setIsScrolled] = useState(() => window.matchMedia(DESKTOP_QUERY).matches && window.scrollY > 1)
     const [isMobile, setIsMobile] = useState(() => !window.matchMedia(DESKTOP_QUERY).matches)
+    const hasSearch = variant === 'browse' || variant === 'details'
 
     useEffect(() => {
         const mediaQuery = window.matchMedia(DESKTOP_QUERY)
@@ -29,24 +30,31 @@ export function StayHeader({ filterBy, onSearch, isCompact = false, isDetailsPag
     }, [])
 
     return (
-        <header className={`stay-header${isDetailsPage ? ' details' : ''}`}>
+        <header className={`stay-header full ${variant}`}>
             <div className="header-content">
                 <NavLink to="/stay" className="logo" aria-label="Stays homepage">
                     <img src="/icons/airbnb-mark.svg" alt="" />
                     <span>staybnb</span>
                 </NavLink>
-                <StayCategories isMobile={isMobile} />
+                {variant === 'browse' && <StayCategories isMobile={isMobile} />}
                 <StayProfile />
-                <StaySearch filterBy={filterBy} onSearch={onSearch} isScrolled={isCompact || isScrolled} isMobile={isMobile} />
+                {hasSearch && (
+                    <StaySearch
+                        filterBy={filterBy}
+                        onSearch={onSearch}
+                        isScrolled={variant === 'details' || isCompact || isScrolled}
+                        isMobile={isMobile}
+                    />
+                )}
             </div>
-            {!isDetailsPage && <StayMobileNav />}
+            {variant === 'browse' && <StayMobileNav />}
         </header>
     )
 }
 
 StayHeader.propTypes = {
-    filterBy: PropTypes.object.isRequired,
-    onSearch: PropTypes.func.isRequired,
+    variant: PropTypes.oneOf(['default', 'browse', 'details']),
+    filterBy: PropTypes.object,
+    onSearch: PropTypes.func,
     isCompact: PropTypes.bool,
-    isDetailsPage: PropTypes.bool,
 }

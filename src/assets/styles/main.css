@@ -15,7 +15,6 @@
 /* Components */
 @import url('./cmps/AboutUs.css');
 @import url('./cmps/AppFooter.css');
-@import url('./cmps/AppHeader.css');
 @import url('./cmps/stay/StayFilter.css');
 @import url('./cmps/stay/StayIndex.css');
 @import url('./cmps/stay/StayList.css');

@@ -68,7 +68,7 @@
         min-width: 0;
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         & .date-field.active.selected .dates {
             padding-inline-end: 1.75rem;
         }

@@ -79,7 +79,7 @@
         }
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         justify-content: start;
         gap: .5rem;
 

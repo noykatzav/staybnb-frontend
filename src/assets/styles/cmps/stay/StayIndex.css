@@ -3,7 +3,7 @@
         overflow-anchor: none;
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         padding-block-end: calc(5rem + env(safe-area-inset-bottom));
     }
 

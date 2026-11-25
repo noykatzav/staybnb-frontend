@@ -128,7 +128,7 @@
         white-space: nowrap;
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         max-height: calc(100dvh - 14rem);
         padding: 1rem;
         border-radius: 1.5rem;

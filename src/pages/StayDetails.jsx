@@ -60,13 +60,12 @@ export function StayDetails() {
     return (
         <>
             <StayHeader
+                variant="details"
                 filterBy={searchFilter}
                 onSearch={onSearchStays}
-                isCompact
-                isDetailsPage
             />
             <section className="stay-details">
-                <Link to="/stay">Back to list</Link>
+                <Link to="/stay" className="back-to-list">Back to list</Link>
 
                 {stay?._id === stayId && <div>
                     <header className="stay-details-header">

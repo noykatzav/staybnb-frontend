@@ -248,7 +248,7 @@
         }
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         &,
         &.open {
             grid-template-columns: repeat(3, minmax(0, 1fr)) 3rem;

@@ -2,22 +2,20 @@
     --header-shadow: color-mix(in srgb, var(--clr-text) 12%, transparent);
     --search-clr: var(--clr-primary);
 
-    position: relative;
+    position: sticky;
+    inset-block-start: 0;
     z-index: 2;
 
     & .header-content {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 31.25rem minmax(0, 1fr);
-        grid-template-rows: 5.875rem 4.125rem;
-        grid-template-areas:
-            'logo categories profile'
-            'search search search';
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: 'logo profile';
         align-items: center;
 
-        margin-inline: -1rem;
-        padding: 0 2rem 2rem;
+        min-height: 4.5rem;
+        padding-inline: 1rem;
         border-block-end: 1px solid var(--clr-border);
-        background: linear-gradient(in srgb, var(--clr-bg) 39.9%, color-mix(in srgb, var(--clr-bg--4) 54%, var(--clr-bg)) 100%);
+        background: var(--clr-bg);
     }
 
     & :where(.header-content) button {
@@ -49,16 +47,63 @@
         }
     }
 
-    @media (min-width: 46.5rem) {
-        position: sticky;
-        inset-block-start: 0;
+    &.browse .header-content,
+    &.details .header-content {
+        margin-inline: -1rem;
+    }
 
+    /* Mobile */
+    @media (width < 46.5rem) {
+        z-index: 30;
+
+        &.details {
+            display: none;
+        }
+
+        &.browse .header-content {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            grid-template-areas:
+                'search'
+                'categories';
+            gap: 1.125rem;
+
+            padding: .75rem 0 1rem;
+            border-block-end: 0;
+        }
+
+        &.browse .logo,
+        &.browse .stay-profile {
+            display: none;
+        }
+    }
+
+    /* Desktop */
+    @media (min-width: 46.5rem) {
         & .header-content {
+            min-height: 6rem;
+            padding-inline: 2rem;
+        }
+
+        &.browse .header-content,
+        &.details .header-content {
+            grid-template-columns: minmax(0, 1fr) 31.25rem minmax(0, 1fr);
+            grid-template-areas: 'logo search profile';
+        }
+
+        &.browse .header-content {
+            grid-template-rows: 5.875rem 4.125rem;
+            grid-template-areas:
+                'logo categories profile'
+                'search search search';
+
             height: 12.0625rem;
+            padding-block-end: 2rem;
+            background: linear-gradient(in srgb, var(--clr-bg) 39.9%, color-mix(in srgb, var(--clr-bg--4) 54%, var(--clr-bg)) 100%);
             transition: height .25s ease-in-out, padding-block-end .25s ease-in-out;
         }
 
-        &:has(.stay-search.compact) .header-content {
+        &.browse:has(.stay-search.compact) .header-content {
             grid-template-rows: 5.875rem;
             grid-template-areas: 'logo search profile';
 
@@ -67,17 +112,33 @@
             background: var(--clr-bg);
         }
 
-        &:has(.stay-search.compact) .stay-categories {
+        &.browse:has(.stay-search.compact) .stay-categories {
             display: none;
+        }
+
+        &.details .header-content {
+            height: 6rem;
+        }
+
+        &.details:not(:has(.stay-search.compact)) .header-content {
+            grid-template-rows: 5.875rem 4.125rem;
+            grid-template-areas:
+                'logo . profile'
+                'search search search';
+
+            height: 12.0625rem;
+            padding-block-end: 2rem;
         }
     }
 
     @media (min-width: 46.5rem) and (max-width: 54rem) {
-        & .logo span {
+        &.browse .logo span,
+        &.details .logo span {
             display: none;
         }
 
-        & .header-content {
+        &.browse .header-content,
+        &.details .header-content {
             grid-template-columns: minmax(2rem, 1fr) minmax(0, 31.25rem) minmax(5.75rem, 1fr);
         }
     }
@@ -88,37 +149,8 @@
         }
     }
 
-    @media (max-width: 46.4375rem) {
-        position: sticky;
-        inset-block-start: 0;
-        z-index: 30;
-
-        &.details {
-            display: none;
-        }
-
-        & .header-content {
-            grid-template-columns: minmax(0, 1fr);
-            grid-template-rows: auto auto;
-            grid-template-areas:
-                'search'
-                'categories';
-            gap: 1.125rem;
-
-            margin-inline: -1rem;
-            padding: .75rem 0 1rem;
-            border-block-end: 0;
-            background: var(--clr-bg);
-        }
-
-        & .logo,
-        & .stay-profile {
-            display: none;
-        }
-    }
-
     @media (prefers-reduced-motion: reduce) {
-        & .header-content {
+        &.browse .header-content {
             transition: none;
         }
     }

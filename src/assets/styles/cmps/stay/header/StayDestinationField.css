@@ -136,7 +136,7 @@
         }
     }
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         & .destination.selected {
             padding-inline-end: 1.75rem;
         }

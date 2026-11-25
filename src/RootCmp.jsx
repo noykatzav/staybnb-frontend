@@ -1,6 +1,5 @@
 import { Routes, Route, useMatch } from 'react-router'
 
-import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
@@ -10,7 +9,7 @@ import { AdminIndex } from './pages/AdminIndex.jsx'
 import { StayDetails } from './pages/StayDetails.jsx'
 import { UserDetails } from './pages/UserDetails'
 
-import { AppHeader } from './cmps/header/AppHeader'
+import { StayHeader } from './cmps/header/StayHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
@@ -22,12 +21,11 @@ export function RootCmp() {
 
     return (
         <div className="main-container">
-            {!isStayIndex && <AppHeader isDetailsPage={isStayDetails} />}
+            {!isStayIndex && !isStayDetails && <StayHeader />}
             <UserMsg />
 
             <main>
                 <Routes>
-                    <Route path="" element={<HomePage />} />
                     <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />

@@ -3,6 +3,12 @@
     max-inline-size: 1120px;
     margin-inline: auto;
     padding-block: 24px;
+
+    @media (width < 46.5rem) {
+        & .back-to-list {
+            display: none;
+        }
+    }
 }
 
 .stay-details-header {

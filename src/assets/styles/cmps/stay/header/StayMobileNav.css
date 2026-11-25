@@ -1,7 +1,7 @@
 .stay-mobile-nav {
     display: none;
 
-    @media (max-width: 46.4375rem) {
+    @media (width < 46.5rem) {
         position: fixed;
         inset-inline: 0;
         inset-block-end: 0;
