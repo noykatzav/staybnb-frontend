@@ -203,6 +203,7 @@
     overflow-wrap: anywhere;
 }
 
+/* Up to 768px at a 16px browser font size */
 @media (max-width: 48rem) {
     .host-index {
         padding-inline: 1rem;

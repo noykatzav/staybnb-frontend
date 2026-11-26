@@ -126,6 +126,7 @@
         white-space: nowrap;
     }
 
+    /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         max-height: calc(100dvh - 14rem);
         padding: 1rem;

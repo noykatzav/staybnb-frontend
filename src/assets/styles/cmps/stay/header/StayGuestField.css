@@ -129,6 +129,7 @@
         }
     }
 
+    /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         & .guest-panel {
             inset-inline-end: -3rem;

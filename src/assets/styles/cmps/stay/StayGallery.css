@@ -28,6 +28,7 @@
         display: none;
     }
 
+    /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         & .back-link {
             position: absolute;

@@ -51,7 +51,7 @@
         }
     }
 
-    /* Mobile */
+    /* Mobile: below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         z-index: 30;
 
@@ -77,7 +77,7 @@
         }
     }
 
-    /* Desktop */
+    /* Desktop: 744px and up at a 16px browser font size */
     @media (min-width: 46.5rem) {
         & .header-content {
             min-height: 6rem;
@@ -130,6 +130,7 @@
         }
     }
 
+    /* 744px–864px at a 16px browser font size */
     @media (min-width: 46.5rem) and (max-width: 54rem) {
         &.list .logo span,
         &.details .logo span {
@@ -142,6 +143,7 @@
         }
     }
 
+    /* 1800px and up at a 16px browser font size */
     @media (min-width: 112.5rem) {
         & .header-content {
             padding-inline: 3rem;

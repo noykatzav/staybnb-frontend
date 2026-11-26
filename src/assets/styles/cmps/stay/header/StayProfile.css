@@ -97,6 +97,7 @@
         }
     }
 
+    /* Up to 1191px at a 16px browser font size */
     @media (max-width: 74.4375rem) {
         & > .btn-host {
             display: none;

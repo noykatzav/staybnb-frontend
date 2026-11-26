@@ -19,6 +19,7 @@
         position: relative;
     }
 
+    /* Up to 743px at a 16px browser font size */
     @media (max-width: 46.4375rem) {
         & li {
             grid-template-columns: minmax(0, 1fr) auto;

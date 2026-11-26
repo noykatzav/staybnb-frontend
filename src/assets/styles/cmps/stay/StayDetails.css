@@ -4,6 +4,7 @@
     margin-inline: auto;
     padding-block: 24px;
 
+    /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         & .back-to-list {
             display: none;

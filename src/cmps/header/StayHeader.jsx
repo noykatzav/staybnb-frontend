@@ -6,6 +6,7 @@ import { StayProfile } from './StayProfile'
 import { StaySearch } from './StaySearch'
 import { StayMobileNav } from './StayMobileNav'
 
+// 744px and up at a 16px browser font size
 const DESKTOP_QUERY = '(min-width: 46.5rem)'
 
 export function StayHeader() {

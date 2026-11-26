@@ -136,6 +136,7 @@
         }
     }
 
+    /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
         & .destination.selected {
             padding-inline-end: 1.75rem;

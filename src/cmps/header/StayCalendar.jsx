@@ -11,6 +11,7 @@ export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar, ac
     const [focusedDate, setFocusedDate] = useState(initialDate)
     const [previewDate, setPreviewDate] = useState('')
     const [isMovingBackward, setIsMovingBackward] = useState(false)
+    // Below 744px at a 16px browser font size
     const [isCompact, setIsCompact] = useState(() => window.matchMedia('(width < 46.5rem)').matches)
     const calendarRef = useRef(null)
     const shouldFocusDate = useRef(true)
@@ -21,6 +22,7 @@ export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar, ac
     const monthLabel = month.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 
     useEffect(() => {
+        // Below 744px at a 16px browser font size
         const media = window.matchMedia('(width < 46.5rem)')
         function onResizeCalendar(ev) {
             setIsCompact(ev.matches)

@@ -224,6 +224,7 @@
         }
     }
 
+    /* 744px and up at a 16px browser font size */
     @media (min-width: 46.5rem) {
         &:has(.stay-guest-field.active)::after {
             position: absolute;
