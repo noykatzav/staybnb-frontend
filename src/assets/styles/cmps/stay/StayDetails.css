@@ -2,7 +2,7 @@
     inline-size: calc(100% - 48px);
     max-inline-size: 1120px;
     margin-inline: auto;
-    padding-block: 24px;
+    padding-block: 15px 24px;
 
     @media (width < 46.5rem) {
         & .back-to-list {
