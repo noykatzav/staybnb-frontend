@@ -43,6 +43,10 @@
     & .navigation-menu {
         position: relative;
 
+        &:not([open]) .menu-content {
+            display: none;
+        }
+
         & summary {
             list-style: none;
 

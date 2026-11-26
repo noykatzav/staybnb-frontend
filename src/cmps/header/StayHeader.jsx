@@ -18,7 +18,7 @@ export function StayHeader() {
     const [isScrolled, setIsScrolled] = useState(() => window.matchMedia(DESKTOP_QUERY).matches && window.scrollY > 1)
     const [isMobile, setIsMobile] = useState(() => !window.matchMedia(DESKTOP_QUERY).matches)
     const hasSearch = variant !== 'default'
-    const mode = variant === 'details' || isScrolled ? 'compact' : 'expanded'
+    const mode = variant === 'details' || (isStayList && search) || isScrolled ? 'compact' : 'expanded'
 
     useEffect(() => {
         const mediaQuery = window.matchMedia(DESKTOP_QUERY)
