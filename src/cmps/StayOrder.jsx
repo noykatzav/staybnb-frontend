@@ -123,9 +123,13 @@ export function StayOrder({
     checkInRef.current?.focus()
   }
 
-  function onToggleGuests(nextOpen) {
+  function onToggleGuests() {
     setIsCalendarOpen(false)
-    setIsGuestsOpen(nextOpen)
+    setIsGuestsOpen(isOpen => !isOpen)
+  }
+
+  function onCloseGuests() {
+    setIsGuestsOpen(false)
   }
 
   function formatDate(key) {
@@ -207,7 +211,7 @@ export function StayOrder({
             <div className={`stay-order-field stay-order-guests${isGuestsOpen ? ' open' : ''}`}>
               <span className="stay-order-label">GUESTS</span>
 
-              <StayGuestField guests={guestsToEdit} setGuests={setGuestsToEdit} isGuestsOpen={isGuestsOpen} setIsGuestsOpen={onToggleGuests} />
+              <StayGuestField guests={guestsToEdit} setGuests={setGuestsToEdit} isGuestsOpen={isGuestsOpen} onCloseGuests={onCloseGuests} onToggleGuests={onToggleGuests} />
 
               <img src="/icons/chevron-down.svg" alt="" />
             </div>

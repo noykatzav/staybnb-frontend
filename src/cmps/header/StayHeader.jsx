@@ -47,7 +47,7 @@ export function StayHeader() {
                     <img src="/icons/airbnb-mark.svg" alt="" />
                     <span>staybnb</span>
                 </NavLink>
-                {variant === 'list' && <StayCategories isMobile={isMobile} />}
+                {hasSearch && <StayCategories isMobile={isMobile} />}
                 <StayProfile />
                 {hasSearch && (
                     <StaySearch

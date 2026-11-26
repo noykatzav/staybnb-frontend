@@ -107,7 +107,8 @@
             background: var(--clr-bg);
         }
 
-        &.list:has(.stay-search.compact) .stay-categories {
+        &.list:has(.stay-search.compact) .stay-categories,
+        &.details:has(.stay-search.compact) .stay-categories {
             display: none;
         }
 
@@ -118,7 +119,7 @@
         &.details:not(:has(.stay-search.compact)) .header-content {
             grid-template-rows: 5.875rem 4.125rem;
             grid-template-areas:
-                'logo . profile'
+                'logo categories profile'
                 'search search search';
 
             height: 12.0625rem;
