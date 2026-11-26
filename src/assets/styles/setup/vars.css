@@ -44,4 +44,8 @@
 
     --clr-input-border: #8c8c8c;
     --clr-shadow: #000000;
+
+    --host-status-pending: #9b7000;
+    --host-status-approved: #28764b;
+    --host-status-declined: #b23838;
 }

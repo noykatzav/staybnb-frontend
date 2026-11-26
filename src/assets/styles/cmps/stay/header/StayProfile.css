@@ -5,20 +5,26 @@
     justify-content: end;
     gap: .75rem;
 
-    & > .btn-host {
+    &>.btn-host {
         padding: .75rem;
         border-radius: 2rem;
 
         font-size: .875rem;
         font-weight: 600;
         white-space: nowrap;
+        inline-size: auto;
+        block-size: auto;
+        flex-shrink: 0;
+        background: transparent;
+        color: var(--clr-text);
+        text-decoration: none;
 
         &:hover {
             background: var(--clr-bg--3);
         }
     }
 
-    & > a,
+    &>a,
     & summary {
         display: grid;
         place-items: center;
@@ -70,8 +76,8 @@
 
             font-size: .875rem;
 
-            & > a,
-            & > button {
+            &>a,
+            &>button {
                 display: flex;
                 align-items: center;
                 gap: .75rem;
@@ -85,11 +91,11 @@
                 }
             }
 
-            & > .btn-host {
+            &>.btn-host {
                 display: grid;
                 gap: .25rem;
 
-                & > span:last-child {
+                &>span:last-child {
                     color: var(--clr-text-secondary);
                     font-size: .75rem;
                 }
@@ -97,9 +103,16 @@
         }
     }
 
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
     /* Up to 1191px at a 16px browser font size */
     @media (max-width: 74.4375rem) {
-        & > .btn-host {
+        &>.btn-host {
             display: none;
         }
     }

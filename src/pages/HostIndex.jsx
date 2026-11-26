@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { loadOrders } from '../store/actions/order.actions'
+import { loadOrders, updateOrderStatus } from '../store/actions/order.actions'
 import { getStayGuestLabel } from '../services/stay/stay-search.service'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function HostIndex() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -12,6 +13,7 @@ export function HostIndex() {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
     const [selectedOrderId, setSelectedOrderId] = useState(null)
+    const [isSavingStatus, setIsSavingStatus] = useState(false)
     const [statusFilter, setStatusFilter] = useState('all')
 
     const userId = user?._id
@@ -55,6 +57,18 @@ export function HostIndex() {
         onLoadOrders()
     }, [userId])
 
+    async function onUpdateOrderStatus(orderId, status) {
+        try {
+            setIsSavingStatus(true)
+            await updateOrderStatus(orderId, status)
+            showSuccessMsg(`Reservation ${status}`)
+        } catch (err) {
+            showErrorMsg('Cannot update reservation status')
+        } finally {
+            setIsSavingStatus(false)
+        }
+    }
+
     function formatDate(value) {
         if (!value) return '—'
 
@@ -67,18 +81,6 @@ export function HostIndex() {
 
     return (
         <section className="host-index">
-            <header className="host-header">
-                <Link to="/stay" className="host-logo">Staybnb</Link>
-
-                <span className="host-nav-active">Reservations</span>
-
-                <div className="host-header-user">
-                    <Link to="/stay">Switch to traveling</Link>
-                    {user?.imgUrl && (
-                        <img src={user.imgUrl} alt="" />
-                    )}
-                </div>
-            </header>
 
             {!user ? (
                 <p>
@@ -141,7 +143,8 @@ export function HostIndex() {
                                     <th>Checkout</th>
                                     <th>Booked</th>
                                     <th>Listing</th>
-                                    <th>Total price</th>
+                                    <th>Total Payout</th>
+                                    <th>Action</th>
                                     <th>Details</th>
                                 </tr>
                             </thead>
@@ -149,13 +152,13 @@ export function HostIndex() {
                             <tbody>
                                 {isLoading ? (
                                     <tr>
-                                        <td colSpan={8} className="host-empty">
+                                        <td colSpan={9} className="host-empty">
                                             Loading reservations...
                                         </td>
                                     </tr>
                                 ) : !displayedOrders.length ? (
                                     <tr>
-                                        <td colSpan={8} className="host-empty">
+                                        <td colSpan={9} className="host-empty">
                                             {error
                                                 ? 'Reservations could not be loaded.'
                                                 : 'No reservations found.'}
@@ -174,15 +177,13 @@ export function HostIndex() {
                                             </td>
 
                                             <td>
-                                                <td>
-                                                    <div className="host-guest" title={order.buyer.fullname}>
-                                                        {order.buyer.imgUrl && (
-                                                            <img src={order.buyer.imgUrl} alt="" />
-                                                        )}
+                                                <div className="host-guest" title={order.buyer.fullname}>
+                                                    {order.buyer.imgUrl && (
+                                                        <img src={order.buyer.imgUrl} alt="" />
+                                                    )}
 
-                                                        <span>{getStayGuestLabel(order.guests)}</span>
-                                                    </div>
-                                                </td>
+                                                    <span>{getStayGuestLabel(order.guests)}</span>
+                                                </div>
                                             </td>
 
                                             <td>{formatDate(order.checkIn)}</td>
@@ -192,6 +193,22 @@ export function HostIndex() {
 
                                             <td>
                                                 ${order.totalPrice.toLocaleString('en-US')}
+                                            </td>
+
+                                            <td>
+                                                <select
+                                                    aria-label={`Action for ${order.stay.name} reservation`}
+                                                    value={order.status || 'pending'}
+                                                    disabled={isSavingStatus}
+                                                    onChange={ev => onUpdateOrderStatus(order._id, ev.target.value)}
+                                                >
+                                                    <option value="pending">Pending</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="declined">Declined</option>
+                                                    {order.status === 'cancelled' && (
+                                                        <option value="cancelled" disabled>Cancelled</option>
+                                                    )}
+                                                </select>
                                             </td>
 
                                             <td>

@@ -141,10 +141,11 @@ export function StayDetails() {
     return (
         <>
             <section className="stay-details">
-                <Link to={backTo} className="back-to-list">Back to list</Link>
-
                 {stay?._id === stayId && <div>
                     <header className="stay-details-header">
+                        <Link to={backTo} className="back-to-list" aria-label="Back to list">
+                            <img src="/icons/chevron-down.svg" alt="" />
+                        </Link>
                         <h1>{stay.name}</h1>
                     </header>
 

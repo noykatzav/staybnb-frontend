@@ -12,7 +12,7 @@ export function StayPreview({ stay }) {
                 <StayCarousel imgUrls={stay.imgUrls} />
                 <h1 className="stay-preview-location">{`${stay.type} in ${stay.loc.city}`}</h1>
                 <p className="stay-preview-rating">
-                    {avgRating && (
+                    { reviewsCnt > 0 && (
                         <span>
                             <img className="stay-rating-icon" src="/icons/star.svg" alt="" />
                             {`${avgRating.toFixed(1)} (${reviewsCnt})`}

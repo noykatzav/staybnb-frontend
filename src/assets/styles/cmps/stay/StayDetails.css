@@ -2,7 +2,7 @@
     inline-size: calc(100% - 48px);
     max-inline-size: 1120px;
     margin-inline: auto;
-    padding-block: 24px;
+    padding-block: 15px 24px;
 
     /* Below 744px at a 16px browser font size */
     @media (width < 46.5rem) {
@@ -13,7 +13,12 @@
 }
 
 .stay-details-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
     margin-block-end: 24px;
+    text-align: left;
 }
 
 .stay-details-header h1 {
@@ -107,4 +112,28 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: #6a6a6a;
+}
+
+.stay-details .back-to-list {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    inline-size: 2rem;
+    block-size: 2rem;
+    margin-block-end: 0;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-inline-start: -0.6rem;
+}
+
+.stay-details .back-to-list img {
+    inline-size: 1rem;
+    block-size: 1rem;
+    transform: rotate(90deg);
+    filter: brightness(0);
+}
+
+.stay-details .back-to-list:hover {
+    background: var(--clr-bg--3);
 }

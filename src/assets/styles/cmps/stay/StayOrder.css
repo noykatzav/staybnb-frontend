@@ -277,6 +277,7 @@
     block-size: 1rem;
     transform: translateY(-50%);
     pointer-events: none;
+    filter: brightness(0);
 }
 
 .stay-order .stay-order-guests.open > img {

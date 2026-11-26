@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { NavLink, useLocation, useMatch } from 'react-router-dom'
 
 export function StayProfile() {
     const menuRef = useRef(null)
     const location = useLocation()
+    const user = useSelector(storeState => storeState.userModule.user)
+    const isHosting = Boolean(useMatch('/hosting/*'))
 
     useEffect(() => {
         menuRef.current.open = false
@@ -22,14 +25,22 @@ export function StayProfile() {
             document.removeEventListener('focusin', onDismissMenu)
         }
     }, [])
-
     return (
         <nav className="stay-profile" aria-label="Profile">
-            <button type="button" className="btn-host">Become a host</button>
-            <NavLink to="/auth/login" aria-label="Log in or sign up">
-                <img src="/icons/user-circle.svg" alt="" />
+            <NavLink
+                className="btn-host"
+                to={isHosting ? '/stay' : '/hosting'}
+            >
+                {isHosting ? 'Switch to traveling' : 'Switch to hosting'}
             </NavLink>
-            <details ref={menuRef} className="navigation-menu">
+            <NavLink to="/auth/login" aria-label="Log in or sign up">
+                {user ? (
+                    <img className="user-avatar" src={user.imgUrl} alt="" />
+                ) : (
+                    <img src="/icons/user-circle.svg" alt="" />
+                )}
+            </NavLink>
+            <details className="navigation-menu" ref={menuRef}>
                 <summary aria-label="Main navigation menu">
                     <img src="/icons/menu.svg" alt="" />
                 </summary>
@@ -46,7 +57,9 @@ export function StayProfile() {
                     <a href="https://www.airbnb.com/refer">Refer a Host</a>
                     <a href="https://www.airbnb.com/co-hosts/home">Find a co-host</a>
                     <a href="https://www.airbnb.com/giftcards">Gift cards</a>
-                    <NavLink to="/auth/login">Log in or sign up</NavLink>
+                    <NavLink to="/auth/login" onClick={() => menuRef.current.open = false}>
+                        {user ? 'Log out' : 'Log in or sign up'}
+                    </NavLink>
                 </div>
             </details>
         </nav>

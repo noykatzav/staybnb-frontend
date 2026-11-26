@@ -1,6 +1,6 @@
 import { orderService } from '../../services/order'
 import { store } from '../store'
-import { ADD_ORDER, SET_ORDERS } from '../reducers/order.reducer'
+import { ADD_ORDER, SET_ORDERS, UPDATE_ORDER } from '../reducers/order.reducer'
 
 export async function loadOrders(filterBy = {}) {
     try {
@@ -24,6 +24,17 @@ export async function addOrder(order) {
     }
 }
 
+export async function updateOrderStatus(orderId, status) {
+    try {
+        const savedOrder = await orderService.updateStatus(orderId, status)
+        store.dispatch(getCmdUpdateOrder(savedOrder))
+        return savedOrder
+    } catch (err) {
+        console.log('Cannot update order status', err)
+        throw err
+    }
+}
+
 // Command Creators:
 function getCmdSetOrders(orders) {
     return { type: SET_ORDERS, orders }
@@ -31,4 +42,8 @@ function getCmdSetOrders(orders) {
 
 export function getCmdAddOrder(order) {
     return { type: ADD_ORDER, order }
+}
+
+function getCmdUpdateOrder(order) {
+    return { type: UPDATE_ORDER, order }
 }

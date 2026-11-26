@@ -3,6 +3,7 @@
     margin-inline: auto;
     padding-inline: 2rem;
     padding-block-end: 3rem;
+    padding-block-start: 2rem;
     color: var(--clr-text);
 }
 
@@ -18,7 +19,7 @@
 }
 
 .host-index .host-logo {
-    color: #ff385c;
+    color: var(--clr-primary);
     font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
@@ -94,7 +95,7 @@
 }
 
 .host-index .host-filters button {
-    padding: 0.75rem 0;
+    padding: 0.2rem 0;
     border: 0;
     border-block-end: 2px solid transparent;
     background: transparent;
@@ -106,8 +107,9 @@
 }
 
 .host-index .host-filters button.active {
-    border-block-end-color: var(--clr-text);
-    color: var(--clr-text);
+    border-block-end-color: var(--clr-primary);
+    color: var(--clr-primary);
+    font-weight: 600;
 }
 
 .host-index .host-table-container {
@@ -133,7 +135,7 @@
 
 .host-index .host-orders-table th {
     background: var(--clr-bg--2);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -158,21 +160,37 @@
     cursor: pointer;
 }
 
+.host-index .host-orders-table select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--clr-border);
+    border-radius: 0.375rem;
+    background: var(--clr-bg);
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.host-index .host-orders-table select:disabled {
+    color: var(--clr-text-secondary);
+    cursor: wait;
+}
+
 .host-index .host-status {
     font-weight: 600;
     text-transform: capitalize;
 }
 
 .host-index .host-status[data-status="pending"] {
-    color: #9b7000;
+    color: var(--host-status-pending);
 }
 
 .host-index .host-status[data-status="approved"] {
-    color: #28764b;
+    color: var(--host-status-approved);
 }
 
 .host-index .host-status[data-status="declined"] {
-    color: #b23838;
+    color: var(--host-status-declined);
 }
 
 .host-index .host-status[data-status="cancelled"] {
@@ -220,4 +238,18 @@
     .host-index .host-nav-active {
         display: none;
     }
+}
+
+.host-index .host-guest {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.host-index .host-guest img {
+    inline-size: 2rem;
+    block-size: 2rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
 }
