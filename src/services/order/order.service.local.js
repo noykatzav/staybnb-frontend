@@ -1,7 +1,10 @@
 import { storageService } from '../async-storage.service'
 import { userService } from '../user'
+import { saveToStorage } from '../util.service'
+import demoOrders from '../../data/demo-orders.json'
 
 const STORAGE_KEY = 'order'
+const seedOrdersPromise = _createOrders()
 
 export const orderService = {
     add,
@@ -11,6 +14,7 @@ export const orderService = {
 }
 
 async function query(filterBy = {}) {
+    await seedOrdersPromise
     let orders = await storageService.query(STORAGE_KEY)
     const { hostId, buyerId } = filterBy
 
@@ -22,6 +26,7 @@ async function query(filterBy = {}) {
         orders = orders.filter(order => order.buyer?._id === buyerId)
     }
 
+    orders.sort((order1, order2) => order2.createdAt - order1.createdAt)
     return orders
 }
 
@@ -31,6 +36,7 @@ async function remove(orderId) {
 }
 
 async function add(order) {
+    await seedOrdersPromise
     const user = userService.getLoggedinUser()
     if (!user?._id) throw new Error('Please log in to place an order')
 
@@ -64,6 +70,7 @@ async function updateStatus(orderId, status) {
 }
 
 async function _getHostOrder(orderId) {
+    await seedOrdersPromise
     const user = userService.getLoggedinUser()
 
     if (!user?._id) {
@@ -77,4 +84,11 @@ async function _getHostOrder(orderId) {
     }
 
     return order
+}
+
+async function _createOrders() {
+    const orders = await storageService.query(STORAGE_KEY)
+    if (orders.length) return
+
+    saveToStorage(STORAGE_KEY, demoOrders)
 }

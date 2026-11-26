@@ -14,7 +14,7 @@ export function orderReducer(state = initialState, action = {}) {
         case ADD_ORDER:
             return {
                 ...state,
-                orders: [...state.orders, action.order],
+                orders: [action.order, ...state.orders],
             }
 
         case UPDATE_ORDER:

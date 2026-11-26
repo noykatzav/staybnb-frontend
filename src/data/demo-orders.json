@@ -1,0 +1,132 @@
+[
+    {
+        "_id": "demo-order-101",
+        "hostId": "u103",
+        "buyer": {
+            "_id": "u101",
+            "fullname": "Davit Pok",
+            "imgUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200"
+        },
+        "stay": {
+            "_id": "sFeETAa",
+            "name": "Cozy Mountain Cabin",
+            "imgUrl": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+            "price": 145
+        },
+        "checkIn": "2026-12-07",
+        "checkOut": "2026-12-10",
+        "guests": {
+            "adults": 2,
+            "children": 1,
+            "infants": 0,
+            "pets": 0
+        },
+        "totalPrice": 435,
+        "status": "pending",
+        "createdAt": 1795132800000
+    },
+    {
+        "_id": "demo-order-102",
+        "hostId": "u103",
+        "buyer": {
+            "_id": "u102",
+            "fullname": "Sofia Martinez",
+            "imgUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200"
+        },
+        "stay": {
+            "_id": "st91ZsZ",
+            "name": "Lake Como Dream House",
+            "imgUrl": "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200",
+            "price": 350
+        },
+        "checkIn": "2026-12-14",
+        "checkOut": "2026-12-18",
+        "guests": {
+            "adults": 2,
+            "children": 2,
+            "infants": 1,
+            "pets": 0
+        },
+        "totalPrice": 1400,
+        "status": "approved",
+        "createdAt": 1795219200000
+    },
+    {
+        "_id": "demo-order-103",
+        "hostId": "u103",
+        "buyer": {
+            "_id": "u104",
+            "fullname": "Emily Johnson",
+            "imgUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200"
+        },
+        "stay": {
+            "_id": "sE07NwU",
+            "name": "Amalfi Coast Seaside Home",
+            "imgUrl": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200",
+            "price": 310
+        },
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-22",
+        "guests": {
+            "adults": 2,
+            "children": 0,
+            "infants": 0,
+            "pets": 0
+        },
+        "totalPrice": 620,
+        "status": "declined",
+        "createdAt": 1795305600000
+    },
+    {
+        "_id": "demo-order-104",
+        "hostId": "u103",
+        "buyer": {
+            "_id": "u105",
+            "fullname": "Oliver Smith",
+            "imgUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200"
+        },
+        "stay": {
+            "_id": "sFeETAa",
+            "name": "Cozy Mountain Cabin",
+            "imgUrl": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200",
+            "price": 145
+        },
+        "checkIn": "2027-01-15",
+        "checkOut": "2027-01-20",
+        "guests": {
+            "adults": 1,
+            "children": 0,
+            "infants": 0,
+            "pets": 0
+        },
+        "totalPrice": 725,
+        "status": "approved",
+        "createdAt": 1795392000000
+    },
+    {
+        "_id": "demo-order-105",
+        "hostId": "u103",
+        "buyer": {
+            "_id": "u106",
+            "fullname": "Demo Guest",
+            "imgUrl": "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+        },
+        "stay": {
+            "_id": "st91ZsZ",
+            "name": "Lake Como Dream House",
+            "imgUrl": "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200",
+            "price": 350
+        },
+        "checkIn": "2027-02-03",
+        "checkOut": "2027-02-06",
+        "guests": {
+            "adults": 3,
+            "children": 1,
+            "infants": 1,
+            "pets": 0
+        },
+        "totalPrice": 1050,
+        "status": "pending",
+        "createdAt": 1795478400000
+    }
+]
