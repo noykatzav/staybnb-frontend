@@ -24,7 +24,6 @@
         display: flex;
         flex-shrink: 0;
         align-items: center;
-        justify-content: space-between;
 
         margin-block-end: 1.5rem;
 
@@ -45,7 +44,6 @@
         scrollbar-width: thin;
     }
 
-    & .calendar-heading .btn-close,
     & .month-navigation button {
         display: grid;
         place-items: center;

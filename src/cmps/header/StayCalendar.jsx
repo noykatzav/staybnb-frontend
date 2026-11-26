@@ -140,9 +140,6 @@ export function StayCalendar({ dateRange, onSelectDateRange, onCloseCalendar, ac
         >
             <div className="calendar-heading">
                 <h2>Choose your dates</h2>
-                <button type="button" className="btn-close" onClick={onCloseCalendar} aria-label="Close calendar">
-                    <img src="/icons/close.svg" alt="" />
-                </button>
             </div>
             <div className="calendar-body">
                 <div className="month-navigation">

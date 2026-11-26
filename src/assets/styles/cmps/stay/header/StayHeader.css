@@ -6,6 +6,10 @@
     inset-block-start: 0;
     z-index: 2;
 
+    &.details {
+        position: relative;
+    }
+
     & .header-content {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;

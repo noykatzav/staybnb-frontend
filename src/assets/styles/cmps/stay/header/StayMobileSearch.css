@@ -286,9 +286,5 @@
         & .calendar-body {
             overflow: visible;
         }
-
-        & .calendar-heading .btn-close {
-            display: none;
-        }
     }
 }
