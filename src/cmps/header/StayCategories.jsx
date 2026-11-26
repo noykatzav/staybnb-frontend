@@ -19,12 +19,7 @@ export function StayCategories({ isMobile = false, isDialog = false }) {
                     aria-pressed={label === 'Homes'}
                     disabled={(isMobile || isDialog) && label !== 'Homes'}
                 >
-                    {label === 'Hotels' ? (
-                        <picture>
-                            <source media="(max-width: 743px)" srcSet="/icons/navigation-hotels-mobile-poster.avif" />
-                            <img src={`/icons/${image}`} alt="" />
-                        </picture>
-                    ) : <img src={`/icons/${image}`} alt="" />}
+                    <img src={`/icons/${image}`} alt="" />
                     <span>{label}</span>
                 </button>
             ))}

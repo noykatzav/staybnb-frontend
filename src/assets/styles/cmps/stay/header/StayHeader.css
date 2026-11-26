@@ -86,7 +86,7 @@
 
         &.list .header-content,
         &.details .header-content {
-            grid-template-columns: minmax(0, 1fr) 31.25rem minmax(0, 1fr);
+            grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
             grid-template-areas: 'logo search profile';
         }
 
@@ -100,6 +100,11 @@
             padding-block-end: 2rem;
             background: linear-gradient(in srgb, var(--clr-bg) 39.9%, color-mix(in srgb, var(--clr-bg--4) 54%, var(--clr-bg)) 100%);
             transition: height .25s ease-in-out, padding-block-end .25s ease-in-out;
+        }
+
+        &.list:has(.stay-search.compact) .header-content,
+        &.details:has(.stay-search.compact) .header-content {
+            grid-template-columns: minmax(0, 1fr) 25rem minmax(0, 1fr);
         }
 
         &.list:has(.stay-search.compact) .header-content {
@@ -135,11 +140,6 @@
         &.list .logo span,
         &.details .logo span {
             display: none;
-        }
-
-        &.list .header-content,
-        &.details .header-content {
-            grid-template-columns: minmax(2rem, 1fr) minmax(0, 31.25rem) minmax(5.75rem, 1fr);
         }
     }
 
