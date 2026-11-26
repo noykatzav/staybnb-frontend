@@ -5,6 +5,17 @@ import demoUsers from '../../data/demo-users.json'
 const STORAGE_KEY = 'user'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
+const DEFAULT_LOGGEDIN_USER =     {
+        "_id": "u103",
+        "username": "host103@email.com",
+        "password": "123456",
+        "fullname": "Lucas Weber",
+        "imgUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
+        "isHost": true,
+        "isAdmin": false,
+        "score": 10000
+    }
+
 export const userService = {
     login,
     logout,
@@ -76,7 +87,7 @@ async function logout() {
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER)) || DEFAULT_LOGGEDIN_USER
 }
 
 function saveLoggedinUser(user) {
