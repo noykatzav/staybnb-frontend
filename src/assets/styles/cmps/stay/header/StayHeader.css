@@ -108,7 +108,6 @@
 
             height: 6rem;
             padding-block-end: 0;
-            background: var(--clr-bg);
         }
 
         &.list:has(.stay-search.compact) .stay-categories,
